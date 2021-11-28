@@ -3,12 +3,10 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\PageController;
-use Inertia\Inertia;
-use Laravel\Fortify\Fortify;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Frontend Web Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -16,15 +14,6 @@ use Laravel\Fortify\Fortify;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-//Route::get('/', function () {
-//    return Inertia::render('Home', [
-//        'canLogin' => Route::has('login'),
-//        'canRegister' => Route::has('register'),
-//        'laravelVersion' => Application::VERSION,
-//        'phpVersion' => PHP_VERSION,
-//    ]);
-//});
 
 // FrontEnd Public Route List
 Route::get('/', [PageController::class, 'home'])->name('store.home');
@@ -39,9 +28,3 @@ Route::get('/projects/{slug}', [PageController::class, 'projectShow'])->name('st
 
 Route::get('/services', [PageController::class, 'services'])->name('store.services');
 Route::get('/services/{slug}', [PageController::class, 'serviceShow'])->name('store.service.show');
-
-
-// Customer Routes List Start
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');

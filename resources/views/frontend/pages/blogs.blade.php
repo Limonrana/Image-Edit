@@ -31,177 +31,40 @@
                 <div class="row wow fadeInUp">
                     <div class="col-lg-8">
                         <div class="blog-main">
-                            <div class="blog-main-single mb-60">
+                            @foreach($blogs as $blog)
+                                <div class="blog-main-single mb-60">
                                 <div class="bms-img mb-30">
-                                    <a href="blog-details.html"><img src="{{ asset('img/blog/bms1.jpg') }}" alt=""></a>
+                                    <a href="{{ route('store.blog.show', $blog->slug) }}"><img src="{{ asset($blog->image->path) }}" alt="{{ $blog->title }}"></a>
                                 </div>
                                 <div class="bms-content">
                                     <div class="fix mb-30">
                                         <div class="blog-date bms-date">
                                             <i class="fal fa-calendar-alt"></i>
-                                            <span>22</span>
-                                            <p>Jan 2020</p>
+                                            <span>{{ $blog->created_at->format('d') }}</span>
+                                            <p>{{ $blog->created_at->format('M Y') }}</p>
                                         </div>
                                         <div class="bms-title">
                                             <ul class="project-like-view bms-lv">
-                                                <li><a href="blog-details.html"><i
-                                                            class="fas fa-folder-open"></i>Business</a></li>
-                                                <li><a href="blog-details.html"><i class="fas fa-comments-alt"></i>45
-                                                        Comments</a></li>
-                                                <li><a href="blog-details.html"><i class="fas fa-eye"></i>546 Views</a>
+                                                <li><a href="{{ route('store.blog.show', $blog->slug) }}"><i
+                                                            class="fas fa-folder-open"></i>{{ $blog->category->name }}</a></li>
+                                                <li><i class="fas fa-comments-alt"></i>45
+                                                        Comments</li>
+                                                <li><a href="{{ route('store.blog.show', $blog->slug) }}"><i class="fas fa-eye"></i>{{ $blog->views }} Views</a>
                                                 </li>
                                             </ul>
-                                            <h4><a href="blog-details.html">Here is The Real Time Business Generator
-                                                    That
-                                                    Needs to Be cool Project</a></h4>
+                                            <h4><a href="{{ route('store.blog.show', $blog->slug) }}">{{ $blog->title }}</a></h4>
                                         </div>
                                     </div>
-                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority
-                                        have suffered alteration in some form,
-                                        by injected humour. If you are going to use a passage of Lorem Ipsum, you need
-                                        to be sure. Lorem ipsum dolor sit amet,
-                                        consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
+                                    <p>{!! \Illuminate\Support\Str::limit($blog->description, 350) !!}</p>
                                     <div class="bms-btn mt-45">
-                                        <a href="blog-details.html" class="grb-border-btn st-1">Read More</a>
+                                        <a href="{{ route('store.blog.show', $blog->slug) }}" class="grb-border-btn st-1">Read More</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="blog-main-single mb-60">
-                                <div class="bms-img mb-30">
-                                    <a href="blog-details.html"><img src="{{ asset('img/blog/bms2.jpg') }}" alt=""></a>
-                                </div>
-                                <div class="bms-content">
-                                    <div class="fix mb-30">
-                                        <div class="blog-date bms-date">
-                                            <i class="fal fa-calendar-alt"></i>
-                                            <span>22</span>
-                                            <p>Jan 2020</p>
-                                        </div>
-                                        <div class="bms-title">
-                                            <ul class="project-like-view bms-lv">
-                                                <li><a href="blog-details.html"><i
-                                                            class="fas fa-folder-open"></i>Business</a></li>
-                                                <li><a href="blog-details.html"><i class="fas fa-comments-alt"></i>45
-                                                        Comments</a></li>
-                                                <li><a href="blog-details.html"><i class="fas fa-eye"></i>546 Views</a>
-                                                </li>
-                                            </ul>
-                                            <h4><a href="blog-details.html">How a developer and designer duo at Deutsche
-                                                    Bank keep remote</a></h4>
-                                        </div>
-                                    </div>
-                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority
-                                        have suffered alteration in some form,
-                                        by injected humour. If you are going to use a passage of Lorem Ipsum, you need
-                                        to be sure. Lorem ipsum dolor sit amet,
-                                        consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-                                    <div class="bms-btn mt-45">
-                                        <a href="blog-details.html" class="grb-border-btn st-1">Read More</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="blog-main-single mb-60">
-                                <div class="bms-img mb-30">
-                                    <a href="blog-details.html"><img src="{{ asset('img/blog/bms3.jpg') }}" alt=""></a>
-                                </div>
-                                <div class="bms-content">
-                                    <div class="fix mb-30">
-                                        <div class="blog-date bms-date">
-                                            <i class="fal fa-calendar-alt"></i>
-                                            <span>22</span>
-                                            <p>Jan 2020</p>
-                                        </div>
-                                        <div class="bms-title">
-                                            <ul class="project-like-view bms-lv">
-                                                <li><a href="blog-details.html"><i
-                                                            class="fas fa-folder-open"></i>Business</a></li>
-                                                <li><a href="blog-details.html"><i class="fas fa-comments-alt"></i>45
-                                                        Comments</a></li>
-                                                <li><a href="blog-details.html"><i class="fas fa-eye"></i>546 Views</a>
-                                                </li>
-                                            </ul>
-                                            <h4><a href="blog-details.html">The underrated design book that transformed
-                                                    the way I work</a></h4>
-                                        </div>
-                                    </div>
-                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority
-                                        have suffered alteration in some form,
-                                        by injected humour. If you are going to use a passage of Lorem Ipsum, you need
-                                        to be sure. Lorem ipsum dolor sit amet,
-                                        consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-                                    <div class="bms-btn mt-45">
-                                        <a href="blog-details.html" class="grb-border-btn st-1">Read More</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="blog-main-single mb-60">
-                                <div class="bms-img mb-30">
-                                    <a href="blog-details.html"><img src="{{ asset('img/blog/bms4.jpg') }}" alt=""></a>
-                                </div>
-                                <div class="bms-content">
-                                    <div class="fix mb-30">
-                                        <div class="blog-date bms-date">
-                                            <i class="fal fa-calendar-alt"></i>
-                                            <span>22</span>
-                                            <p>Jan 2020</p>
-                                        </div>
-                                        <div class="bms-title">
-                                            <ul class="project-like-view bms-lv">
-                                                <li><a href="blog-details.html"><i
-                                                            class="fas fa-folder-open"></i>Business</a></li>
-                                                <li><a href="blog-details.html"><i class="fas fa-comments-alt"></i>45
-                                                        Comments</a></li>
-                                                <li><a href="blog-details.html"><i class="fas fa-eye"></i>546 Views</a>
-                                                </li>
-                                            </ul>
-                                            <h4><a href="blog-details.html">6 ways you can make your design more
-                                                    inclusive and equitable</a></h4>
-                                        </div>
-                                    </div>
-                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority
-                                        have suffered alteration in some form,
-                                        by injected humour. If you are going to use a passage of Lorem Ipsum, you need
-                                        to be sure. Lorem ipsum dolor sit amet,
-                                        consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-                                    <div class="bms-btn mt-45">
-                                        <a href="blog-details.html" class="grb-border-btn st-1">Read More</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="blog-main-single mb-60">
-                                <div class="bms-img mb-30">
-                                    <a href="blog-details.html"><img src="{{ asset('img/blog/bms5.jpg') }}" alt=""></a>
-                                </div>
-                                <div class="bms-content">
-                                    <div class="fix mb-30">
-                                        <div class="blog-date bms-date">
-                                            <i class="fal fa-calendar-alt"></i>
-                                            <span>22</span>
-                                            <p>Jan 2020</p>
-                                        </div>
-                                        <div class="bms-title">
-                                            <ul class="project-like-view bms-lv">
-                                                <li><a href="blog-details.html"><i
-                                                            class="fas fa-folder-open"></i>Business</a></li>
-                                                <li><a href="blog-details.html"><i class="fas fa-comments-alt"></i>45
-                                                        Comments</a></li>
-                                                <li><a href="blog-details.html"><i class="fas fa-eye"></i>546 Views</a>
-                                                </li>
-                                            </ul>
-                                            <h4><a href="blog-details.html">Apple reimagines the iPhone experience with
-                                                    iOS 14</a></h4>
-                                        </div>
-                                    </div>
-                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority
-                                        have suffered alteration in some form,
-                                        by injected humour. If you are going to use a passage of Lorem Ipsum, you need
-                                        to be sure. Lorem ipsum dolor sit amet,
-                                        consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-                                    <div class="bms-btn mt-45">
-                                        <a href="blog-details.html" class="grb-border-btn st-1">Read More</a>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
+                        </div>
+                        <div class="blog-paginate">
+                            {{ $blogs->links() }}
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -219,41 +82,19 @@
                                     <h5>Categories</h5>
                                 </div>
                                 <ul class="bs-category-list">
-                                    <li>
-                                        <a href="#">
-                                            <p>Digital Marketing</p><span>(05)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Branding Designs</p><span>(02)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Sterling Silver</p><span>(03)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Business Solution</p><span>(03)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Corporate Policy</p><span>(04)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Development</p><span>(01)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Web Design</p><span>(02)</span>
-                                        </a>
-                                    </li>
+                                    @if (count($categories) > 0)
+                                        @foreach($categories as $category)
+                                            <li>
+                                                <a href="#">
+                                                    <p>{{ $category->name }}</p><span>({{ count($category->posts) }})</span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    @else
+                                        <li>
+                                            <p>OOPS! Category is empty!</p>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                             <div class="bs-widget mb-30">
@@ -261,81 +102,43 @@
                                     <h5>Recent Posts</h5>
                                 </div>
                                 <ul class="bs-post">
-                                    <li class="bs-post-single">
-                                        <div class="bs-post-img">
-                                            <a href="blog-details.html">
-                                                <img src="{{ asset('img/blog/bsp1.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="bs-post-content">
-                                            <h6><a href="blog-details.html">Incorporation is a Big Milestone for
-                                                    Business</a></h6>
-                                            <span>28 April 2021 </span>
-                                        </div>
-                                    </li>
-                                    <li class="bs-post-single">
-                                        <div class="bs-post-img">
-                                            <a href="blog-details.html">
-                                                <img src="{{ asset('img/blog/bsp2.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="bs-post-content">
-                                            <h6><a href="blog-details.html">A wonderful serenity has taken
-                                                    possession</a></h6>
-                                            <span>28 April 2021 </span>
-                                        </div>
-                                    </li>
-                                    <li class="bs-post-single">
-                                        <div class="bs-post-img">
-                                            <a href="blog-details.html">
-                                                <img src="{{ asset('img/blog/bsp3.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="bs-post-content">
-                                            <h6><a href="blog-details.html">The languages only differ in their
-                                                    grammar</a></h6>
-                                            <span>28 April 2021 </span>
-                                        </div>
-                                    </li>
-                                    <li class="bs-post-single">
-                                        <div class="bs-post-img">
-                                            <a href="blog-details.html">
-                                                <img src="{{ asset('img/blog/bsp4.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="bs-post-content">
-                                            <h6><a href="blog-details.html">Company launches new software channel</a>
-                                            </h6>
-                                            <span>28 April 2021 </span>
-                                        </div>
-                                    </li>
-                                    <li class="bs-post-single">
-                                        <div class="bs-post-img">
-                                            <a href="blog-details.html">
-                                                <img src="{{ asset('img/blog/bsp5.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="bs-post-content">
-                                            <h6><a href="blog-details.html">Reasons to the explain fast business
-                                                    builder</a></h6>
-                                            <span>28 April 2021 </span>
-                                        </div>
-                                    </li>
+                                    @if (count($recent_blogs) > 0)
+                                        @foreach($recent_blogs as $recent_blog)
+                                            <li class="bs-post-single">
+                                                <div class="bs-post-img">
+                                                    <a href="{{ route('store.blog.show', $recent_blog->slug) }}">
+                                                        <img src="{{ asset($recent_blog->image->path) }}" alt="{{ $recent_blog->title }}">
+                                                    </a>
+                                                </div>
+                                                <div class="bs-post-content">
+                                                    <h6><a href="{{ route('store.blog.show', $recent_blog->slug) }}">{{ $recent_blog->title }}</a></h6>
+                                                    <span>{{ $recent_blog->created_at->format('d M Y') }} </span>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    @else
+                                        <li class="bs-post-single">
+                                            <div class="bs-post-content">
+                                                <h6>OOPS! Recent post is empty!</h6>
+                                            </div>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                             <div class="bs-widget mb-30 widget-tag">
                                 <div class="bs-widget-title mb-40">
-                                    <h5>Popular Tages</h5>
+                                    <h5>Popular Tags</h5>
                                 </div>
                                 <ul class="bs-tags">
-                                    <li><a class="grb-tag" href="#">Business</a></li>
-                                    <li><a class="grb-tag" href="#">Corporate</a></li>
-                                    <li><a class="grb-tag" href="#">Financial</a></li>
-                                    <li><a class="grb-tag" href="#">Web Development</a></li>
-                                    <li><a class="grb-tag" href="#">UI/UX Research</a></li>
-                                    <li><a class="grb-tag" href="#">Branding</a></li>
-                                    <li><a class="grb-tag" href="#">Website</a></li>
-                                    <li><a class="grb-tag" href="#">Web Plans</a></li>
+                                    @if (count($tags) > 0)
+                                        @foreach($tags as $tag)
+                                            <li><a class="grb-tag" href="#">{{ $tag->name }}</a></li>
+                                        @endforeach
+                                    @else
+                                        <li>
+                                            <p>OOPS! Tag is empty!</p>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                             <div class="bs-widget mb-30 bs-ad-container">
@@ -364,66 +167,14 @@
                     <div class="col-12">
                         <div class="swiper-container brand-active">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand1.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand1-wc.png') }}" alt=""></a>
+                                @foreach($clients as $client)
+                                    <div class="swiper-slide">
+                                        <div class="single-brand">
+                                            <a><img src="{{ asset($client->image->path) }}" alt="{{ $client->name }}"></a>
+                                            <a><img src="{{ asset($client->image->path) }}" alt="{{ $client->name }}"></a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand2.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand2-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand3.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand3-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand4.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand4-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand5.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand5-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand1.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand1-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand2.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand2-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand3.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand3-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand4.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand4-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand5.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand5-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

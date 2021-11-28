@@ -1,0 +1,28 @@
+#nprogress .spinner-icon {
+    width: 35px !important;
+    height: 35px !important;
+    border: solid 4px transparent !important;
+    box-sizing: border-box !important;
+    border-top-color: #fff !important;
+    border-left-color: #fff !important;
+    border-radius: 50% !important;
+    -webkit-animation: nprogress-spinner 400ms linear infinite !important;
+    animation: nprogress-spinner 400ms linear infinite !important;
+}
+
+#nprogress .spinner {
+    position: absolute !important;
+    z-index: 1031 !important;
+    top: 15px !important;
+    right: 15px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 100vh !important;
+    background: #000000c2 !important;
+    margin-top: -12px !important;
+    margin-right: -15px !important;
+}
+
+

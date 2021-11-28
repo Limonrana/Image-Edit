@@ -9243,4 +9243,10 @@ div#loader {
     align-items: center;
 }
 
+
+.blog-paginate {
+    display: flex;
+    justify-content: center;
+}
+
 /*# sourceMappingURL=main.css.map */

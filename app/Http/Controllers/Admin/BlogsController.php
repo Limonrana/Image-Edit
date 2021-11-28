@@ -57,6 +57,7 @@ class BlogsController extends Controller
         $post->description          = $request->description;
         $post->category_id          = $request->category;
         $post->status               = isset($request->status) ? true : false;
+        $post->views                = 0;
         $post->meta_title           = $request->meta_title;
         $post->meta_description     = $request->meta_description;
         $post->meta_keywords        = isset($request->meta_keywords) ? json_encode($this->generate_tags($request->meta_keywords)) : null;

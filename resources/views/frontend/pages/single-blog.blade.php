@@ -1,11 +1,11 @@
 @extends('frontend.layout.layout')
 
-@section('site_title', 'Single Blog - Car Image Editing | Digital Agency')
+@section('site_title', $blog->title.' - Car Image Editing | Digital Agency')
 
 @section('content')
     <main>
         <!-- page title area start  -->
-        <section class="page-title-area" data-background="{{ asset('img/bg/page-title-bg.jpg') }}">
+        <section class="page-title-area" data-background="{{ asset($blog->image->path) }}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -34,80 +34,34 @@
                         <div class="blog-main">
                             <div class="blog-main-single bm-details">
                                 <div class="bms-img mb-30">
-                                    <a href="blog-details.html"><img src="{{ asset('img/blog/bms1.jpg') }}" alt=""></a>
+                                    <img src="{{ asset($blog->image->path) }}" alt="{{ $blog->title }}">
                                 </div>
                                 <div class="bms-content">
                                     <div class="fix mb-30">
                                         <div class="blog-date bms-date">
                                             <i class="fal fa-calendar-alt"></i>
-                                            <span>22</span>
-                                            <p>Jan 2020</p>
+                                            <span>{{ $blog->created_at->format('d') }}</span>
+                                            <p>{{ $blog->created_at->format('M Y') }}</p>
                                         </div>
                                         <div class="bms-title">
                                             <ul class="project-like-view bms-lv bm-details">
-                                                <li><i class="fas fa-calendar-alt"></i>20 Jun 2021</li>
-                                                <li><i class="fas fa-folder-open"></i>Business</li>
+                                                <li><i class="fas fa-calendar-alt"></i>{{ $blog->created_at->format('d M Y') }}</li>
+                                                <li><i class="fas fa-folder-open"></i>{{ $blog->category->name }}</li>
                                                 <li><i class="fas fa-comments-alt"></i>45 Comments</li>
-                                                <li><i class="fas fa-eye"></i>546 Views</li>
+                                                <li><i class="fas fa-eye"></i>{{ $blog->views }} Views</li>
                                             </ul>
-                                            <h4>6 ways you can make your design more inclusive and equitable</h4>
+                                            <h4>{{ $blog->title }}</h4>
                                         </div>
                                     </div>
-                                    <p>Apple today named eight app and game developers receiving an Apple Design Award,
-                                        each one selected for being thoughtful
-                                        and creative. Apple Design Award winners bring distinctive new ideas to life and
-                                        demonstrate deep mastery of Apple
-                                        technology. The apps spring up from developers large and small, in every part of
-                                        the world and provide users with new
-                                        ways of working, creating, and playing.</p>
-                                    <div class="bm-details-quote p-relative">
-                                        <div class="bm-details-quote-icon">
-                                            <i class="fas fa-quote-left i-q-1"></i>
-                                            <i class="fas fa-quote-right i-q-2"></i>
-                                        </div>
-                                        <p>I must explain to you how all this mistake idea denouncing to be pleasured
-                                            and praising pain was born and I will give a
-                                            complete account of the system, and expound the actual teachings of the
-                                            great explorer of the truth.</p>
-                                        <h4>Robert D Silva</h4>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-6">
-                                            <img class="mb-25" src="{{ asset('img/blog/bm-d-p.jpg') }}" alt="">
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <p class="mb-25">Apple today named eight app and game developers receiving
-                                                an Apple Design
-                                                Award, each one selected for being thoughtful
-                                                and creative. Apple Design Award winners bring distinctive new ideas to
-                                                life and demonstrate deep mastery of Apple
-                                                technology. The apps spring up from developers large and small, in every
-                                                part of the world and provide users with new
-                                                ways of working, creating, and playing.</p>
-                                            <p>Hospitals and morgues in New York are struggling to cope with the
-                                                pandemic, and New York Governor Andrew Cuomo has
-                                                warned that New York risks running out of ventilators for patients in
-                                                six days. Masks may also help lower the risk of
-                                                individuals catching the virus through the droplets from another
-                                                person’s sneeze or a cough - and people can be taught
-                                                how put masks on and take them off correctly.</p>
-                                        </div>
-                                    </div>
-                                    <p class="">However, More and more health experts now say there are benefits.
-                                        They argue that
-                                        the public use of masks can primarily
-                                        help by preventing asymptomatic patients - people who have been infected with
-                                        Covid-19 but are not aware, and not
-                                        displaying any symptoms - from unknowingly spreading the virus to others.</p>
+                                    <p>{!! $blog->description !!}</p>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="bms-tags">
                                                 <span>Tags :</span>
-                                                <a href="#">business,</a>
-                                                <a href="#">web learning,</a>
-                                                <a href="#">solution,</a>
-                                                <a href="#">entrepreneur</a>
+                                                @foreach($blog->tags as $key => $tag)
+                                                    <a href="#">{{ $tag->name }}@if(count($blog->tags) !== $key+1),@endif</a>
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -166,50 +120,6 @@
                                                                 skills.
                                                                 Luxury home prices in Sydney declined for the first time
                                                                 in years slipping between the second quarter.</p>
-                                                            <a href="#" class="comment-reply"> <i
-                                                                    class="fas fa-reply"></i>Reply</a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="children">
-                                                    <div class="comments-box">
-                                                        <div class="comments-avatar">
-                                                            <img src="{{ asset('img/blog/comment/avatar-2.jpg') }}" alt="">
-                                                        </div>
-                                                        <div class="comments-text">
-                                                            <div class="avatar-name">
-                                                                <h5>Imitiaz Ahmed Belal</h5>
-                                                                <span class="post-date ">28 March, 2021</span>
-                                                                <span class="post-time ">10:21 am</span>
-                                                            </div>
-                                                            <p>This is a static content section widget. It is a handy
-                                                                way to show an additional content at the widgetized
-                                                                page. The
-                                                                static content section widget outputs the contents of a
-                                                                selected static page.</p>
-                                                            <a href="#" class="comment-reply"><i
-                                                                    class="fas fa-reply"></i>Reply</a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="">
-                                                    <div class="comments-box">
-                                                        <div class="comments-avatar">
-                                                            <img src="{{ asset('img/blog/comment/avatar-3.jpg') }}" alt="">
-                                                        </div>
-                                                        <div class="comments-text">
-                                                            <div class="avatar-name">
-                                                                <h5>Nasir Uddin</h5>
-                                                                <span class="post-date ">28 March, 2021</span>
-                                                                <span class="post-time ">10:21 am</span>
-                                                            </div>
-                                                            <p>Blue Bottle narwhal tote bag pork belly, sriracha
-                                                                leggings messenger bag slow-carb. Kale chips wayfarers
-                                                                Banksy keytar 3
-                                                                wolf moon. Helvetica sartorial ennui Anderson salvia,
-                                                                pork belly selvage brunch squid.</p>
-                                                            <a href="#" class="comment-reply"><i
-                                                                    class="fas fa-reply"></i>Reply</a>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -259,41 +169,19 @@
                                     <h5>Categories</h5>
                                 </div>
                                 <ul class="bs-category-list">
-                                    <li>
-                                        <a href="#">
-                                            <p>Digital Marketing</p><span>(05)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Branding Designs</p><span>(02)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Sterling Silver</p><span>(03)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Business Solution</p><span>(03)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Corporate Policy</p><span>(04)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Development</p><span>(01)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>Web Design</p><span>(02)</span>
-                                        </a>
-                                    </li>
+                                    @if (count($categories) > 0)
+                                        @foreach($categories as $category)
+                                            <li>
+                                                <a href="#">
+                                                    <p>{{ $category->name }}</p><span>({{ count($category->posts) }})</span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    @else
+                                        <li>
+                                            <p>OOPS! Category is empty!</p>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                             <div class="bs-widget mb-30">
@@ -301,66 +189,27 @@
                                     <h5>Recent Posts</h5>
                                 </div>
                                 <ul class="bs-post">
-                                    <li class="bs-post-single">
-                                        <div class="bs-post-img">
-                                            <a href="blog-details.html">
-                                                <img src="{{ asset('img/blog/bsp1.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="bs-post-content">
-                                            <h6><a href="blog-details.html">Incorporation is a Big Milestone for
-                                                    Business</a></h6>
-                                            <span>28 April 2021 </span>
-                                        </div>
-                                    </li>
-                                    <li class="bs-post-single">
-                                        <div class="bs-post-img">
-                                            <a href="blog-details.html">
-                                                <img src="{{ asset('img/blog/bsp2.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="bs-post-content">
-                                            <h6><a href="blog-details.html">A wonderful serenity has taken
-                                                    possession</a></h6>
-                                            <span>28 April 2021 </span>
-                                        </div>
-                                    </li>
-                                    <li class="bs-post-single">
-                                        <div class="bs-post-img">
-                                            <a href="blog-details.html">
-                                                <img src="{{ asset('img/blog/bsp3.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="bs-post-content">
-                                            <h6><a href="blog-details.html">The languages only differ in their
-                                                    grammar</a></h6>
-                                            <span>28 April 2021 </span>
-                                        </div>
-                                    </li>
-                                    <li class="bs-post-single">
-                                        <div class="bs-post-img">
-                                            <a href="blog-details.html">
-                                                <img src="{{ asset('img/blog/bsp4.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="bs-post-content">
-                                            <h6><a href="blog-details.html">Company launches new software channel</a>
-                                            </h6>
-                                            <span>28 April 2021 </span>
-                                        </div>
-                                    </li>
-                                    <li class="bs-post-single">
-                                        <div class="bs-post-img">
-                                            <a href="blog-details.html">
-                                                <img src="{{ asset('img/blog/bsp5.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="bs-post-content">
-                                            <h6><a href="blog-details.html">Reasons to the explain fast business
-                                                    builder</a></h6>
-                                            <span>28 April 2021 </span>
-                                        </div>
-                                    </li>
+                                    @if (count($recent_blogs) > 0)
+                                        @foreach($recent_blogs as $recent_blog)
+                                            <li class="bs-post-single">
+                                                <div class="bs-post-img">
+                                                    <a href="{{ route('store.blog.show', $recent_blog->slug) }}">
+                                                        <img src="{{ asset($recent_blog->image->path) }}" style="height: 70px; width: 100%;" alt="{{ $recent_blog->title }}">
+                                                    </a>
+                                                </div>
+                                                <div class="bs-post-content">
+                                                    <h6><a href="{{ route('store.blog.show', $recent_blog->slug) }}">{{ \Illuminate\Support\Str::limit($recent_blog->title, 40) }}</a></h6>
+                                                    <span>{{ $recent_blog->created_at->format('d M Y') }} </span>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    @else
+                                        <li class="bs-post-single">
+                                            <div class="bs-post-content">
+                                                <h6>OOPS! Recent post is empty!</h6>
+                                            </div>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                             <div class="bs-widget mb-30 widget-tag">

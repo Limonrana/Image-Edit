@@ -6,8 +6,8 @@
                     <div class="logo-bg-1">
                         <img src="{{ asset('img/shape/logo-bg-1.png') }}" alt="logo-bg">
                     </div>
-                    <a class="logo-text-white" href="index.html"><img src="{{ asset('img/logo/logo.png') }}" alt="logo"></a>
-                    <a class="logo-text-black" href="index.html"><img src="{{ asset('img/logo/logo-text-black.png') }}" alt="logo-text-black"></a>
+                    <a class="logo-text-white" href="{{ route('store.home') }}"><img src="{{ asset('img/logo/logo.png') }}" alt="logo"></a>
+                    <a class="logo-text-black" href="{{ route('store.home') }}"><img src="{{ asset('img/logo/logo-text-black.png') }}" alt="logo-text-black"></a>
                 </div>
             </div>
             <div class="col-xl-10 col-lg-9 col-4">
@@ -40,7 +40,7 @@
                                 class="fal fa-bars"></i></a>
                     </div>
                     <div class="header__btn d-none d-xl-inline-block">
-                        <a href="contact.html" class="grb-btn">Get Reserved<i
+                        <a href="{{ route('login') }}" class="grb-btn">LOGIN<i
                                 class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>

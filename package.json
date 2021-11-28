@@ -11,19 +11,38 @@
     },
     "devDependencies": {
         "@inertiajs/progress": "^0.2.6",
+        "@tailwindcss/forms": "^0.3.4",
+        "@tailwindcss/typography": "^0.4.1",
         "@vue/compiler-sfc": "^3.0.5",
+        "autoprefixer": "^10.4.0",
         "axios": "^0.21",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
-        "postcss": "^8.1.14",
+        "postcss": "^8.3.11",
+        "postcss-import": "^14.0.2",
+        "tailwindcss": "^2.2.19",
         "vue-loader": "^15.9.8",
         "vue-template-compiler": "^2.6.14"
     },
     "dependencies": {
         "@inertiajs/inertia": "^0.10.1",
         "@inertiajs/inertia-vue": "^0.7.2",
+        "@left4code/tw-starter": "^2.3.1",
+        "chart.js": "^2.9.4",
+        "dropzone": "^5.7.2",
+        "highlight.js": "^10.6.0",
+        "leaflet": "^1.7.1",
         "sass": "^1.43.4",
         "sass-loader": "^12.3.0",
-        "vue": "^2.6.14"
+        "tabulator-tables": "^4.9.1",
+        "tippy.js": "^6.2.7",
+        "toastify-js": "^1.9.0",
+        "tom-select": "^1.7.5",
+        "vue": "^2.6.14",
+        "vue-chartjs": "^3.5.1",
+        "vue-feather-icons": "^5.1.0",
+        "vue-moment": "^4.1.0",
+        "vue2-leaflet": "^2.7.1",
+        "zoom-vanilla.js": "^2.0.6"
     }
 }

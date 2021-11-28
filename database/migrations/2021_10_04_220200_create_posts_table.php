@@ -23,6 +23,7 @@ class CreatePostsTable extends Migration
             $table->string('meta_title')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
+            $table->integer('views')->default(0);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

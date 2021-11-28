@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Client;
+use App\Models\Post;
 use App\Models\Service;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -47,18 +50,40 @@ class PageController extends Controller
      */
     public function blogs()
     {
-        return view('frontend.pages.blogs');
+        $blogs = Post::where('status', true)->latest()->paginate(10);
+        $recent_blogs = Post::where('status', true)->latest()->take(5)->get();
+        $clients = Client::where('status', true)->latest()->get();
+        $categories = Category::latest()->take(10)->get();
+        $tags = Tag::latest()->take(10)->get();
+        return view('frontend.pages.blogs', compact('blogs', 'clients', 'categories', 'tags', 'recent_blogs'));
     }
 
     /**
      * Display the specified single blog resource.
      *
-     * @param  int  $id
+     * @param  String $slug
      * @return \Illuminate\Contracts\View\View
      */
-    public function blogShow($id)
+    public function blogShow($slug)
     {
-        return view('frontend.pages.single-blog');
+        $blog = Post::where('slug', $slug)->first();
+        $recent_blogs = Post::where('status', true)->whereNotIn('id', [$blog->id])->latest()->take(5)->get();
+        $clients = Client::where('status', true)->latest()->get();
+        $categories = Category::latest()->take(10)->get();
+        $tags = Tag::latest()->take(10)->get();
+        return view('frontend.pages.single-blog', compact('blog', 'recent_blogs', 'clients', 'categories', 'tags'));
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeBlogComment(Request $request)
+    {
+
     }
 
     /**

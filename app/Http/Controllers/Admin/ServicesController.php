@@ -45,7 +45,7 @@ class ServicesController extends Controller
         $request->validate([
             'title' => 'required|max:255|unique:services',
             'slug' => 'required|max:255|unique:services',
-            'icon' => 'required|max:25',
+            'icon' => 'required|max:45',
             'collection' => 'required',
             'featured_image' =>'required|image|max:2048|mimes:png,jpeg,jpg',
             'banner_image_1' =>'required|image|max:2048|mimes:png,jpeg,jpg',
