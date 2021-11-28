@@ -21,8 +21,18 @@
     width: 100% !important;
     height: 100vh !important;
     background: #000000c2 !important;
-    margin-top: -12px !important;
+    margin-top: -15px !important;
     margin-right: -15px !important;
+}
+
+#nprogress .bar {
+    background: #fff !important;
+    position: fixed !important;
+    z-index: 1032 !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 4px !important;
 }
 
 

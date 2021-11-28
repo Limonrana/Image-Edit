@@ -2,13 +2,34 @@ require('./bootstrap');
 
 import Vue from 'vue'
 import { createInertiaApp } from '@inertiajs/inertia-vue';
-import { Inertia } from '@inertiajs/inertia';
 import { InertiaProgress } from '@inertiajs/progress';
-import VueMoment from 'vue-moment'
+import VueMoment from 'vue-moment';
+import Toast from "vue-toastification";
+// Import the CSS or use your own!
+import "vue-toastification/dist/index.css";
+
+const options = {
+    position: "top-right",
+    timeout: 5000,
+    closeOnClick: true,
+    pauseOnFocusLoss: true,
+    pauseOnHover: true,
+    draggable: true,
+    draggablePercent: 0.6,
+    showCloseButtonOnHover: false,
+    hideProgressBar: true,
+    closeButton: "button",
+    icon: true,
+    rtl: false,
+    transition: "Vue-Toastification__fade",
+    maxToasts: 20,
+    newestOnTop: true
+};
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 Vue.mixin({ methods: { route: window.route } });
 Vue.use(VueMoment);
+Vue.use(Toast, options);
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -21,11 +42,3 @@ createInertiaApp({
 })
 
 InertiaProgress.init({ color: '#fff', showSpinner: true });
-
-Inertia.on('start', () => {
-    document.querySelector('.main').style.overflow = 'hidden';
-});
-
-Inertia.on('finish', () => {
-    document.querySelector('.main').style.overflow = 'auto';
-});

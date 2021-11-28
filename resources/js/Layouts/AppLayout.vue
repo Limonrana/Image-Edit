@@ -140,6 +140,7 @@
 </template>
 
 <script>
+    import { Inertia } from '@inertiajs/inertia';
     import MobileMenu from "../Components/Partials/MobileMenu";
     import TopBar from "../Components/Partials/TopBar";
     import SideMenu from "../Components/Partials/SideMenu";
@@ -154,10 +155,31 @@
             }
         },
         mounted() {
-            document.body.classList.remove('login');
-            document.body.classList.add('main');
+            this.manageUI();
         },
         methods: {
+            manageUI() {
+                // Body Class Remove and Add
+                if (document.body.classList.contains('login')) {
+                    document.body.classList.remove('login');
+                }
+                document.body.classList.add('main');
+
+                // Main Div Overflow Hidden and Show
+                Inertia.on('start', () => {
+                    let main = document.querySelector('.main');
+                    if (main) {
+                        main.style.overflow = 'hidden';
+                    }
+                });
+
+                Inertia.on('finish', () => {
+                    let main = document.querySelector('.main');
+                    if (main) {
+                        main.style.overflow = 'auto';
+                    }
+                });
+            },
             logout() {
                 this.$inertia.post(route('logout'));
             }

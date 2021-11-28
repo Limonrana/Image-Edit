@@ -1,8 +1,6 @@
 <template>
     <div v-show="message">
-        <p class="text-sm text-red-600">
-            {{ message }}
-        </p>
+        <div class="pristine-error text-theme-24 mt-2">{{ message }}</div>
     </div>
 </template>
 
@@ -11,3 +9,7 @@
         props: ['message']
     }
 </script>
+
+<style scoped>
+
+</style>

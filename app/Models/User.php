@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -15,6 +16,7 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
+    use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
@@ -24,10 +26,7 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
-        'email',
-        'phone',
-        'password',
+        'name', 'email', 'phone', 'password',
     ];
 
     /**
@@ -59,30 +58,4 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-
-    /**
-     * This Model relationship with Upload Model.
-     *
-     * @function belongsTo
-     */
-    public function image()
-    {
-        return $this->belongsTo(Upload::class, 'profile_photo_path');
-    }
-
-    /**
-     * The Address that hasMany to the user.
-     */
-    public function address()
-    {
-        return $this->hasMany(Address::class, 'customer_id');
-    }
-
-    /**
-     * The Order that hasMany to the user.
-     */
-    public function orders()
-    {
-        return $this->hasMany(Order::class, 'customer_id');
-    }
 }

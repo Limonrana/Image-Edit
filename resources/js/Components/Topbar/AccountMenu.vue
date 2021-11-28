@@ -1,13 +1,13 @@
 <template>
     <div class="intro-x dropdown w-8 h-8">
         <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in scale-110" ref="account_dropdown_toggle" @click="handleAccountMenu">
-            <img alt="Icewall Tailwind HTML Admin Template" :src="'../../images/profile-13.jpg'">
+            <img :alt="auth.name" :src="auth.profile_photo_url">
         </div>
         <div class="dropdown-menu w-56" :class="accountMenuSection ? 'show account_menu_show' : 'hidden'">
             <div class="dropdown-menu__content box bg-theme-11 dark:bg-dark-6 text-white">
                 <div class="p-4 border-b border-theme-12 dark:border-dark-3">
-                    <div class="font-medium">Limon Rana</div>
-                    <div class="text-xs text-theme-13 mt-0.5 dark:text-gray-600">Admin</div>
+                    <div class="font-medium">{{ auth.name }}</div>
+                    <div class="text-xs text-theme-13 mt-0.5 dark:text-gray-600">{{ auth.email }}</div>
                 </div>
                 <div class="p-2">
                     <simple-icon-nav :href="route('profile.show')" title="My Profile">
@@ -46,6 +46,11 @@ export default {
     data() {
         return {
             accountMenuSection: false,
+        }
+    },
+    computed: {
+        auth() {
+            return this.$page.props.user;
         }
     },
     methods: {

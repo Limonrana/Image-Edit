@@ -23,12 +23,38 @@
     </div>
 </template>
 <script>
-import DarkModeSwitcher from "../Partials/DarkModeSwitcher";
-export default {
-    components: {DarkModeSwitcher},
-    props: ['type'],
-    mounted() {
-        document.body.classList.add("login");
-    }
+    import DarkModeSwitcher from "../Partials/DarkModeSwitcher";
+    import {Inertia} from "@inertiajs/inertia";
+    export default {
+        components: {DarkModeSwitcher},
+        props: ['type'],
+        mounted() {
+            this.manageUI();
+        },
+        methods: {
+            manageUI() {
+                // Body Class Remove and Add
+                let main = document.body.classList.contains('main');
+                if (main) {
+                    document.body.classList.remove('main');
+                }
+                document.body.classList.add("login");
+
+                // Main Div Overflow Hidden and Show
+                Inertia.on('start', () => {
+                    let login = document.querySelector('.login');
+                    if (login) {
+                        login.style.overflow = 'hidden';
+                    }
+                });
+
+                Inertia.on('finish', () => {
+                    let login = document.querySelector('.login');
+                    if (login) {
+                        login.style.overflow = 'auto';
+                    }
+                });
+            },
+        }
 }
 </script>

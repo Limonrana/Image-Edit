@@ -15,7 +15,7 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->integer('customer_id');
+            $table->integer('user_id');
             $table->string('address_line_1');
             $table->string('address_line_2')->nullable();
             $table->string('company_name')->nullable();
@@ -23,7 +23,6 @@ class CreateAddressesTable extends Migration
             $table->string('state');
             $table->string('zip_code');
             $table->string('country');
-            $table->boolean('is_primary')->default(false);
             $table->timestamps();
         });
     }
