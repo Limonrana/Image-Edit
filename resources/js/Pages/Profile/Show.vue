@@ -12,10 +12,10 @@
                 <side-nav :user="user"></side-nav>
                 <!-- END: Profile Menu -->
                 <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
-                    <!-- BEGIN: Display Information -->
-                    <profile-information :user="user"></profile-information>
-                    <!-- END: Display Information -->
                     <!-- BEGIN: Personal Information -->
+                    <profile-information :user="user"></profile-information>
+                    <!-- END: Personal Information -->
+                    <!-- BEGIN: Address Information -->
                     <div class="intro-y box mt-5">
                         <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
                             <h2 class="font-medium text-base mr-auto">
@@ -74,7 +74,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- END: Personal Information -->
+                    <!-- END: Address Information -->
                 </div>
             </div>
         </div>
