@@ -10,7 +10,7 @@
                             <h2 class="text-lg font-medium truncate mr-5">
                                 General Report
                             </h2>
-                            <inertia-link :href="route('dashboard')" class="ml-auto flex items-center text-theme-26 dark:text-theme-33">
+                            <inertia-link :href="route('user.dashboard')" class="ml-auto flex items-center text-theme-26 dark:text-theme-33">
                                 <refresh-ccw-icon size="1.5x" class="w-4 h-4 mr-3"></refresh-ccw-icon> Reload Data
                             </inertia-link>
                         </div>

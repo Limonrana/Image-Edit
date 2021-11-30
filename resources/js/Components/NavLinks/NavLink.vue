@@ -14,11 +14,33 @@
 <script>
 import {InertiaLink} from "@inertiajs/inertia-vue";
     export default {
-        props: ['href', 'active'],
+        props: {
+            href: {
+                type: String,
+                required: true,
+            },
+            active: {
+                type: Boolean,
+                required: true,
+            },
+            url: {
+                type: Array,
+                required: false,
+                default: undefined,
+            },
+        },
         components: {InertiaLink},
         computed: {
             classes() {
-                return this.active ? 'side-menu--active' : ''
+                let getCurrentUrl = null;
+                if (this.url !== undefined) {
+                    getCurrentUrl = this.url.find((x) => `/user/account/${x}` === this.$page.url);
+                }
+                if (getCurrentUrl) {
+                    return 'side-menu--active';
+                } else if (this.active) {
+                    return 'side-menu--active';
+                }
             }
         }
     }

@@ -1,3 +1,8 @@
+#nprogress {
+    pointer-events: none !important;
+    position: relative !important;
+}
+
 #nprogress .spinner-icon {
     width: 35px !important;
     height: 35px !important;
@@ -11,7 +16,6 @@
 }
 
 #nprogress .spinner {
-    position: absolute !important;
     z-index: 1031 !important;
     top: 15px !important;
     right: 15px !important;
@@ -35,4 +39,8 @@
     height: 4px !important;
 }
 
+/*Input errors CSS*/
+.has-error.form-select {
+    border: 1px solid red;
+}
 

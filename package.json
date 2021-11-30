@@ -39,6 +39,7 @@
         "vue-chartjs": "^3.5.1",
         "vue-feather-icons": "^5.1.0",
         "vue-moment": "^4.1.0",
+        "vue-sweetalert2": "^5.0.2",
         "vue-toastification": "^1.7.14",
         "vue2-leaflet": "^2.7.1",
         "zoom-vanilla.js": "^2.0.6"

@@ -15,20 +15,20 @@
                     <activity-icon size="1.5x" class="w-4 h-4 mr-2"></activity-icon>
                 </side-nav-item>
 
-                <side-nav-item :src="route('profile.show')" title="Change Password" :active="route().current('profile.password')" classes="mt-5">
-                    <lock-icon size="1.5x" class="w-4 h-4 mr-2"></lock-icon>
+                <side-nav-item :src="route('user.account.address')" title="Address Information" :active="route().current('user.account.address')" classes="mt-5">
+                    <trello-icon size="1.5x" class="w-4 h-4 mr-2"></trello-icon>
                 </side-nav-item>
 
-                <side-nav-item :src="route('teams.show', $page.props.user.current_team)" title="Manage Team" :active="route().current('teams.show')" classes="mt-5">
-                    <users-icon size="1.5x" class="w-4 h-4 mr-2"></users-icon>
+                <side-nav-item :src="route('user.account.change.password')" title="Change Password" :active="route().current('user.account.change.password')" classes="mt-5">
+                    <lock-icon size="1.5x" class="w-4 h-4 mr-2"></lock-icon>
                 </side-nav-item>
             </div>
             <div class="p-5 border-t border-gray-200 dark:border-dark-5">
-                <side-nav-item :src="route('profile.show')" title="Two Factor Authentication" :active="route().current('profile.authentication')">
-                    <shield-icon size="1.5x" class="w-4 h-4 mr-2"></shield-icon>
+                <side-nav-item :src="route('user.account.security')" title="Account Security" :active="route().current('user.account.security')">
+                    <shield-off-icon size="1.5x" class="w-4 h-4 mr-2"></shield-off-icon>
                 </side-nav-item>
 
-                <side-nav-item :src="route('profile.show')" title="Browser Sessions" :active="route().current('profile.session')" classes="mt-5">
+                <side-nav-item :src="route('user.account.sessions')" title="Browser Sessions" :active="route().current('user.account.sessions')" classes="mt-5">
                     <globe-icon size="1.5x" class="w-4 h-4 mr-2"></globe-icon>
                 </side-nav-item>
 
@@ -45,14 +45,14 @@
 </template>
 
 <script>
-import { LockIcon, ActivityIcon, SettingsIcon, UsersIcon, ShieldIcon, GlobeIcon, XSquareIcon } from 'vue-feather-icons';
+import { LockIcon, ActivityIcon, SettingsIcon, ShieldOffIcon, GlobeIcon, XSquareIcon, TrelloIcon } from 'vue-feather-icons';
 import SideNavItem from "./SideNavItem";
 import { InertiaLink } from "@inertiajs/inertia-vue";
 
 export default {
     name: "SideNav",
     props: ['user'],
-    components: {InertiaLink, SideNavItem, LockIcon, ActivityIcon, SettingsIcon, UsersIcon, ShieldIcon, GlobeIcon, XSquareIcon}
+    components: {InertiaLink, SideNavItem, LockIcon, ActivityIcon, SettingsIcon, TrelloIcon, ShieldOffIcon, GlobeIcon, XSquareIcon}
 }
 </script>
 

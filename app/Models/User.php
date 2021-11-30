@@ -58,4 +58,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * This Model relationship with Address Model.
+     *
+     * @function belongsTo
+     */
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
 }

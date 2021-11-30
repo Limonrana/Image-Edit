@@ -5,9 +5,9 @@
                 Recent Orders
             </h2>
             <div class="flex items-center sm:ml-auto mt-3 sm:mt-0">
-                <button class="btn box flex items-center text-gray-700 dark:text-gray-300">
+                <inertia-link :href="route('user.orders', { status: 'all' })" class="btn box flex items-center text-gray-700 dark:text-gray-300">
                     <shopping-cart-icon size="1.5x" class="hidden sm:block w-4 h-4 mr-2"></shopping-cart-icon> My orders
-                </button>
+                </inertia-link>
             </div>
         </div>
         <div class="mt-2">
@@ -40,6 +40,8 @@ import TableHead from "../Table/TableHead";
 import TableHeadItem from "../Table/TableHeadItem";
 import TableItem from "../Table/TableItem";
 import TablePaginate from "../Table/TablePaginate";
+import { InertiaLink } from "@inertiajs/inertia-vue";
+
 export default {
     name: "RecentOrders",
     components: {
@@ -52,6 +54,7 @@ export default {
         TableHeadItem,
         TableItem,
         TablePaginate,
+        InertiaLink,
     }
 }
 </script>

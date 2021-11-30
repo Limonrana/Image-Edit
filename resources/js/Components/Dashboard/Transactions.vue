@@ -47,7 +47,7 @@
                 :is-failed="false"
                 src="../../images/profile-1.jpg" />
 
-            <inertia-link :href="route('dashboard')" class="intro-x w-full block text-center rounded-md py-3 border border-dotted border-theme-27 dark:border-dark-5 text-theme-28 dark:text-gray-600">View More</inertia-link>
+            <inertia-link :href="route('user.dashboard')" class="intro-x w-full block text-center rounded-md py-3 border border-dotted border-theme-27 dark:border-dark-5 text-theme-28 dark:text-gray-600">View More</inertia-link>
         </div>
     </div>
 </template>

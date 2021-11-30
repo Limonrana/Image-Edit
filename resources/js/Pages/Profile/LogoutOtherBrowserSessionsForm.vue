@@ -136,7 +136,6 @@
 
             closeModal() {
                 this.confirmingLogout = false
-
                 this.form.reset()
             },
         },

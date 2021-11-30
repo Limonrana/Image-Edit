@@ -2,7 +2,7 @@
     <!-- BEGIN: Side Menu -->
     <nav class="side-nav">
         <ul>
-            <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+            <NavLink :href="route('user.dashboard')" :active="route().current('user.dashboard')">
                 <template #icon><HomeIcon size="1.5x"></HomeIcon></template>
                 <template #title>Dashboard</template>
             </NavLink>
@@ -12,7 +12,7 @@
                 <template #title>My Orders</template>
             </NavLink>
 
-            <NavLink :href="route('dashboard')" :active="route().current('pos')">
+            <NavLink :href="route('user.dashboard')" :active="route().current('pos')">
                 <template #icon><CreditCardIcon size="1.5x"></CreditCardIcon></template>
                 <template #title>Create Order</template>
             </NavLink>
@@ -29,12 +29,12 @@
 
             <li class="side-nav__devider my-6"></li>
 
-            <NavLink :href="route('profile.show')" :active="route().current('profile.show')">
+            <NavLink :href="route('profile.show')" :active="route().current('profile.show')" :url="['address', 'change-password', 'security', 'sessions']">
                 <template #icon><UserIcon size="1.5x"></UserIcon></template>
                 <template #title>Account</template>
             </NavLink>
 
-            <NavLink :href="route('dashboard')" :active="route().current('chat')">
+            <NavLink :href="route('user.dashboard')" :active="route().current('chat')">
                 <template #icon><HelpCircleIcon size="1.5x"></HelpCircleIcon></template>
                 <template #title>Support</template>
             </NavLink>
