@@ -10,6 +10,16 @@ use Laravel\Jetstream\Http\Controllers\Inertia\UserProfileController;
 class UserAccountController extends Controller
 {
     /**
+     * Display a listing of the Account Info resource.
+     *
+     * @return \Inertia\Response
+     */
+    public function show()
+    {
+        return Inertia::render('Account/Show');
+    }
+
+    /**
      * Show the general change password screen.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -17,7 +27,7 @@ class UserAccountController extends Controller
      */
     public function changePassword()
     {
-        return Inertia::render('Profile/ChangePassword');
+        return Inertia::render('Account/ChangePassword');
     }
 
     /**
@@ -29,7 +39,7 @@ class UserAccountController extends Controller
     public function showSessions(Request $request)
     {
         $user_profile_controller = new UserProfileController;
-        return Inertia::render('Profile/BrowserSessions', [
+        return Inertia::render('Account/BrowserSessions', [
             'sessions' => $user_profile_controller->sessions($request)->all(),
         ]);
     }
@@ -42,72 +52,18 @@ class UserAccountController extends Controller
      */
     public function security()
     {
-        return Inertia::render('Profile/AccountSecurity');
+        return Inertia::render('Account/AccountSecurity');
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Show the general Account Delete screen.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
-    public function store(Request $request)
+    public function showDelete()
     {
-        //
+        return Inertia::render('Account/AccountDelete');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

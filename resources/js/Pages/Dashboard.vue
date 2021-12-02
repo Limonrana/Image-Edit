@@ -54,11 +54,11 @@
                                     </div>
                                 </div>
                                 <dropdown-button title="Filter by Category">
-                                    <dropdown-button-item :href="route('dashboard')">PC & Laptop</dropdown-button-item>
-                                    <dropdown-button-item :href="route('dashboard')">Smartphone</dropdown-button-item>
-                                    <dropdown-button-item :href="route('dashboard')">Electronic</dropdown-button-item>
-                                    <dropdown-button-item :href="route('dashboard')">Photography</dropdown-button-item>
-                                    <dropdown-button-item :href="route('dashboard')">Sport</dropdown-button-item>
+                                    <dropdown-button-item :href="route('user.dashboard')">PC & Laptop</dropdown-button-item>
+                                    <dropdown-button-item :href="route('user.dashboard')">Smartphone</dropdown-button-item>
+                                    <dropdown-button-item :href="route('user.dashboard')">Electronic</dropdown-button-item>
+                                    <dropdown-button-item :href="route('user.dashboard')">Photography</dropdown-button-item>
+                                    <dropdown-button-item :href="route('user.dashboard')">Sport</dropdown-button-item>
                                 </dropdown-button>
                             </div>
                             <div class="report-chart">

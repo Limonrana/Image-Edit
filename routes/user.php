@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use Laravel\Jetstream\Jetstream;
 use App\Http\Controllers\User\UserPageController;
+use App\Http\Controllers\User\UserUploadController;
 use App\Http\Controllers\User\UserAccountController;
 use App\Http\Controllers\User\UserAddressController;
 use Laravel\Jetstream\Http\Controllers\CurrentTeamController;
-use Laravel\Jetstream\Http\Controllers\Inertia\ApiTokenController;
 use Laravel\Jetstream\Http\Controllers\Inertia\CurrentUserController;
 use Laravel\Jetstream\Http\Controllers\Inertia\OtherBrowserSessionsController;
 use Laravel\Jetstream\Http\Controllers\Inertia\PrivacyPolicyController;
@@ -35,14 +35,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/invoices', [UserPageController::class, 'invoices'])->name('user.invoices');
     Route::get('/quotations', [UserPageController::class, 'quotations'])->name('user.quotations');
 
-    // User & Profile...
-    Route::get('/account', [UserProfileController::class, 'show'])->name('profile.show');
+    // User Account & Profile...
+    Route::get('/account', [UserAccountController::class, 'show'])->name('user.account.show');
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('user.profile.show');
     Route::delete('/profile-photo', [ProfilePhotoController::class, 'destroy'])->name('current-user-photo.destroy');
-    Route::delete('/other-browser-sessions', [OtherBrowserSessionsController::class, 'destroy'])->name('other-browser-sessions.destroy');
 
-    if (Jetstream::hasAccountDeletionFeatures()) {
-        Route::delete('/', [CurrentUserController::class, 'destroy'])->name('current-user.destroy');
-    }
     // My Custom Address Routes
     Route::get('/account/address', [UserAddressController::class, 'index'])->name('user.account.address');
     Route::post('/account/address', [UserAddressController::class, 'store'])->name('user.account.address.store');
@@ -53,22 +50,24 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // My Custom Two-Factor Authentication Routes
     Route::get('/account/security', [UserAccountController::class, 'security'])->name('user.account.security');
 
-    // My Custom Browser Sessions Routes
+    //Browser Sessions Routes
     Route::get('/account/sessions', [UserAccountController::class, 'showSessions'])->name('user.account.sessions');
+    Route::delete('/other-browser-sessions', [OtherBrowserSessionsController::class, 'destroy'])->name('other-browser-sessions.destroy');
 
-    // API...
-    if (Jetstream::hasApiFeatures()) {
-        Route::get('/api-tokens', [ApiTokenController::class, 'index'])->name('api-tokens.index');
-        Route::post('/api-tokens', [ApiTokenController::class, 'store'])->name('api-tokens.store');
-        Route::put('/api-tokens/{token}', [ApiTokenController::class, 'update'])->name('api-tokens.update');
-        Route::delete('/api-tokens/{token}', [ApiTokenController::class, 'destroy'])->name('api-tokens.destroy');
+    // Delete User Routes
+    if (Jetstream::hasAccountDeletionFeatures()) {
+        Route::get('/account/delete', [UserAccountController::class, 'showDelete'])->name('user.account.delete');
+        Route::delete('/', [CurrentUserController::class, 'destroy'])->name('current-user.destroy');
     }
+
+    // File Manager & File Uploads Routes
+    Route::get('/files', [UserUploadController::class, 'index'])->name('user.files');
 
     // Teams...
     if (Jetstream::hasTeamFeatures()) {
         Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
         Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
-        Route::get('/teams/{team}', [TeamController::class, 'show'])->name('teams.show');
+        Route::get('/teams/{team}', [TeamController::class, 'show'])->name('user.teams.show');
         Route::put('/teams/{team}', [TeamController::class, 'update'])->name('teams.update');
         Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.destroy');
         Route::put('/current-team', [CurrentTeamController::class, 'update'])->name('current-team.update');

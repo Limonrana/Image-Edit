@@ -10,19 +10,19 @@
                     <div class="text-xs text-theme-13 mt-0.5 dark:text-gray-600">{{ auth.email }}</div>
                 </div>
                 <div class="p-2">
-                    <simple-icon-nav :href="route('profile.show')" title="My Profile">
+                    <simple-icon-nav :href="route('user.profile.show')" title="My Profile">
                         <user-icon size="1.5x" class="w-4 h-4 mr-2"></user-icon>
                     </simple-icon-nav>
 
-                    <simple-icon-nav :href="route('profile.show')" title="My Account">
+                    <simple-icon-nav :href="route('user.account.show')" title="My Account">
                         <edit-icon size="1.5x" class="w-4 h-4 mr-2"></edit-icon>
                     </simple-icon-nav>
 
-                    <simple-icon-nav :href="route('profile.show')" title="Change Password">
+                    <simple-icon-nav :href="route('user.account.change.password')" title="Change Password">
                         <lock-icon size="1.5x" class="w-4 h-4 mr-2"></lock-icon>
                     </simple-icon-nav>
 
-                    <simple-icon-nav :href="route('profile.show')" title="My Support">
+                    <simple-icon-nav :href="route('user.profile.show')" title="My Support">
                         <help-circle-icon size="1.5x" class="w-4 h-4 mr-2"></help-circle-icon>
                     </simple-icon-nav>
                 </div>

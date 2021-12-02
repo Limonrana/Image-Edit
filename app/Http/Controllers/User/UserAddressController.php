@@ -21,7 +21,7 @@ class UserAddressController extends Controller
      */
     public function index(Request $request)
     {
-        return Inertia::render('Profile/Address', [
+        return Inertia::render('Account/Address', [
             'address' => $request->user()->address,
             'state' => State::all(),
             'country' => Country::all(),

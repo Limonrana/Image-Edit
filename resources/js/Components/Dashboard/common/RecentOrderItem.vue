@@ -2,7 +2,7 @@
     <tr class="intro-x">
         <td class="text-center">{{ id }}.</td>
         <td>
-            <inertia-link :href="route('dashboard')" class="font-medium whitespace-nowrap">
+            <inertia-link :href="route('user.dashboard')" class="font-medium whitespace-nowrap">
                 <slot></slot>
             </inertia-link>
         </td>

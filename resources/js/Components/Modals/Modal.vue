@@ -1,6 +1,6 @@
 <template>
     <!-- BEGIN: Modal Content -->
-    <div class="modal" :class="show ? 'overflow-y-auto show modal-show' : ''">
+    <div class="modal" :class="show ? `overflow-y-auto show modal-show ${classes}` : ''">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- BEGIN: Modal Header -->
@@ -31,6 +31,10 @@ export default {
         props: {
             show: {
                 default: false
+            },
+            classes: {
+                type: String,
+                default: 'modal-empty',
             }
         },
         methods: {
@@ -47,8 +51,8 @@ export default {
         margin-left: 0 !important;
         padding-left: 0 !important;
         z-index: 100000 !important;
-        left: -61.8% !important;
-        top: -62% !important;
+        top: -82% !important;
+        left: -60.1% !important;
     }
     .modal.show > .modal-dialog {
         margin-top: 15rem !important;

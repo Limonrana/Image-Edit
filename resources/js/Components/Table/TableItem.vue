@@ -1,7 +1,7 @@
 <template>
     <tr class="intro-x">
         <td>
-            <inertia-link :href="route('dashboard')" class="font-medium whitespace-nowrap">
+            <inertia-link :href="route('user.dashboard')" class="font-medium whitespace-nowrap">
                 <slot></slot>
             </inertia-link>
         </td>
@@ -28,10 +28,10 @@
         <td class="text-center">${{ total }}</td>
         <td class="table-report__action w-56">
             <div class="flex justify-center items-center">
-                <inertia-link class="flex items-center mr-3" :href="route('dashboard')">
+                <inertia-link class="flex items-center mr-3" :href="route('user.dashboard')">
                     <check-square-icon size="1.5x" class="w-4 h-4 mr-1"></check-square-icon> Edit
                 </inertia-link>
-                <inertia-link class="flex items-center text-theme-24" :href="route('dashboard')">
+                <inertia-link class="flex items-center text-theme-24" :href="route('user.dashboard')">
                     <trash2-icon size="1.5x" class="w-4 h-4 mr-1"></trash2-icon> Delete
                 </inertia-link>
             </div>

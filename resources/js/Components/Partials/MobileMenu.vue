@@ -10,34 +10,34 @@
             </a>
         </div>
         <ul class="border-t border-theme-2 py-5" :class="!isOpenMenu ? 'hidden' : ''">
-            <mobile-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
+            <mobile-nav-link :href="route('user.dashboard')" :active="route().current('user.dashboard')">
                 <template #icon><HomeIcon size="1.5x"></HomeIcon></template>
                 <template #title>Dashboard</template>
             </mobile-nav-link>
 
-            <mobile-nav-link :href="route('dashboard')" :active="route().current('inbox')">
+            <mobile-nav-link :href="route('user.orders', { status: 'all' })" :active="route().current('user.orders')">
                 <template #icon><shopping-bag-icon size="1.5x"></shopping-bag-icon></template>
                 <template #title>My Orders</template>
             </mobile-nav-link>
 
-            <mobile-nav-link :href="route('dashboard')" :active="route().current('pos')">
+            <mobile-nav-link :href="route('user.dashboard')" :active="route().current('user.create.order')">
                 <template #icon><CreditCardIcon size="1.5x"></CreditCardIcon></template>
                 <template #title>Create Order</template>
             </mobile-nav-link>
 
-            <mobile-nav-link :href="route('dashboard')" :active="route().current('chat')">
+            <mobile-nav-link :href="route('user.quotations')" :active="route().current('user.quotations')">
                 <template #icon><MessageSquareIcon size="1.5x"></MessageSquareIcon></template>
                 <template #title>My Quotations</template>
             </mobile-nav-link>
 
             <li class="side-nav__devider my-6"></li>
 
-            <mobile-nav-link :href="route('dashboard')" :active="route().current('chat')">
+            <mobile-nav-link :href="route('user.account.show')" :active="route().current('user.account.show')">
                 <template #icon><UserIcon size="1.5x"></UserIcon></template>
                 <template #title>Account</template>
             </mobile-nav-link>
 
-            <mobile-nav-link :href="route('dashboard')" :active="route().current('chat')">
+            <mobile-nav-link :href="route('user.dashboard')" :active="route().current('chat')">
                 <template #icon><HelpCircleIcon size="1.5x"></HelpCircleIcon></template>
                 <template #title>Support</template>
             </mobile-nav-link>

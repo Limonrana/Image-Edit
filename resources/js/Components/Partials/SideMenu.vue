@@ -27,11 +27,26 @@
                 <template #title>My Invoices</template>
             </NavLink>
 
+            <NavLink :href="route('user.files', { status: 'all' })" :active="route().current('user.files')">
+                <template #icon><HardDriveIcon size="1.5x"></HardDriveIcon></template>
+                <template #title>File Manager</template>
+            </NavLink>
+
             <li class="side-nav__devider my-6"></li>
 
-            <NavLink :href="route('profile.show')" :active="route().current('profile.show')" :url="['address', 'change-password', 'security', 'sessions']">
+            <NavLink :href="route('user.profile.show')" :active="route().current('user.profile.show')">
+                <template #icon><TrelloIcon size="1.5x"></TrelloIcon></template>
+                <template #title>Profile</template>
+            </NavLink>
+
+            <NavLink :href="route('user.account.show')" :active="route().current('user.account.show')" :url="['address', 'change-password', 'security', 'sessions', 'delete']">
                 <template #icon><UserIcon size="1.5x"></UserIcon></template>
                 <template #title>Account</template>
+            </NavLink>
+
+            <NavLink :href="route('user.teams.show', $page.props.user.current_team)" :active="route().current('user.teams.show')">
+                <template #icon><UsersIcon size="1.5x"></UsersIcon></template>
+                <template #title>Manage Team</template>
             </NavLink>
 
             <NavLink :href="route('user.dashboard')" :active="route().current('chat')">
@@ -54,11 +69,11 @@
 
 <script>
 import NavLink from "../NavLinks/NavLink";
-import { HomeIcon, ShoppingBagIcon, CreditCardIcon, MessageSquareIcon, HelpCircleIcon, UserIcon, ToggleRightIcon, DollarSignIcon } from 'vue-feather-icons';
+import { HomeIcon, ShoppingBagIcon, CreditCardIcon, MessageSquareIcon, HelpCircleIcon, UserIcon, ToggleRightIcon, DollarSignIcon, TrelloIcon, UsersIcon, HardDriveIcon } from 'vue-feather-icons';
 export default {
     name: "SideMenu",
     props: ['logout'],
-    components: {NavLink, HomeIcon, ShoppingBagIcon, CreditCardIcon, MessageSquareIcon, HelpCircleIcon, UserIcon, ToggleRightIcon, DollarSignIcon}
+    components: {NavLink, HomeIcon, ShoppingBagIcon, CreditCardIcon, MessageSquareIcon, HelpCircleIcon, UserIcon, ToggleRightIcon, DollarSignIcon, TrelloIcon, UsersIcon, HardDriveIcon}
 }
 </script>
 

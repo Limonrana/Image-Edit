@@ -2,11 +2,11 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\Frontend\PageController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Frontend Web Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -15,15 +15,16 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// FrontEnd Public Route List
+Route::get('/', [PageController::class, 'home'])->name('store.home');
+Route::get('/about', [PageController::class, 'about'])->name('store.about');
+Route::get('/contact', [PageController::class, 'contact'])->name('store.contact');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
+Route::get('/blogs', [PageController::class, 'blogs'])->name('store.blogs');
+Route::get('/blogs/{slug}', [PageController::class, 'blogShow'])->name('store.blog.show');
+
+Route::get('/projects', [PageController::class, 'projects'])->name('store.projects');
+Route::get('/projects/{slug}', [PageController::class, 'projectShow'])->name('store.project.show');
+
+Route::get('/services', [PageController::class, 'services'])->name('store.services');
+Route::get('/services/{slug}', [PageController::class, 'serviceShow'])->name('store.service.show');
