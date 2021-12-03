@@ -71,6 +71,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::put('/teams/{team}', [TeamController::class, 'update'])->name('teams.update');
         Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.destroy');
         Route::put('/current-team', [CurrentTeamController::class, 'update'])->name('current-team.update');
+        Route::get('/teams/{team}/members', [UserPageController::class, 'members'])->name('user.teams.members');
         Route::post('/teams/{team}/members', [TeamMemberController::class, 'store'])->name('team-members.store');
         Route::put('/teams/{team}/members/{user}', [TeamMemberController::class, 'update'])->name('team-members.update');
         Route::delete('/teams/{team}/members/{user}', [TeamMemberController::class, 'destroy'])->name('team-members.destroy');

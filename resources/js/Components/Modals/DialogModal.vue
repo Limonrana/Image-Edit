@@ -1,5 +1,5 @@
 <template>
-    <modal :show="show" @close="close">
+    <secondary-modal :show="show" @close="close">
         <div class="px-6 py-4">
             <div class="text-lg">
                 <slot name="title">
@@ -16,23 +16,21 @@
             <slot name="footer">
             </slot>
         </div>
-    </modal>
+    </secondary-modal>
 </template>
 
 <script>
-    import Modal from './Modal'
+    import SecondaryModal from './SecondaryModal'
 
     export default {
-        emits: ['close'],
-
         components: {
-            Modal,
+            SecondaryModal,
         },
 
         props: {
             show: {
                 default: false
-            },
+            }
         },
 
         methods: {

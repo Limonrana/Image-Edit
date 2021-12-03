@@ -29,6 +29,7 @@
         "dropzone": "^5.7.2",
         "highlight.js": "^10.6.0",
         "leaflet": "^1.7.1",
+        "portal-vue": "^2.1.7",
         "sass": "^1.43.4",
         "sass-loader": "^12.3.0",
         "tabulator-tables": "^4.9.1",

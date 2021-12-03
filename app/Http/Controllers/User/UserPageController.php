@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
+use Laravel\Jetstream\Jetstream;
 
 class UserPageController extends Controller
 {
@@ -47,6 +51,33 @@ class UserPageController extends Controller
     public function quotations()
     {
         return Inertia::render('Quotations/Quotations');
+    }
+
+    /**
+     * Display a listing of the members resource.
+     *
+     * @return \Inertia\Response
+     */
+    public function members(Request $request, $teamId)
+    {
+        $team = Jetstream::newTeamModel()->findOrFail($teamId);
+        $users = Team::find(1)->users()->paginate(10);
+
+        Gate::authorize('view', $team);
+
+        return Inertia::render('Teams/TeamMembers', [
+            'team' => $team->load('owner', 'teamInvitations'),
+            'members' => $users,
+            'availableRoles' => array_values(Jetstream::$roles),
+            'availablePermissions' => Jetstream::$permissions,
+            'defaultPermissions' => Jetstream::$defaultPermissions,
+            'permissions' => [
+                'canAddTeamMembers' => Gate::check('addTeamMember', $team),
+                'canDeleteTeam' => Gate::check('delete', $team),
+                'canRemoveTeamMembers' => Gate::check('removeTeamMember', $team),
+                'canUpdateTeam' => Gate::check('update', $team),
+            ],
+        ]);
     }
 
     /**

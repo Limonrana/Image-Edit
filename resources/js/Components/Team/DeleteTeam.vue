@@ -17,7 +17,7 @@
                 </button>
             </div>
 
-            <!-- Log Out Other Devices Confirmation Modal -->
+            <!-- Team Delete Confirmation Modal -->
             <modal :show="confirmingTeamDeletion" classes="account-delete-modal" @close="closeModal">
                 <template #title>
                     Permanently delete.
@@ -25,13 +25,6 @@
 
                 <template #content>
                     Are you sure you want to delete this team? Once a team is deleted, all of its resources and data will be permanently deleted.
-                    <div class="mt-4" :class="form.errors.password ? 'has-error' : ''">
-                        <input type="password" class="form-control" placeholder="Password" ref="password"
-                               v-model="form.password"
-                               @keyup.enter="deleteUser" />
-
-                        <input-error :message="form.errors.password" class="mt-2" />
-                    </div>
                 </template>
 
                 <template #action>
@@ -49,10 +42,14 @@
 import SimpleInput from "@/Components/Inputs/SimpleInput";
 import InputError from "@/Components/Inputs/InputError";
 import Modal from '@/Components/Modals/Modal';
+import ConfirmationModal from "../Modals/ConfirmationModal";
+import DangerButton from "../Buttons/DangerButton";
+import SecondaryButton from "../Buttons/SecondaryButton";
 
 export default {
     name: "DeleteTeam",
-    components: {SimpleInput, InputError, Modal},
+    props: ['team'],
+    components: {SecondaryButton, DangerButton, ConfirmationModal, SimpleInput, InputError, Modal},
     data() {
         return {
             confirmingTeamDeletion: false,
@@ -63,7 +60,8 @@ export default {
     },
     methods: {
         confirmTeamDeletion() {
-            this.confirmingTeamDeletion = true
+            this.confirmingTeamDeletion = true;
+            this.showHideOverFlow(true);
         },
 
         deleteTeam() {
@@ -79,7 +77,6 @@ export default {
         },
 
         showHideOverFlow(show) {
-            console.log('showHideOverFlow');
             let main = document.querySelector('.main');
             if (main) {
                 if (show) {

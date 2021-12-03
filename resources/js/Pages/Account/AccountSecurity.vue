@@ -103,7 +103,7 @@ import SideNav from "@/Components/Account/SideNav";
 import CustomLabel from '@/Components/Inputs/Label';
 import SimpleInput from "@/Components/Inputs/SimpleInput";
 import InputError from "@/Components/Inputs/InputError";
-import ConfirmPassword from '@/Components/Account/ConfirmPassword';
+import ConfirmPassword from '@/Components/Modals/ConfirmPassword';
 
 export default {
     name: "AccountSecurity",

@@ -11,11 +11,11 @@
                 </div>
             </div>
             <div class="p-5 border-t border-gray-200 dark:border-dark-5">
-                <side-nav-item :src="route('user.teams.show', $page.props.user.current_team)" title="Team Owner" :active="route().current('user.teams.show')">
+                <side-nav-item :src="route('user.teams.show', $page.props.user.current_team)" title="Team Settings" :active="route().current('user.teams.show')">
                     <activity-icon size="1.5x" class="w-4 h-4 mr-2"></activity-icon>
                 </side-nav-item>
 
-                <side-nav-item :src="route('user.teams.show', $page.props.user.current_team)" title="Create New Team" :active="route().current('user.teams.create')" classes="mt-5">
+                <side-nav-item :src="route('user.teams.members', $page.props.user.current_team)" title="Team Members" :active="route().current('user.teams.members')" classes="mt-5">
                     <trello-icon size="1.5x" class="w-4 h-4 mr-2"></trello-icon>
                 </side-nav-item>
 

@@ -4,7 +4,7 @@
         <div class="h-full flex items-center">
             <!-- BEGIN: Logo -->
             <a href="" class="-intro-x hidden md:flex">
-                <img alt="CarImageEdit-logo" class="w-6" :src="'../../images/logo.svg'">
+                <img alt="CarImageEdit-logo" class="w-6" :src="'/../../images/logo.svg'">
                 <span class="text-white text-lg ml-3"> Ice<span class="font-medium">wall</span> </span>
             </a>
             <!-- END: Logo -->

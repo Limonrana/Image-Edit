@@ -1,5 +1,5 @@
 <template>
-    <button :type="type" class="btn btn-secondary w-24">
+    <button :type="type" class="btn btn-secondary w-auto">
         <slot></slot>
     </button>
 </template>
