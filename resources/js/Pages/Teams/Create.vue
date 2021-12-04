@@ -1,27 +1,35 @@
 <template>
-    <app-layout title="Create Team">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Create Team
-            </h2>
-        </template>
-
-        <div>
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <create-team-form />
+    <app-layout>
+        <!-- BEGIN: Content -->
+        <div class="my-account">
+            <div class="intro-y flex items-center mt-8">
+                <h2 class="text-lg font-medium mr-auto">
+                    Manage Team
+                </h2>
+            </div>
+            <div class="grid grid-cols-12 gap-6">
+                <!-- BEGIN: Team Menu -->
+                <side-nav :team="user" :user="user"></side-nav>
+                <!-- END: Team Menu -->
+                <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
+                    <!-- BEGIN: Create Team -->
+                    <create-team></create-team>
+                    <!-- END: Create Team -->
+                </div>
             </div>
         </div>
+        <!-- END: Content -->
     </app-layout>
 </template>
 
 <script>
-    import AppLayout from '@/Layouts/AppLayout.vue'
-    import CreateTeamForm from '@/Pages/Teams/Partials/CreateTeamForm.vue'
+import AppLayout from '@/Layouts/AppLayout.vue';
+import SideNav from "@/Components/Team/SideNav";
+import CreateTeam from "../../Components/Team/CreateTeam";
 
     export default {
-        components: {
-            AppLayout,
-            CreateTeamForm,
-        },
+        name: "Create",
+        props: ['user'],
+        components: {CreateTeam, AppLayout, SideNav},
     }
 </script>

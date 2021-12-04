@@ -9,16 +9,22 @@
             </div>
             <div class="grid grid-cols-12 gap-6">
                 <!-- BEGIN: Team Menu -->
-                <side-nav :team="team"></side-nav>
+                <side-nav :team="teamDetails" :user="user" />
                 <!-- END: Team Menu -->
                 <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
                     <!-- BEGIN: Team Information -->
-                    <update-team-name :team="team"></update-team-name>
+                    <update-team-name :team="teamDetails" :permissions="permissions" />
                     <!-- END: Team Information -->
 
+                    <!-- BEGIN: Team member-invitation -->
+                    <template v-if="teamDetails.team_invitations.length > 0 && permissions.canAddTeamMembers">
+                        <member-invitation :team="teamDetails" :permissions="permissions" />
+                    </template>
+                    <!-- END: Team member-invitation -->
+
                     <!-- BEGIN: Team Delete -->
-                    <template v-if="permissions.canDeleteTeam && ! team.personal_team">
-                        <delete-team :team="team"></delete-team>
+                    <template v-if="permissions.canDeleteTeam && ! teamDetails.personal_team">
+                        <delete-team :team="teamDetails" />
                     </template>
                     <!-- END: Team Delete -->
                 </div>
@@ -29,37 +35,15 @@
 </template>
 
 <script>
-    import AppLayout from '@/Layouts/AppLayout.vue'
-    import DeleteTeamForm from '@/Pages/Teams/Partials/DeleteTeamForm.vue'
-    import JetSectionBorder from '@/Components/Common/SectionBorder.vue'
-    import TeamMemberManager from '@/Pages/Teams/Partials/TeamMemberManager.vue'
-    import UpdateTeamNameForm from '@/Pages/Teams/Partials/UpdateTeamNameForm.vue'
+    import AppLayout from '@/Layouts/AppLayout.vue';
+    import DeleteTeamForm from '@/Pages/Teams/Partials/DeleteTeamForm.vue';
     import SideNav from "@/Components/Team/SideNav";
     import UpdateTeamName from "../../Components/Team/UpdateTeamName";
     import DeleteTeam from "../../Components/Team/DeleteTeam";
+    import MemberInvitation from "../../Components/Team/MemberInvitation";
 
     export default {
-        props: [
-            'user',
-            'team',
-            'availableRoles',
-            'permissions',
-        ],
-
-        components: {
-            DeleteTeam,
-            UpdateTeamName,
-            AppLayout,
-            DeleteTeamForm,
-            JetSectionBorder,
-            TeamMemberManager,
-            UpdateTeamNameForm,
-            SideNav,
-        },
-
-        mounted() {
-            console.log(this.team);
-            console.log(this.user);
-        },
+        props: ['user', 'teamDetails', 'permissions',],
+        components: {MemberInvitation, AppLayout, DeleteTeamForm, UpdateTeamName, DeleteTeam, SideNav,},
     }
 </script>

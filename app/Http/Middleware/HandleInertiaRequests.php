@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Middleware;
+use Laravel\Jetstream\Jetstream;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -37,6 +39,17 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request)
     {
         return array_merge(parent::share($request), [
+
+            'teamDetails' => function () use ($request) {
+                $teamId = $request->user() ? $request->user()->current_team_id : null;
+                if ($teamId) {
+                    $team = Jetstream::newTeamModel()->findOrFail($teamId);
+                    Gate::authorize('view', $team);
+                    return $team->load('owner', 'users', 'teamInvitations');
+                } else {
+                    return null;
+                }
+            },
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),

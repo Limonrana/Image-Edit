@@ -11,13 +11,18 @@
                     <div class="col-span-12">
                         <div :class="form.errors.name ? 'has-error' : ''">
                             <custom-label>Team Name</custom-label>
-                            <simple-input name="name" type="text" :value="form.name" @handle-input="inputHandler" placeholder="Team Name" />
+                            <simple-input name="name" type="text" :value="form.name" @handle-input="inputHandler" placeholder="Team Name" :disabled="!permissions.canUpdateTeam" />
                             <input-error :message="form.errors.name" />
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-end mt-5">
+                <div class="flex justify-end mt-5" v-if="permissions.canUpdateTeam">
                     <button type="submit" class="btn btn-primary w-20 mr-auto" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Update</button>
+                </div>
+                <div class="mt-5" v-else>
+                  <warning-content-alert title="IMPORTANT NOTICE!">
+                    OOPS! You can't update the team name, You don't have access for updating the team name.
+                  </warning-content-alert>
                 </div>
             </form>
         </div>
@@ -28,10 +33,12 @@
 import CustomLabel from '../Inputs/Label';
 import SimpleInput from "../Inputs/SimpleInput";
 import InputError from "../Inputs/InputError";
+import WarningContentAlert from "../Alerts/WarningContentAlert";
+
 export default {
     name: "UpdateTeamName",
     props: ['team', 'permissions'],
-    components: {InputError, SimpleInput, CustomLabel},
+    components: {WarningContentAlert, InputError, SimpleInput, CustomLabel},
 
     data() {
         return {
@@ -43,7 +50,7 @@ export default {
 
     methods: {
         updateTeamName() {
-            this.form.put(route('teams.update', this.team), {
+            this.form.put(route('user.teams.update', this.team), {
                 errorBag: 'updateTeamName',
                 preserveScroll: true,
                 onError: () => (this.errors()),
@@ -60,9 +67,7 @@ export default {
         },
 
         errors() {
-            if (this.form.hasErrors) {
-                this.$toast.error("OOPS! Something went wrong. Please try again!");
-            }
+          this.$toast.error("OOPS! Something went wrong. Please try again!");
         }
     },
 }

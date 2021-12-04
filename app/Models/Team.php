@@ -55,4 +55,5 @@ class Team extends JetstreamTeam
             ->withTimestamps()
             ->as('membership');
     }
+
 }

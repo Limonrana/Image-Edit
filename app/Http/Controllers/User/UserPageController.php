@@ -61,12 +61,13 @@ class UserPageController extends Controller
     public function members(Request $request, $teamId)
     {
         $team = Jetstream::newTeamModel()->findOrFail($teamId);
-        $users = Team::find(1)->users()->paginate(10);
+        $users = Team::find($teamId)->users()->when($request->search, function ($query, $search) {
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        })->paginate(10);
 
         Gate::authorize('view', $team);
 
         return Inertia::render('Teams/TeamMembers', [
-            'team' => $team->load('owner', 'teamInvitations'),
             'members' => $users,
             'availableRoles' => array_values(Jetstream::$roles),
             'availablePermissions' => Jetstream::$permissions,
@@ -78,6 +79,28 @@ class UserPageController extends Controller
                 'canUpdateTeam' => Gate::check('update', $team),
             ],
         ]);
+    }
+
+    /**
+     * Display a listing of the create members resource.
+     *
+     * @return \Inertia\Response
+     */
+    public function createMembers($teamId)
+    {
+        return Inertia::render('Teams/CreateTeamMember', [
+            'availableRoles' => array_values(Jetstream::$roles),
+        ]);
+    }
+
+    /**
+     * Display a listing of the support resource.
+     *
+     * @return \Inertia\Response
+     */
+    public function support()
+    {
+        return Inertia::render('Support/Support');
     }
 
     /**

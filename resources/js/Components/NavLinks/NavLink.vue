@@ -23,6 +23,11 @@ import {InertiaLink} from "@inertiajs/inertia-vue";
                 type: Boolean,
                 required: true,
             },
+            path: {
+                type: String,
+                required: false,
+                default: 'account',
+            },
             url: {
                 type: Array,
                 required: false,
@@ -34,7 +39,7 @@ import {InertiaLink} from "@inertiajs/inertia-vue";
             classes() {
                 let getCurrentUrl = null;
                 if (this.url !== undefined) {
-                    getCurrentUrl = this.url.find((x) => `/user/account/${x}` === this.$page.url);
+                    getCurrentUrl = this.url.find((x) => `/user/${this.path}/${x}` === this.$page.url);
                 }
                 if (getCurrentUrl) {
                     return 'side-menu--active';

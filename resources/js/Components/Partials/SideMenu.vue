@@ -39,17 +39,21 @@
                 <template #title>Profile</template>
             </NavLink>
 
-            <NavLink :href="route('user.account.show')" :active="route().current('user.account.show')" :url="['address', 'change-password', 'security', 'sessions', 'delete']">
+            <NavLink :href="route('user.account.show')" :active="route().current('user.account.show')"
+                     :url="['address', 'change-password', 'security', 'sessions', 'delete']">
                 <template #icon><UserIcon size="1.5x"></UserIcon></template>
                 <template #title>Account</template>
             </NavLink>
 
-            <NavLink :href="route('user.teams.show', $page.props.user.current_team)" :active="route().current('user.teams.show')">
+            <NavLink :href="route('user.teams.show', $page.props.user.current_team)"
+                     :active="route().current('user.teams.show')" path="teams"
+                     :url="['create', `${$page.props.user.current_team_id}/members`,
+                     `${$page.props.user.current_team_id}/members/create`]">
                 <template #icon><UsersIcon size="1.5x"></UsersIcon></template>
                 <template #title>Manage Team</template>
             </NavLink>
 
-            <NavLink :href="route('user.dashboard')" :active="route().current('chat')">
+            <NavLink :href="route('user.support.show')" :active="route().current('user.support.show')">
                 <template #icon><HelpCircleIcon size="1.5x"></HelpCircleIcon></template>
                 <template #title>Support</template>
             </NavLink>

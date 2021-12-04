@@ -66,7 +66,9 @@ export default {
 
         deleteTeam() {
             this.form.delete(route('teams.destroy', this.team), {
-                errorBag: 'deleteTeam'
+                errorBag: 'deleteTeam',
+                onError: () => (this.errors()),
+                onSuccess: () => (this.notification()),
             });
         },
 
@@ -74,6 +76,16 @@ export default {
             this.confirmingTeamDeletion = false
             this.showHideOverFlow(false);
             this.form.reset()
+        },
+
+        notification() {
+            this.$toast.success(`Team was successfully deleted!`);
+        },
+
+        errors() {
+            if (this.form.hasErrors) {
+                this.$toast.error("OOPS! Something went wrong. Please try again!");
+            }
         },
 
         showHideOverFlow(show) {

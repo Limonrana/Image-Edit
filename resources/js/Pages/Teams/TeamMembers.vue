@@ -7,13 +7,13 @@
             </h2>
             <div class="grid grid-cols-12 gap-6 mt-5">
                 <!-- BEGIN: Team Menu -->
-                <side-nav :team="team"></side-nav>
+                <side-nav :team="teamDetails" :user="user"></side-nav>
                 <!-- END: Team Menu -->
                 <div class="col-span-12 mt-5 lg:col-span-8 2xl:col-span-9">
                     <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center">
                         <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
                             <div class="w-56 relative text-gray-700 dark:text-gray-300">
-                                <input type="text" class="form-control w-56 box pr-10 placeholder-theme-8" placeholder="Search...">
+                                <input type="text" class="form-control w-56 box pr-10 placeholder-theme-8" v-model="form.search" placeholder="Search...">
                                 <SearchIcon class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" size="1.5x"></SearchIcon>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                                     {{ displayableRole(member.membership.role) }}
                                 </button>
 
-                                <div class="ml-2 text-sm text-gray-400" v-else-if="availableRoles.length">
+                                <div class="ml-2 text-sm text-gray-400 py-1 px-2 mr-2" v-else-if="availableRoles.length">
                                     {{ displayableRole(member.membership.role) }}
                                 </div>
 
@@ -54,6 +54,11 @@
                         <!-- END: Pagination -->
                         <custom-paginate :links="members.links"></custom-paginate>
                         <!-- END: Pagination -->
+                    </div>
+                    <div class="empty-state" v-else>
+                        <empty-state title="OOPS! No team members found" description="Get started by creating a new member.">
+
+                        </empty-state>
                     </div>
                 </div>
             </div>
@@ -115,13 +120,11 @@
             </template>
 
             <template #footer>
-                <secondary-button @click="closeLeavingTeam">
-                    Cancel
-                </secondary-button>
+                <button class="btn btn-secondary w-auto" @click="closeLeavingTeam">Cancel</button>
 
-                <danger-button class="ml-2" @click="leaveTeam" :class="{ 'opacity-25': leaveTeamForm.processing }" :disabled="leaveTeamForm.processing">
+                <button class="btn btn-danger w-auto ml-2" @click="leaveTeam" :class="{ 'opacity-25': leaveTeamForm.processing }" :disabled="leaveTeamForm.processing">
                     Leave
-                </danger-button>
+                </button>
             </template>
         </confirmation-modal>
 
@@ -156,31 +159,38 @@ import { SearchIcon } from 'vue-feather-icons';
 import SideNav from "@/Components/Team/SideNav";
 import ConfirmationModal from "@/Components/Modals/ConfirmationModal";
 import CustomPaginate from "@/Components/Common/CustomPaginate";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
-import DangerButton from "@/Components/Buttons/DangerButton";
 import DialogModal from "../../Components/Modals/DialogModal";
+import pickBy from 'lodash/pickBy';
+import throttle from 'lodash/throttle';
+import EmptyState from "../../Components/Common/EmptyState";
 
 export default {
     name: "TeamMembers",
     props: [
         'user',
-        'team',
         'members',
+        'teamDetails',
         'availableRoles',
+        'availablePermissions',
         'permissions'
     ],
     components: {
+        EmptyState,
         DialogModal,
-        DangerButton,
-        SecondaryButton,
-        CustomPaginate, TeamMemberItem, InertiaLink, SearchIcon, SideNav, ConfirmationModal, AppLayout},
+        CustomPaginate,
+        TeamMemberItem,
+        InertiaLink,
+        SearchIcon,
+        SideNav,
+        ConfirmationModal,
+        AppLayout
+    },
 
     data() {
         return {
-            addTeamMemberForm: this.$inertia.form({
-                email: '',
-                role: null,
-            }),
+            form: {
+                search: '',
+            },
 
             updateRoleForm: this.$inertia.form({
                 role: null,
@@ -196,21 +206,16 @@ export default {
         }
     },
 
+    watch: {
+        form: {
+            deep: true,
+            handler: throttle(function() {
+                this.$inertia.get(route('user.teams.members', this.user.current_team), pickBy(this.form), { preserveState: true })
+            }, 1000),
+        },
+    },
+
     methods: {
-        addTeamMember() {
-            this.addTeamMemberForm.post(route('team-members.store', this.team), {
-                errorBag: 'addTeamMember',
-                preserveScroll: true,
-                onSuccess: () => this.addTeamMemberForm.reset(),
-            });
-        },
-
-        cancelTeamInvitation(invitation) {
-            this.$inertia.delete(route('team-invitations.destroy', invitation), {
-                preserveScroll: true
-            });
-        },
-
         manageRole(teamMember) {
             this.managingRoleFor = teamMember
             this.updateRoleForm.role = teamMember.membership.role
@@ -219,9 +224,13 @@ export default {
         },
 
         updateRole() {
-            this.updateRoleForm.put(route('team-members.update', [this.team, this.managingRoleFor]), {
+            this.updateRoleForm.put(route('team-members.update', [this.teamDetails, this.managingRoleFor]), {
                 preserveScroll: true,
-                onSuccess: () => (this.currentlyManagingRole = false),
+                onError: () => (this.errors()),
+                onSuccess: () => {
+                    this.currentlyManagingRole = false;
+                    this.notification('updated');
+                },
             })
         },
 
@@ -231,7 +240,10 @@ export default {
         },
 
         leaveTeam() {
-            this.leaveTeamForm.delete(route('team-members.destroy', [this.team, this.$page.props.user]))
+            this.leaveTeamForm.delete(route('team-members.destroy', [this.teamDetails, this.$page.props.user]), {
+                onError: () => (this.errors()),
+                onSuccess: () => (this.notification('leave from team')),
+            })
         },
 
         confirmTeamMemberRemoval(teamMember) {
@@ -240,11 +252,15 @@ export default {
         },
 
         removeTeamMember() {
-            this.removeTeamMemberForm.delete(route('team-members.destroy', [this.team, this.teamMemberBeingRemoved]), {
+            this.removeTeamMemberForm.delete(route('team-members.destroy', [this.teamDetails, this.teamMemberBeingRemoved]), {
                 errorBag: 'removeTeamMember',
                 preserveScroll: true,
                 preserveState: true,
-                onSuccess: () => (this.teamMemberBeingRemoved = null),
+                onError: () => (this.errors()),
+                onSuccess: () => {
+                    this.teamMemberBeingRemoved = null;
+                    this.notification('removed');
+                },
             })
         },
 
@@ -266,6 +282,14 @@ export default {
         closeTeamMemberRemoval() {
             this.teamMemberBeingRemoved = null;
             this.showHideOverFlow(false);
+        },
+
+        notification(text) {
+            this.$toast.success(`Team member was successfully ${text}!`);
+        },
+
+        errors() {
+            this.$toast.error("OOPS! Something went wrong. Please try again!");
         },
 
         showHideOverFlow(show) {

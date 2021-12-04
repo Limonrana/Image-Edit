@@ -29,7 +29,7 @@ use Laravel\Jetstream\Http\Controllers\TeamInvitationController;
 */
 
 // User Routes List Start
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [UserPageController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/orders', [UserPageController::class, 'orders'])->name('user.orders');
     Route::get('/invoices', [UserPageController::class, 'invoices'])->name('user.invoices');
@@ -65,20 +65,25 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // Teams...
     if (Jetstream::hasTeamFeatures()) {
-        Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
-        Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
+        Route::get('/teams/create', [TeamController::class, 'create'])->name('user.teams.create');
+        Route::post('/teams', [TeamController::class, 'store'])->name('user.teams.store');
         Route::get('/teams/{team}', [TeamController::class, 'show'])->name('user.teams.show');
-        Route::put('/teams/{team}', [TeamController::class, 'update'])->name('teams.update');
+        Route::put('/teams/{team}', [TeamController::class, 'update'])->name('user.teams.update');
         Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.destroy');
-        Route::put('/current-team', [CurrentTeamController::class, 'update'])->name('current-team.update');
+        Route::put('/current-team', [CurrentTeamController::class, 'update'])->name('user.current-team.update');
+        // Team Members Related Routes
         Route::get('/teams/{team}/members', [UserPageController::class, 'members'])->name('user.teams.members');
-        Route::post('/teams/{team}/members', [TeamMemberController::class, 'store'])->name('team-members.store');
+        Route::post('/teams/{team}/members', [TeamMemberController::class, 'store'])->name('user.team.members.store');
         Route::put('/teams/{team}/members/{user}', [TeamMemberController::class, 'update'])->name('team-members.update');
         Route::delete('/teams/{team}/members/{user}', [TeamMemberController::class, 'destroy'])->name('team-members.destroy');
+        Route::get('/teams/{team}/members/create', [UserPageController::class, 'createMembers'])->name('user.teams.members.create');
 
-        Route::delete('/team-invitations/{invitation}', [TeamInvitationController::class, 'destroy'])->name('team-invitations.destroy');
+        Route::delete('/team-invitations/{invitation}', [TeamInvitationController::class, 'destroy'])->name('user.team-invitations.destroy');
         Route::get('/team-invitations/{invitation}', [TeamInvitationController::class, 'accept'])->middleware(['signed'])->name('team-invitations.accept');
     }
+
+    // Support Routes
+    Route::get('/support', [UserPageController::class, 'support'])->name('user.support.show');
 });
 
 if (Jetstream::hasTermsAndPrivacyPolicyFeature()) {

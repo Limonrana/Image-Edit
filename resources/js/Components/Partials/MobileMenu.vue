@@ -3,7 +3,7 @@
     <div class="mobile-menu md:hidden">
         <div class="mobile-menu-bar">
             <a href="" class="flex mr-auto">
-                <img alt="CarImageEdit-Mobile-Logo" class="w-6" :src="'../../images/logo.svg'">
+                <img alt="CarImageEdit-Mobile-Logo" class="w-6" :src="'/../../images/logo.svg'">
             </a>
             <a href="javascript:;" id="mobile-menu-toggler" @click="handleMenu">
                 <BarChart2Icon size="1.5x" class="w-8 h-8 text-white transform -rotate-90"></BarChart2Icon>
