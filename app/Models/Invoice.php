@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     use HasFactory;
+
+    /**
+     * This Model relationship with Order Model.
+     *
+     * @function belongsTo
+     */
+    public function order()
+    {
+        return $this->belongsTo('App\Models\Order', 'order_id');
+    }
 }

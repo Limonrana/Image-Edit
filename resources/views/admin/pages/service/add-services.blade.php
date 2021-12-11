@@ -63,25 +63,36 @@
                                 @enderror
                             </div>
                             <!-- End Form Group -->
-
-                            <label class="input-label" for="description">Description <span class="input-label-secondary">(Optional)</span></label>
-                            <textarea name="description" id="description" rows="1" style="display: none;">{!! old('description') !!}</textarea>
-                            <!-- Quill -->
-                            <div class="quill-custom">
-                                <div class="js-quill" style="min-height: 15rem;"
-                                     data-hs-quill-options='{
-                                      "placeholder": "Type your description..."
-                                     }'>
-                                    {!! old('description') !!}
+                            <div class="form-group">
+                                <label class="input-label" for="description">Description <span class="input-label-secondary">(Optional)</span></label>
+                                <textarea name="description" id="description" rows="1" style="display: none;">{!! old('description') !!}</textarea>
+                                <!-- Quill -->
+                                <div class="quill-custom">
+                                    <div class="js-quill" style="min-height: 15rem;"
+                                         data-hs-quill-options='{
+                                          "placeholder": "Type your description..."
+                                         }'>
+                                        {!! old('description') !!}
+                                    </div>
                                 </div>
+                                <!-- End Quill -->
                             </div>
-                            <!-- End Quill -->
+
+                            <div class="form-group mt-4">
+                                <label class="input-label" for="short_description">Short Description <span class="input-label-secondary">(Optional)</span></label>
+                                <textarea class="form-control" name="short_description" id="short_description" rows="2" placeholder="Write your description for customer order page...">{!! old('short_description') !!}</textarea>
+                            </div>
+
+                            <div class="form-group mt-4">
+                                <label class="input-label" for="note">Description Note <span class="input-label-secondary">(Optional)</span></label>
+                                <textarea class="form-control" name="note" id="note" rows="2" placeholder="Write your note for customer order page...">{!! old('note') !!}</textarea>
+                            </div>
                         </div>
                         <!-- Body -->
                     </div>
                     <!-- End Card -->
 
-                    <!-- Card -->
+                    <!-- Card Media -->
                     <div class="card mb-3 mb-lg-5">
                         <!-- Header -->
                         <div class="card-header">
@@ -149,7 +160,94 @@
                         </div>
                         <!-- Body -->
                     </div>
-                    <!-- End Card -->
+                    <!-- End Card Media -->
+
+                    <!-- Addon Variants Card -->
+                    <div class="card mb-3 mb-lg-5">
+                        <!-- Header -->
+                        <div class="card-header">
+                            <h4 class="card-header-title">Service Options</h4>
+                        </div>
+                        <!-- End Header -->
+
+                        <!-- Body -->
+                        <div class="card-body">
+                            <!-- Form Group -->
+                            <div class="js-add-field"
+                                 data-hs-add-field-options='{
+                                    "template": "#addVariantTemplate",
+                                    "container": "#addVariantContainer",
+                                    "defaultCreated": 0
+                                 }'>
+
+                                <div class="form-group mb-0">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <!-- Form Group -->
+                                            <div class="form-group mb-0">
+                                                <label class="input-label">Option Title</label>
+
+                                                <input type="text" class="form-control" name="option[]" placeholder="Option Title" required>
+                                            </div>
+                                            <!-- End Form Group -->
+                                        </div>
+
+                                        <div class="col-md-5">
+                                            <!-- Form Group -->
+                                            <div class="form-group mb-0">
+                                                <label class="input-label">Option Price</label>
+
+                                                <input type="text" class="form-control" name="price[]" placeholder="Option Price" required>
+                                            </div>
+                                            <!-- End Form Group -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Container For Input Field -->
+                                <div id="addVariantContainer"></div>
+
+                                <a href="javascript:;" class="js-create-field form-link btn btn-sm btn-no-focus btn-ghost-primary text-right">
+                                    <i class="tio-add"></i> Add New
+                                </a>
+                            </div>
+                            <!-- End Form Group -->
+
+                            <!-- Add Phone Input Field -->
+                            <div id="addVariantTemplate" style="display: none;">
+                                <div class="input-group-add-field">
+                                    <div class="form-group mb-0">
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <!-- Form Group -->
+                                                <div class="form-group mb-0">
+                                                    <label class="input-label">Option Title</label>
+                                                    <input type="text" class="form-control add-new-input" name="option[]" placeholder="Option Title">
+                                                </div>
+                                                <!-- End Form Group -->
+                                            </div>
+
+                                            <div class="col-md-5">
+                                                <!-- Form Group -->
+                                                <div class="form-group mb-0">
+                                                    <label class="input-label">Option Price</label>
+                                                    <input type="text" class="form-control add-new-input" name="price[]" placeholder="Option Price">
+                                                </div>
+                                                <!-- End Form Group -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="js-delete-field input-group-add-field-delete" href="javascript:;">
+                                        <i class="tio-clear"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End Add Phone Input Field -->
+
+                        </div>
+                        <!-- End Body -->
+                    </div>
+                    <!-- End Addon Variants Card -->
                 </div>
 
                 <div class="col-lg-4">

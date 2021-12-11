@@ -29,21 +29,25 @@
         <section class="service-box-area service-box-area-main pt-150 pb-80">
             <div class="container">
                 <div class="row wow fadeInUp">
-                    @foreach($services as $service)
-                        <div class="col-lg-4 col-md-6">
-                        <div class="service-box-single mb-40">
-                            <div class="service-box-content st-1">
-                                <div class="service-box-content-icon st-1">
-                                    <i class="{{ $service->icon }}"></i>
-                                </div>
-                                <div class="service-box-content-text">
-                                    <h4><a href="{{ route('store.service.show', $service->slug) }}">{{ $service->title }}</a></h4>
-                                    <p>{!! Str::limit($service->description, 120) !!}</p>
+                    @if(count($services) > 0)
+                        @foreach($services as $service)
+                            <div class="col-lg-4 col-md-6">
+                            <div class="service-box-single mb-40">
+                                <div class="service-box-content st-1">
+                                    <div class="service-box-content-icon st-1">
+                                        <i class="{{ $service->icon }}"></i>
+                                    </div>
+                                    <div class="service-box-content-text">
+                                        <h4><a href="{{ route('store.service.show', $service->slug) }}">{{ $service->title }}</a></h4>
+                                        <p>{!! Str::limit($service->description, 120) !!}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @endforeach
+                        @endforeach
+                    @else
+                        @include('frontend.components.common.empty-state')
+                    @endif
                 </div>
             </div>
         </section>

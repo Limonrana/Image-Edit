@@ -12,7 +12,7 @@
                 <template #title>My Orders</template>
             </NavLink>
 
-            <NavLink :href="route('user.dashboard')" :active="route().current('pos')">
+            <NavLink :href="route('user.orders.create')" :active="route().current('user.orders.create')">
                 <template #icon><CreditCardIcon size="1.5x"></CreditCardIcon></template>
                 <template #title>Create Order</template>
             </NavLink>

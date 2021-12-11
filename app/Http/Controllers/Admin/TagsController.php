@@ -81,7 +81,7 @@ class TagsController extends Controller
         ]);
 
         $tag                     = Tag::find($request->id);
-        $meta_keywords           = $this->generate_tags($tag->meta_keywords, $request->meta_keywords);
+        $meta_keywords           = $this->generate_modal_tags($tag->meta_keywords, $request->meta_keywords);
         $tag->name               = $request->name;
         $tag->slug               = $request->slug;
         $tag->meta_title         = $request->meta_title;
@@ -102,32 +102,5 @@ class TagsController extends Controller
         $tag = Tag::find($id);
         $tag->delete();
         return Redirect::back()->with('success', 'Tag was successfully deleted!');
-    }
-
-    /**
-     * Upload the specified image in storage.
-     *
-     * @param  array  $old_tags
-     * @param  array  $new_tags
-     * @return array
-     */
-    protected function generate_tags($old_tags, $new_tags)
-    {
-        $new_meta_keywords = [];
-        if (isset($new_tags)) {
-            $keywords = json_decode($new_tags, true);
-            foreach ($keywords as $keyword) {
-                array_push($new_meta_keywords, $keyword['value']);
-            }
-        }
-        $meta_keywords = [];
-        $array_old_tags = json_decode($old_tags, true);
-        foreach ($new_meta_keywords as $key => $tag) {
-            $find_single_old_tag = array_search($tag, $array_old_tags);
-            if ($find_single_old_tag === false) {
-                array_push($meta_keywords, $tag);
-            }
-        }
-        return array_merge($meta_keywords, $array_old_tags);
     }
 }

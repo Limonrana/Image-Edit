@@ -39,7 +39,6 @@ import CustomTable from "../Table/CustomTable";
 import TableHead from "../Table/TableHead";
 import TableHeadItem from "../Table/TableHeadItem";
 import TableItem from "../Table/TableItem";
-import TablePaginate from "../Table/TablePaginate";
 import { InertiaLink } from "@inertiajs/inertia-vue";
 
 export default {
@@ -53,7 +52,6 @@ export default {
         TableHead,
         TableHeadItem,
         TableItem,
-        TablePaginate,
         InertiaLink,
     }
 }

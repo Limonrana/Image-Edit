@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Laravel\Jetstream\Jetstream;
 use App\Http\Controllers\User\UserPageController;
+use App\Http\Controllers\User\UserOrderController;
 use App\Http\Controllers\User\UserUploadController;
 use App\Http\Controllers\User\UserAccountController;
 use App\Http\Controllers\User\UserAddressController;
@@ -31,9 +32,19 @@ use Laravel\Jetstream\Http\Controllers\TeamInvitationController;
 // User Routes List Start
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [UserPageController::class, 'dashboard'])->name('user.dashboard');
-    Route::get('/orders', [UserPageController::class, 'orders'])->name('user.orders');
-    Route::get('/invoices', [UserPageController::class, 'invoices'])->name('user.invoices');
     Route::get('/quotations', [UserPageController::class, 'quotations'])->name('user.quotations');
+
+    // Invoice Related Routes
+    Route::get('/invoices', [UserPageController::class, 'invoices'])->name('user.invoices');
+    Route::get('/invoice/{number}', [UserPageController::class, 'show'])->name('user.invoice.show');
+    // Order Related Routes
+    Route::get('/orders', [UserOrderController::class, 'index'])->name('user.orders');
+    Route::get('/orders/{number}', [UserOrderController::class, 'show'])->name('user.orders.show');
+    Route::get('/orders/create', [UserOrderController::class, 'create'])->name('user.orders.create');
+    Route::post('/orders/store', [UserOrderController::class, 'store'])->name('user.orders.store');
+    Route::post('/orders/uploads', [UserOrderController::class, 'uploads'])->name('user.orders.uploads');
+    Route::delete('/orders/uploads/{id}', [UserOrderController::class, 'uploadDestroy'])->name('user.orders.uploads.destroy');
+    Route::get('/orders/uploads/destroy', [UserOrderController::class, 'uploadDestroyAll'])->name('user.orders.uploads.destroy.all');
 
     // User Account & Profile...
     Route::get('/account', [UserAccountController::class, 'show'])->name('user.account.show');
@@ -62,6 +73,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // File Manager & File Uploads Routes
     Route::get('/files', [UserUploadController::class, 'index'])->name('user.files');
+    Route::delete('/files/{id}', [UserUploadController::class, 'destroy'])->name('user.files.destroy');
+    Route::get('/files/download/{id}', [UserUploadController::class, 'downloadFile'])->name('user.files.download');
 
     // Teams...
     if (Jetstream::hasTeamFeatures()) {

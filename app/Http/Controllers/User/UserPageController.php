@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
+use App\Models\Invoice;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Laravel\Jetstream\Jetstream;
@@ -23,24 +28,16 @@ class UserPageController extends Controller
     }
 
     /**
-     * Display a listing of the orders resource.
-     *
-     * @return \Inertia\Response
-     */
-    public function orders(Request $request)
-    {
-        $getQueryString = $request->status;
-        return Inertia::render('Orders/Orders');
-    }
-
-    /**
      * Display a listing of the invoices resource.
      *
      * @return \Inertia\Response
      */
     public function invoices()
     {
-        return Inertia::render('Invoices/Invoices');
+        $invoices = Invoice::with('order.complexity')->paginate(10);
+        return Inertia::render('Invoices/Invoices', [
+            'invoices'  => $invoices,
+        ]);
     }
 
     /**
@@ -127,12 +124,20 @@ class UserPageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $invoice_number
+     * @return \Inertia\Response
      */
-    public function show($id)
+    public function show($invoice_number)
     {
-        //
+        $invoice = Invoice::with('order.complexity')->where('invoice_number', $invoice_number)->first();
+        $address = Address::with(['state', 'getCountry'])->where('user_id', $invoice->order->user_id)->first();
+        $orderDetails = OrderDetail::with('service')->where('order_id', $invoice->order_id)->get();
+
+        return Inertia::render('Invoices/InvoiceView', [
+            'invoice'       => $invoice,
+            'address'       => $address,
+            'orderDetails'  => $orderDetails,
+        ]);
     }
 
     /**

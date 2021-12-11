@@ -64,25 +64,36 @@
                                 @enderror
                             </div>
                             <!-- End Form Group -->
-
-                            <label class="input-label" for="description">Description <span class="input-label-secondary">(Optional)</span></label>
-                            <textarea name="description" id="description" rows="1" style="display: none;">{!! $service->description !!}</textarea>
-                            <!-- Quill -->
-                            <div class="quill-custom">
-                                <div class="js-quill" style="min-height: 15rem;"
-                                     data-hs-quill-options='{
-                                      "placeholder": "Type your description..."
-                                     }'>
-                                    {!! $service->description !!}
+                            <div class="form-group mt-4">
+                                <label class="input-label" for="description">Description <span class="input-label-secondary">(Optional)</span></label>
+                                <textarea name="description" id="description" rows="1" style="display: none;">{!! $service->description !!}</textarea>
+                                <!-- Quill -->
+                                <div class="quill-custom">
+                                    <div class="js-quill" style="min-height: 15rem;"
+                                         data-hs-quill-options='{
+                                          "placeholder": "Type your description..."
+                                         }'>
+                                        {!! $service->description !!}
+                                    </div>
                                 </div>
+                                <!-- End Quill -->
                             </div>
-                            <!-- End Quill -->
+
+                            <div class="form-group mt-4">
+                                <label class="input-label" for="short_description">Short Description <span class="input-label-secondary">(Optional)</span></label>
+                                <textarea class="form-control" name="short_description" id="short_description" rows="2" placeholder="Write your description for customer order page...">{!! $service->short_description !!}</textarea>
+                            </div>
+
+                            <div class="form-group mt-4">
+                                <label class="input-label" for="note">Description Note <span class="input-label-secondary">(Optional)</span></label>
+                                <textarea class="form-control" name="note" id="note" rows="2" placeholder="Write your note for customer order page...">{!! $service->note !!}</textarea>
+                            </div>
                         </div>
                         <!-- Body -->
                     </div>
                     <!-- End Card -->
 
-                    <!-- Card -->
+                    <!-- Media Card -->
                     <div class="card mb-3 mb-lg-5">
                         <!-- Header -->
                         <div class="card-header">
@@ -240,7 +251,128 @@
                         </div>
                         <!-- Body -->
                     </div>
-                    <!-- End Card -->
+                    <!-- End Media Card -->
+
+                    <!-- Addon Variants Card -->
+                    <div class="card mb-3 mb-lg-5">
+                        <!-- Header -->
+                        <div class="card-header">
+                            <h4 class="card-header-title">Service Options</h4>
+                        </div>
+                        <!-- End Header -->
+
+                        <!-- Body -->
+                        <div class="card-body">
+                            <!-- Form Group -->
+                            <div class="js-add-field"
+                                 data-hs-add-field-options='{
+                                    "template": "#addVariantTemplate",
+                                    "container": "#addVariantContainer",
+                                    "defaultCreated": 0
+                                 }'>
+
+                                @forelse(json_decode($service->variants, true) as $key => $variant)
+                                    <div id="{{ $key }}">
+                                        <div class="form-group mb-0">
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    <!-- Form Group -->
+                                                    <div class="form-group mb-0">
+                                                        <label class="input-label">Option Title</label>
+
+                                                        <input type="text" class="form-control" name="option[]" placeholder="Option Title" required value="{{ $variant['option'] }}">
+                                                    </div>
+                                                    <!-- End Form Group -->
+                                                </div>
+
+                                                <div class="col-md-5">
+                                                    <!-- Form Group -->
+                                                    <div class="form-group mb-0">
+                                                        <label class="input-label">Option Price</label>
+
+                                                        <input type="text" class="form-control" name="price[]" placeholder="Option Price" required value="{{ $variant['price'] }}">
+                                                    </div>
+                                                    <!-- End Form Group -->
+                                                </div>
+                                            </div>
+                                            <div class="remove-faq text-right mt-1">
+                                                <button class="btn btn-sm btn-no-focus btn-ghost-danger" onclick="removeVariant({{ $key }})">
+                                                    <i class="tio-remove-from-trash"></i> Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="form-group mb-0">
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <!-- Form Group -->
+                                                <div class="form-group mb-0">
+                                                    <label class="input-label">Option Title</label>
+
+                                                    <input type="text" class="form-control" name="option[]" placeholder="Option Title" required>
+                                                </div>
+                                                <!-- End Form Group -->
+                                            </div>
+
+                                            <div class="col-md-5">
+                                                <!-- Form Group -->
+                                                <div class="form-group mb-0">
+                                                    <label class="input-label">Option Price</label>
+
+                                                    <input type="text" class="form-control" name="price[]" placeholder="Option Price" required>
+                                                </div>
+                                                <!-- End Form Group -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforelse
+
+                                <!-- Container For Input Field -->
+                                <div id="addVariantContainer"></div>
+
+                                <a href="javascript:;" class="js-create-field form-link btn btn-sm btn-no-focus btn-ghost-primary text-right">
+                                    <i class="tio-add"></i> Add New
+                                </a>
+                            </div>
+                            <!-- End Form Group -->
+
+                            <!-- Add Phone Input Field -->
+                            <div id="addVariantTemplate" style="display: none;">
+                                <div class="input-group-add-field">
+                                    <div class="form-group mb-0">
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <!-- Form Group -->
+                                                <div class="form-group mb-0">
+                                                    <label class="input-label">Option Title</label>
+                                                    <input type="text" class="form-control add-new-input" name="option[]" placeholder="Option Title">
+                                                </div>
+                                                <!-- End Form Group -->
+                                            </div>
+
+                                            <div class="col-md-5">
+                                                <!-- Form Group -->
+                                                <div class="form-group mb-0">
+                                                    <label class="input-label">Option Price</label>
+                                                    <input type="text" class="form-control add-new-input" name="price[]" placeholder="Option Price">
+                                                </div>
+                                                <!-- End Form Group -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="js-delete-field input-group-add-field-delete" href="javascript:;">
+                                        <i class="tio-clear"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End Add Phone Input Field -->
+
+                        </div>
+                        <!-- End Body -->
+                    </div>
+                    <!-- End Addon Variants Card -->
+
                 </div>
 
                 <div class="col-lg-4">
@@ -564,6 +696,11 @@
                 slugEditIcon.classList.remove("tio-save");
                 slugEditIcon.classList.add("tio-edit");
             }
+        }
+
+        function removeVariant($key) {
+            let element = document.getElementById($key);
+            element.remove();
         }
 
         function removeFaq($key) {

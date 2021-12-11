@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ServicesController;
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\CollectionController;
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\ComplexityController;
 use App\Http\Controllers\Admin\Auth\RegisterController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
@@ -69,18 +70,26 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     // Service Related All Routes
     Route::resource('/service', ServicesController::class);
     Route::get('/service/destroy', [ServicesController::class, 'allDestroy'])->name('admin.service.destroys');
+    Route::resource('/complexities', ComplexityController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
+
+
     // Customer Related Routes
     Route::resource('/customers', CustomersController::class);
+
     // Clients Related Routes
     Route::resource('/clients', ClientsController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
-    // Clients Related Routes
+
+    // Blog Comments Related Routes
     Route::resource('/comments', CommentsController::class)->only(['index', 'edit', 'destroy']);
+
     // Blog Post Related Routes
     Route::resource('/blogs', BlogsController::class);
     Route::resource('/blog/category', CategoryController::class);
     Route::resource('/blog/tags', TagsController::class);
+
     // Page Related Routes
     Route::resource('/pages', PageController::class);
+
     // Common Page Routes
     Route::get('/pages/common/{slug}/edit', [PageController::class, 'commonEdit'])->name('pages.common.edit');
 

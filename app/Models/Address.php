@@ -20,6 +20,16 @@ class Address extends Model
     }
 
     /**
+     * This Model relationship with Country Model.
+     *
+     * @function belongsTo
+     */
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state');
+    }
+
+    /**
      * The Address that hasMany to the user.
      */
     public function user()

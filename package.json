@@ -24,25 +24,20 @@
     "dependencies": {
         "@inertiajs/inertia": "^0.10.1",
         "@inertiajs/inertia-vue": "^0.7.2",
-        "@left4code/tw-starter": "^2.3.1",
+        "@vue-stripe/vue-stripe": "^4.2.9",
         "chart.js": "^2.9.4",
         "dropzone": "^5.7.2",
-        "highlight.js": "^10.6.0",
         "leaflet": "^1.7.1",
         "portal-vue": "^2.1.7",
         "sass": "^1.43.4",
         "sass-loader": "^12.3.0",
-        "tabulator-tables": "^4.9.1",
-        "tippy.js": "^6.2.7",
-        "toastify-js": "^1.9.0",
-        "tom-select": "^1.7.5",
         "vue": "^2.6.14",
         "vue-chartjs": "^3.5.1",
         "vue-feather-icons": "^5.1.0",
         "vue-moment": "^4.1.0",
         "vue-sweetalert2": "^5.0.2",
         "vue-toastification": "^1.7.14",
-        "vue2-leaflet": "^2.7.1",
-        "zoom-vanilla.js": "^2.0.6"
+        "vue2-dropzone": "^3.6.0",
+        "vue2-leaflet": "^2.7.1"
     }
 }

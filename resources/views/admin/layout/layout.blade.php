@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/icon-set/style.css') }}">
     <!-- CSS Front Template -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.minc619.css?v=1.0') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     @yield('styles')
     <style>

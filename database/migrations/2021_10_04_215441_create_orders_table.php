@@ -16,16 +16,24 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_number')->unique();
-            $table->integer('customer_id');
-            $table->string('payment_status');
-            $table->integer('payment_method')->nullable();
-            $table->integer('transaction_id')->nullable();
-            $table->string('total');
+            $table->integer('user_id');
+            $table->integer('complexity_id');
             $table->integer('conversation_id')->nullable();
-            $table->dateTime('deadline');
-            $table->integer('is_delivered')->default(0);
-            $table->dateTime('delivery_time')->nullable();
-            $table->dateTime('delivery_done_time')->nullable();
+            $table->string('transaction_id')->nullable();
+            $table->string('payment_status');
+            $table->integer('payment_terms');
+            $table->string('payment_method')->nullable();
+            $table->integer('qty');
+            $table->string('cp_price');
+            $table->string('total');
+            $table->string('return_file_types');
+            $table->string('background_type');
+            $table->longText('instructions')->nullable();
+            $table->integer('deadline')->default(120);
+            $table->dateTime('delivered')->nullable();
+            $table->dateTime('delivery_accepted')->nullable();
+            $table->integer('is_refund')->default(0);
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

@@ -43,7 +43,6 @@
                                 <table-item id="10" date="Aug 25, 2020" total="232" service="Web Development" :status="0">#QUOTE-128736</table-item>
                             </template>
                             <template #paginate>
-                                <table-paginate></table-paginate>
                             </template>
                         </custom-table>
                     </div>
@@ -61,12 +60,11 @@ import TableHead from "../../Components/Table/TableHead";
 import TableHeadItem from "../../Components/Table/TableHeadItem";
 import CustomTable from "../../Components/Table/CustomTable";
 import TableItem from "../../Components/Table/TableItem";
-import TablePaginate from "../../Components/Table/TablePaginate";
 import OrderTabLink from "../../Components/NavLinks/OrderTabLink";
 import { PrinterIcon } from 'vue-feather-icons';
 export default {
     name: "Quotations",
-    components: {OrderTabLink, TablePaginate, TableItem, CustomTable, TableHeadItem, TableHead, AppLayout, PrinterIcon}
+    components: {OrderTabLink, TableItem, CustomTable, TableHeadItem, TableHead, AppLayout, PrinterIcon}
 }
 </script>
 

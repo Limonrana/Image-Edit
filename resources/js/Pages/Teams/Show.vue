@@ -36,7 +36,6 @@
 
 <script>
     import AppLayout from '@/Layouts/AppLayout.vue';
-    import DeleteTeamForm from '@/Pages/Teams/Partials/DeleteTeamForm.vue';
     import SideNav from "@/Components/Team/SideNav";
     import UpdateTeamName from "../../Components/Team/UpdateTeamName";
     import DeleteTeam from "../../Components/Team/DeleteTeam";
@@ -44,6 +43,6 @@
 
     export default {
         props: ['user', 'teamDetails', 'permissions',],
-        components: {MemberInvitation, AppLayout, DeleteTeamForm, UpdateTeamName, DeleteTeam, SideNav,},
+        components: {MemberInvitation, AppLayout, UpdateTeamName, DeleteTeam, SideNav,},
     }
 </script>

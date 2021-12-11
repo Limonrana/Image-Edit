@@ -52,13 +52,11 @@
                         </div>
                         <!-- BEGIN: Users Layout -->
                         <!-- END: Pagination -->
-                        <custom-paginate :links="members.links"></custom-paginate>
+                        <simple-paginate :links="members.links"></simple-paginate>
                         <!-- END: Pagination -->
                     </div>
                     <div class="empty-state" v-else>
-                        <empty-state title="OOPS! No team members found" description="Get started by creating a new member.">
-
-                        </empty-state>
+                        <empty-state title="OOPS! No team members found" description="Get started by creating a new member." />
                     </div>
                 </div>
             </div>
@@ -158,11 +156,11 @@ import {InertiaLink} from "@inertiajs/inertia-vue";
 import { SearchIcon } from 'vue-feather-icons';
 import SideNav from "@/Components/Team/SideNav";
 import ConfirmationModal from "@/Components/Modals/ConfirmationModal";
-import CustomPaginate from "@/Components/Common/CustomPaginate";
 import DialogModal from "../../Components/Modals/DialogModal";
 import pickBy from 'lodash/pickBy';
 import throttle from 'lodash/throttle';
 import EmptyState from "../../Components/Common/EmptyState";
+import SimplePaginate from "../../Components/Table/SimplePaginate";
 
 export default {
     name: "TeamMembers",
@@ -175,9 +173,9 @@ export default {
         'permissions'
     ],
     components: {
+        SimplePaginate,
         EmptyState,
         DialogModal,
-        CustomPaginate,
         TeamMemberItem,
         InertiaLink,
         SearchIcon,

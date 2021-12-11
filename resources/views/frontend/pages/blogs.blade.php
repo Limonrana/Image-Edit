@@ -31,7 +31,8 @@
                 <div class="row wow fadeInUp">
                     <div class="col-lg-8">
                         <div class="blog-main">
-                            @foreach($blogs as $blog)
+                            @if(count($blogs) > 0)
+                                @foreach($blogs as $blog)
                                 <div class="blog-main-single mb-60">
                                 <div class="bms-img mb-30">
                                     <a href="{{ route('store.blog.show', $blog->slug) }}"><img src="{{ asset($blog->image->path) }}" alt="{{ $blog->title }}"></a>
@@ -62,6 +63,9 @@
                                 </div>
                             </div>
                             @endforeach
+                            @else
+                                @include('frontend.components.common.empty-state')
+                            @endif
                         </div>
                         <div class="blog-paginate">
                             {{ $blogs->links() }}

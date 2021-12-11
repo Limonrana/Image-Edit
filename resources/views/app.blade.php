@@ -11,6 +11,8 @@
         <!-- CSS here -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/custom-app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/fontawesome-all.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}">
         <!-- Scripts -->
         @routes
         <script src="{{ asset('js/app.js') }}" defer></script>

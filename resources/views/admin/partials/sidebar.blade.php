@@ -429,7 +429,7 @@
                         <!-- End Collection -->
 
                         <!-- Services -->
-                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/service*') ? 'show' : '' }}">
+                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/service*') || Request::is('admin/complexities*') ? 'show' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle {{ Request::is('admin/service*') ? 'active' : '' }}" href="javascript:;" title="Apps">
                                 <i class="tio-puzzle nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Services</span>
@@ -446,6 +446,12 @@
                                     <a class="nav-link {{ Request::is('admin/service/create') ? 'active' : '' }}" href="{{ route('service.create') }}" title="Calendar">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Add Service</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::is('admin/complexities') ? 'active' : '' }}" href="{{ route('complexities.index') }}" title="Complexities">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">Image Complexities</span>
                                     </a>
                                 </li>
                             </ul>

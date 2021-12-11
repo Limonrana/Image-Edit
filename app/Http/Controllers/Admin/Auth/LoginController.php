@@ -67,10 +67,9 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended($this->redirectTo);
+            return redirect($this->redirectTo);
         }
 
         return back()->withErrors([

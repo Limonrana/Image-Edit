@@ -56,16 +56,19 @@ class ServicesController extends Controller
         $service->title = $request->title;
         $service->slug = $request->slug;
         $service->icon = $request->icon;
+        $service->note = $request->note;
         $service->description = $request->description;
         $service->collection_id = $request->collection;
+        $service->short_description = $request->short_description;
         $service->status = isset($request->status) ? true : false;
         $service->meta_title = $request->meta_title;
         $service->meta_description = $request->meta_description;
-        $service->faqs = count($this->generate_faqs($request->questions, $request->answers)) > 0 ? json_encode($this->generate_faqs($request->questions, $request->answers)) : null;
-        $service->meta_keywords = isset($request->meta_keywords) ? json_encode($this->generate_tags($request->meta_keywords)) : null;
-        $service->featured_image_id = $request->hasFile('featured_image') ? $this->upload_image($request->file('featured_image')) : null;
-        $service->banner_image_1 = $request->hasFile('banner_image_1') ? $this->upload_image($request->file('banner_image_1')) : null;
-        $service->banner_image_2 = $request->hasFile('banner_image_2') ? $this->upload_image($request->file('banner_image_2')) : null;
+        $service->faqs = count($request->questions) > 0 ? $this->generate_json([$request->questions, $request->answers], ['question', 'answer']) : null;
+        $service->variants = count($request->option) > 0 ? $this->generate_json([$request->option, $request->price], ['option', 'price']) : null;
+        $service->meta_keywords = isset($request->meta_keywords) ? $this->generate_tags($request->meta_keywords) : null;
+        $service->featured_image_id = $request->hasFile('featured_image') ? $this->single_upload($request->file('featured_image'), 'services') : null;
+        $service->banner_image_1 = $request->hasFile('banner_image_1') ? $this->single_upload($request->file('banner_image_1'), 'services') : null;
+        $service->banner_image_2 = $request->hasFile('banner_image_2') ? $this->single_upload($request->file('banner_image_2'), 'services') : null;
         $service->save();
 
         return Redirect::route('service.index')->with('success', 'Service was successfully added!');
@@ -121,25 +124,32 @@ class ServicesController extends Controller
         $service->title = $request->title;
         $service->slug = $request->slug;
         $service->icon = $request->icon;
+        $service->note = $request->note;
         $service->description = $request->description;
         $service->collection_id = $request->collection;
+        $service->short_description = $request->short_description;
         $service->status = isset($request->status) ? true : false;
         $service->meta_title = $request->meta_title;
         $service->meta_description = $request->meta_description;
-        if (count($this->generate_faqs($request->questions, $request->answers)) > 0) {
-            $service->faqs = json_encode($this->generate_faqs($request->questions, $request->answers));
+        if (count($request->questions) > 0 && count($request->answers) > 0) {
+            $service->faqs = $this->generate_json([$request->questions, $request->answers], ['question', 'answer']);
+        }
+        if (count($request->option) > 0 && count($request->price) > 0) {
+            if (count($request->option) === count($request->price)) {
+                $service->variants = $this->generate_json([$request->option, $request->price], ['option', 'price']);
+            }
         }
         if (isset($request->meta_keywords)) {
-            $service->meta_keywords = json_encode($this->generate_tags($request->meta_keywords));
+            $service->meta_keywords = $this->generate_tags($request->meta_keywords);
         }
         if ($request->hasFile('featured_image')) {
-            $service->featured_image_id = $this->upload_image($request->file('featured_image'), $service->featured_image_id);
+            $service->featured_image_id = $this->single_upload($request->file('featured_image'), 'services', $service->featured_image_id);
         }
         if ($request->hasFile('banner_image_1')) {
-            $service->banner_image_1 = $this->upload_image($request->file('banner_image_1'), $service->banner_image_1);
+            $service->banner_image_1 = $this->single_upload($request->file('banner_image_1'), 'services', $service->banner_image_1);
         }
         if ($request->hasFile('banner_image_2')) {
-            $service->banner_image_2 = $this->upload_image($request->file('banner_image_2'), $service->banner_image_2);
+            $service->banner_image_2 = $this->single_upload($request->file('banner_image_2'), 'services', $service->banner_image_2);
         }
         $service->save();
 
@@ -157,22 +167,22 @@ class ServicesController extends Controller
         $service = Service::find($id);
 
         if ($service->featured_image_id !== null) {
-            $old_upload = Upload::find($service->featured_image_id);
+            $featured_upload = Upload::find($service->featured_image_id);
             // Delete Image from Folder
-            unlink($old_upload->path);
-            $old_upload->delete();
+            unlink($featured_upload->path);
+            $featured_upload->delete();
         }
         if ($service->banner_image_1 !== null) {
-            $old_upload = Upload::find($service->banner_image_1);
+            $banner1_upload = Upload::find($service->banner_image_1);
             // Delete Image from Folder
-            unlink($old_upload->path);
-            $old_upload->delete();
+            unlink($banner1_upload->path);
+            $banner1_upload->delete();
         }
         if ($service->banner_image_2 !== null) {
-            $old_upload = Upload::find($service->banner_image_2);
+            $banner2_upload = Upload::find($service->banner_image_2);
             // Delete Image from Folder
-            unlink($old_upload->path);
-            $old_upload->delete();
+            unlink($banner2_upload->path);
+            $banner2_upload->delete();
         }
         $service->delete();
         return Redirect::route('service.index')->with('success', 'Service was successfully deleted!');
@@ -189,54 +199,6 @@ class ServicesController extends Controller
 //        dd($request->all());
 //        $id = json_decode($request->id, true);
         return response()->json('DOne', 200);
-    }
-
-    /**
-     * Upload the specified image in storage.
-     *
-     * @param  array  $file
-     * @return \Illuminate\Http\Response
-     */
-    protected function upload_image($file, $image_id = null)
-    {
-        if ($image_id !== null) {
-            $old_upload = Upload::find($image_id);
-            // Delete Image from Folder
-            unlink($old_upload->path);
-            $old_upload->delete();
-        }
-        $file_original_name = $file->getClientOriginalName();
-        $fileName = pathinfo($file_original_name,PATHINFO_FILENAME);
-        $image_name = $fileName. '-' .time(). '.' . $file->getClientOriginalExtension();
-        // resizing an uploaded file
-        Image::make($file)->save(public_path('uploads/services/' . $image_name));
-        // Insert Image Path To Database
-        $upload = new Upload();
-        $upload->name = $image_name;
-        $upload->size = $file->getSize();
-        $upload->type = $file->getMimeType();
-        $upload->path = 'uploads/services/' . $image_name;
-        $upload->save();
-
-        return $upload->id;
-    }
-
-    /**
-     * Manage tag list from json to array.
-     *
-     * @param  array  $tags
-     * @return array
-     */
-    protected function generate_tags($tags)
-    {
-        $new_meta_keywords = [];
-        if (isset($tags)) {
-            $keywords = json_decode($tags, true);
-            foreach ($keywords as $keyword) {
-                array_push($new_meta_keywords, $keyword['value']);
-            }
-        }
-        return $new_meta_keywords;
     }
 
     /**

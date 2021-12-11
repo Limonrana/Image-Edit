@@ -50,6 +50,15 @@ class HandleInertiaRequests extends Middleware
                     return null;
                 }
             },
+            'app_url' => function () use ($request) {
+                return env('APP_URL', 'https://car-image-edit.test');
+            },
+            'csrf' => function () use ($request) {
+                return $request->session()->token();
+            },
+            'stripe_pk' => function () use ($request) {
+                return env('STRIPE_KEY', 'pk_test_yLs7aj48caHjjruntvFqPMMF00yAa5Xge7');
+            },
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),

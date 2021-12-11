@@ -21,26 +21,30 @@
                         <custom-table>
                             <template #thead>
                                 <table-head-item>INVOICE</table-head-item>
-                                <table-head-item styles="text-align: center;">DATE</table-head-item>
-                                <table-head-item styles="text-align: center;">PAYMENT STATUS</table-head-item>
-                                <table-head-item styles="text-align: center;">ORDER STATUS</table-head-item>
+                                <table-head-item styles="text-align: center;">CREATED DATE</table-head-item>
+                                <table-head-item styles="text-align: center;">DUE DATE</table-head-item>
                                 <table-head-item styles="text-align: center;">TOTAL</table-head-item>
+                                <table-head-item styles="text-align: center;">STATUS</table-head-item>
                                 <table-head-item styles="text-align: center;">ACTIONS</table-head-item>
                             </template>
                             <template #tbody>
-                                <table-item id="1" date="Aug 25, 2020" total="232" :is-paid="true" :status="0">#INV-128736</table-item>
-                                <table-item id="2" date="Aug 25, 2020" total="232" :is-paid="true" :status="0">#INV-128736</table-item>
-                                <table-item id="3" date="Aug 25, 2020" total="232" :is-paid="true" :status="0">#INV-128736</table-item>
-                                <table-item id="4" date="Aug 25, 2020" total="232" :is-paid="true" :status="0">#INV-128736</table-item>
-                                <table-item id="5" date="Aug 25, 2020" total="232" :is-paid="true" :status="0">#INV-128736</table-item>
-                                <table-item id="6" date="Aug 25, 2020" total="232" :is-paid="true" :status="0">#INV-128736</table-item>
-                                <table-item id="7" date="Aug 25, 2020" total="232" :is-paid="true" :status="0">#INV-128736</table-item>
-                                <table-item id="8" date="Aug 25, 2020" total="232" :is-paid="true" :status="0">#INV-128736</table-item>
-                                <table-item id="9" date="Aug 25, 2020" total="232" :is-paid="true" :status="0">#INV-128736</table-item>
-                                <table-item id="10" date="Aug 25, 2020" total="232" :is-paid="true" :status="0">#INV-128736</table-item>
+                                <template v-for="invoice in invoices.data">
+                                    <table-item>
+                                        <link-item href="#">#INV-{{ invoice.invoice_number }}</link-item>
+                                        <simple-item>{{ invoice.created_at | moment('MMM D, YYYY') }}</simple-item>
+                                        <simple-item>{{ invoice.due_date | moment('MMM D, YYYY') }}</simple-item>
+                                        <simple-item>${{ parseFloat(invoice.total).toFixed(2) }}</simple-item>
+                                        <status-icon-item :status-classes="statusClass(invoice.status)">{{ statusText(invoice.status) }}</status-icon-item>
+                                        <actions-item :href1="route('user.invoice.show', invoice.invoice_number)">
+                                            <template #btn-1>
+                                                <check-square-icon size="1.5x" class="w-4 h-4 mr-1"></check-square-icon> View
+                                            </template>
+                                        </actions-item>
+                                    </table-item>
+                                </template>
                             </template>
                             <template #paginate>
-                                <table-paginate></table-paginate>
+                                <simple-paginate :links="invoices.links" />
                             </template>
                         </custom-table>
                     </div>
@@ -58,12 +62,61 @@ import TableHead from "../../Components/Table/TableHead";
 import TableHeadItem from "../../Components/Table/TableHeadItem";
 import CustomTable from "../../Components/Table/CustomTable";
 import TableItem from "../../Components/Table/TableItem";
-import TablePaginate from "../../Components/Table/TablePaginate";
 import OrderTabLink from "../../Components/NavLinks/OrderTabLink";
-import { PrinterIcon } from 'vue-feather-icons';
+import { PrinterIcon, CheckSquareIcon, Trash2Icon } from 'vue-feather-icons';
+import LinkItem from "../../Components/Table/Rows/LinkItem";
+import SimpleItem from "../../Components/Table/Rows/SimpleItem";
+import StatusIconItem from "../../Components/Table/Rows/StatusIconItem";
+import ActionsItem from "../../Components/Table/Rows/ActionsItem";
+import SimplePaginate from "../../Components/Table/SimplePaginate";
+
 export default {
     name: "Invoices",
-    components: {OrderTabLink, TablePaginate, TableItem, CustomTable, TableHeadItem, TableHead, AppLayout, PrinterIcon}
+    props: ['invoices'],
+    components: {
+        SimplePaginate,
+        ActionsItem,
+        StatusIconItem,
+        SimpleItem,
+        LinkItem,
+        OrderTabLink,
+        TableItem,
+        CustomTable,
+        TableHeadItem,
+        TableHead,
+        AppLayout,
+        CheckSquareIcon,
+        Trash2Icon,
+        PrinterIcon
+    },
+    computed: {
+        statusText() {
+            return status => {
+                let result = null;
+                if (status === 0) {
+                    result = 'Unpaid';
+                } else if (status === 1) {
+                    result = 'Paid';
+                } else if (status === 2) {
+                    result = 'Cancelled';
+                }
+                return result;
+            }
+        },
+        statusClass(status) {
+            return status => {
+                let result = null;
+                if (status === 0) {
+                    result = 'text-theme-24';
+                } else if (status === 1) {
+                    result = 'text-theme-10';
+                } else if (status === 2) {
+                    result = 'text-theme-33';
+                }
+                return result;
+            }
+        }
+    }
 }
 </script>
 
@@ -75,5 +128,11 @@ export default {
     .dark .custom-box {
         --tw-bg-opacity: 1 !important;
         background-color: rgba(49, 58, 85, var(--tw-bg-opacity)) !important;
+    }
+    .col-cell-1 {
+        width: 301px;
+        display: inline-flex;
+        align-items: center;
+        height: 64px;
     }
 </style>
