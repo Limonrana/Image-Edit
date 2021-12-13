@@ -3,6 +3,72 @@
     overflow-y: scroll !important;
 }
 
+/*Badge Element CSS*/
+.badge {
+    display: inline-block;
+    padding: 0.6em 0.5em;
+    font-size: 75%;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.3125rem;
+    transition: all .2s ease-in-out;
+}
+
+.badge-soft-success {
+    color: #00c9a7;
+    background-color: rgba(0,201,167,.1);
+}
+
+.badge-soft-info {
+    color: #00c9db;
+    background-color: rgba(0,201,219,.1);
+}
+
+.badge-soft-warning {
+    color: #ec9a3c!important;
+}
+
+.badge-soft-danger {
+    color: #ed4c78;
+    background-color: rgba(237,76,120,.1);
+}
+
+.badge-soft-dark {
+    color: #000000;
+    background-color: rgb(0 0 0 / 10%);
+}
+
+.legend-indicator {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #bdc5d1;
+    border-radius: 50%;
+    margin-right: 0.4375rem;
+}
+
+.bg-info {
+    background-color: #00c9db!important;
+}
+
+.bg-dark {
+    background-color: #000000 !important;
+}
+
+.bg-success {
+    background-color: #00c9a7!important;
+}
+
+.bg-warning {
+    background-color: #ec9a3c!important;
+}
+
+.bg-danger {
+    background-color: #ed4c78!important;
+}
 
 /*Package File CSS*/
 #nprogress {

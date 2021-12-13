@@ -156,6 +156,7 @@ class UserOrderController extends Controller
 
             // Create Invoice
             $invoice                    = new Invoice();
+            $invoice->user_id           = $request->user_id;
             $invoice->order_id          = $order->id;
             $invoice->due_date          = Carbon::now()->addHours(intval($request->deadline));
             $invoice->total             = $request->totalCost;
@@ -200,8 +201,10 @@ class UserOrderController extends Controller
     {
         $order = Order::with('order_details', 'upload_files', 'complexity')
                             ->where('order_number', $order_number)->first();
+        $invoice = Invoice::where('order_id', $order->id)->first();
         return Inertia::render('Orders/OrderView', [
-            'order' => $order,
+            'order'             => $order,
+            'invoice_number'    => isset($invoice) ? $invoice->invoice_number : null,
         ]);
     }
 

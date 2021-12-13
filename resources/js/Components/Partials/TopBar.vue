@@ -18,7 +18,7 @@
             <search-box></search-box>
             <!-- END: Search -->
             <!-- BEGIN: Notifications -->
-            <notifications-section :catch-click="catchOutsideClick"></notifications-section>
+<!--            <notifications-section :catch-click="catchOutsideClick"></notifications-section>-->
             <!-- END: Notifications -->
             <!-- BEGIN: Account Menu -->
             <account-menu :logout="logout" :catch-click="catchOutsideClick"></account-menu>

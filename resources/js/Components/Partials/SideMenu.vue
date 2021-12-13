@@ -17,10 +17,10 @@
                 <template #title>Create Order</template>
             </NavLink>
 
-            <NavLink :href="route('user.quotations')" :active="route().current('user.quotations')">
-                <template #icon><MessageSquareIcon size="1.5x"></MessageSquareIcon></template>
-                <template #title>My Quotations</template>
-            </NavLink>
+<!--            <NavLink :href="route('user.quotations')" :active="route().current('user.quotations')">-->
+<!--                <template #icon><MessageSquareIcon size="1.5x"></MessageSquareIcon></template>-->
+<!--                <template #title>My Quotations</template>-->
+<!--            </NavLink>-->
 
             <NavLink :href="route('user.invoices')" :active="route().current('user.invoices')">
                 <template #icon><DollarSignIcon size="1.5x"></DollarSignIcon></template>

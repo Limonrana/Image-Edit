@@ -10,7 +10,7 @@
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2"> <a href="javascript:;" class="block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">All Files</a> </div>
                 </div>
             </div>
-            <inertia-link :href="route('user.orders', {status: 'all'})" class="btn btn-outline-secondary hidden sm:flex">All Files</inertia-link>
+            <inertia-link :href="route('user.files', {status: 'all'})" class="btn btn-outline-secondary hidden sm:flex">All Files</inertia-link>
         </div>
         <div class="p-5">
             <slot></slot>

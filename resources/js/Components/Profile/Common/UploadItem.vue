@@ -8,7 +8,7 @@
         </div>
         <div class="ml-4">
             <div class="font-medium">
-                <slot></slot>
+                {{ name }}
             </div>
             <div class="text-gray-600 text-xs mt-0.5">{{ size }}</div>
         </div>
@@ -18,12 +18,12 @@
             </a>
             <div class="dropdown-menu w-40" :class="isOpen ? 'show my-dropdown-show' : 'hidden'">
                 <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                    <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                    <button type="button" @click="handleDownload" class="flex items-center w-full block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DownloadIcon size="1.5x" class="w-4 h-4 mr-2"></DownloadIcon> Download
-                    </a>
-                    <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                    </button>
+                    <button type="button" @click="handleDelete" class="flex items-center w-full block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <TrashIcon size="1.5x" class="w-4 h-4 mr-2"></TrashIcon> Delete
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -32,9 +32,10 @@
 
 <script>
 import { MoreHorizontalIcon, TrashIcon, DownloadIcon } from 'vue-feather-icons';
+
 export default {
     name: "UploadItem",
-    props: ['id', 'size', 'src', 'mt'],
+    props: ['id', 'name', 'size', 'src', 'mt'],
     components: {MoreHorizontalIcon, TrashIcon, DownloadIcon},
     data() {
         return {
@@ -44,6 +45,35 @@ export default {
     methods: {
         handleDropDown() {
             this.isOpen = !this.isOpen;
+        },
+        handleDownload() {
+            axios({
+                url: route('user.files.download', this.id),
+                method: 'GET',
+                responseType: 'blob',
+            }).then((response) => {
+                var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                var fileLink = document.createElement('a');
+
+                fileLink.href = fileURL;
+                fileLink.setAttribute('download', this.name);
+                document.body.appendChild(fileLink);
+                fileLink.click();
+            });
+        },
+        handleDelete() {
+            this.$inertia.delete(route('user.files.destroy', this.id), {
+                preserveScroll: true,
+                onError: () => this.errors(),
+                onSuccess: () => this.notification(),
+            })
+        },
+        notification() {
+            this.$toast.success('File was successfully removed!');
+        },
+
+        errors() {
+            this.$toast.error("OOPS! Something went wrong. Please try again!");
         },
     }
 }

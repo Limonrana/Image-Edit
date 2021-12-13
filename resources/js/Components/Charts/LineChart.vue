@@ -66,7 +66,7 @@ export default {
             labels: this.chartLabels,
             datasets: [
                 {
-                    label: '# of Votes',
+                    label: '# Order:',
                     borderWidth: 2,
                     borderColor: "#203f90",
                     backgroundColor: "transparent",
@@ -74,7 +74,7 @@ export default {
                     data: this.chartData.firstData
                 },
                 {
-                    label: '# of Votes',
+                    label: '# Cancel:',
                     borderWidth: 2,
                     borderDash: [2, 2],
                     borderColor: "#a0afbf",

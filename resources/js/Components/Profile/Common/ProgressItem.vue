@@ -7,7 +7,7 @@
             <div>{{ total }} / {{ allTotal }}</div>
         </div>
         <div class="progress h-1 mt-2">
-            <div class="progress-bar" :class="`${barTheme} ${progress}`"></div>
+            <div class="progress-bar" :class="barTheme" :style="{ width: progress + '%' }"></div>
         </div>
     </div>
 </template>
@@ -25,11 +25,7 @@ export default {
             if (this.type === 'progress') return 'bg-theme-17';
         },
         progress() {
-            let percent = (this.total / this.allTotal) * 100;
-            if (percent > 0 && percent <= 25) return 'w-1/4';
-            if (percent > 25 && percent <= 50) return 'w-2/4';
-            if (percent > 50 && percent <= 75) return 'w-3/4';
-            if (percent > 75 && percent <= 100) return 'w-4/4';
+            return Math.round((this.total / this.allTotal) * 100);
         }
     }
 }

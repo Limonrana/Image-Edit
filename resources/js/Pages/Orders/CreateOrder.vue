@@ -305,6 +305,7 @@ export default {
                 headers: { "X-CSRF-Token": this.csrf }
             },
             isSticky: false,
+            paypalScript: null,
         }
     },
     computed: {
@@ -322,6 +323,10 @@ export default {
     mounted() {
         this.paypalScriptSetup();
         window.addEventListener('scroll', this.handleScroll);
+    },
+    beforeDestroy() {
+        this.$refs.paypal.remove();
+        document.body.removeChild(this.paypalScript);
     },
     methods: {
         uploadSuccess(file, response) {
@@ -349,7 +354,7 @@ export default {
         },
 
         submitStripe() {
-            if (isPayTerms === '1') {
+            if (this.form.isPayTerms === '1') {
                 this.isLoading = true;
                 this.$refs.stripeRef.submit();
             } else {
@@ -466,7 +471,7 @@ export default {
             script.src =
                 "https://www.paypal.com/sdk/js?client-id=AVuWkjFJRgr7puGU27wjxcH2hZGK_f2CLoN0NSm20AVxWvGl9danF_1DJWAe5ljgoAbd9XDdjkCYZdG4";
             script.addEventListener("load", this.setLoaded);
-            document.body.appendChild(script);
+            this.paypalScript = document.body.appendChild(script);
         },
 
         setLoaded(resp) {

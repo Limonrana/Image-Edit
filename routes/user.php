@@ -33,22 +33,23 @@ use Laravel\Jetstream\Http\Controllers\TeamInvitationController;
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [UserPageController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/quotations', [UserPageController::class, 'quotations'])->name('user.quotations');
+    Route::get('/search', [UserPageController::class, 'search'])->name('user.search');
 
     // Invoice Related Routes
     Route::get('/invoices', [UserPageController::class, 'invoices'])->name('user.invoices');
     Route::get('/invoice/{number}', [UserPageController::class, 'show'])->name('user.invoice.show');
     // Order Related Routes
     Route::get('/orders', [UserOrderController::class, 'index'])->name('user.orders');
-    Route::get('/orders/{number}', [UserOrderController::class, 'show'])->name('user.orders.show');
     Route::get('/orders/create', [UserOrderController::class, 'create'])->name('user.orders.create');
     Route::post('/orders/store', [UserOrderController::class, 'store'])->name('user.orders.store');
+    Route::get('/orders/{number}', [UserOrderController::class, 'show'])->name('user.orders.show');
     Route::post('/orders/uploads', [UserOrderController::class, 'uploads'])->name('user.orders.uploads');
     Route::delete('/orders/uploads/{id}', [UserOrderController::class, 'uploadDestroy'])->name('user.orders.uploads.destroy');
     Route::get('/orders/uploads/destroy', [UserOrderController::class, 'uploadDestroyAll'])->name('user.orders.uploads.destroy.all');
 
     // User Account & Profile...
     Route::get('/account', [UserAccountController::class, 'show'])->name('user.account.show');
-    Route::get('/profile', [UserProfileController::class, 'show'])->name('user.profile.show');
+    Route::get('/profile', [UserPageController::class, 'profile'])->name('user.profile.show');
     Route::delete('/profile-photo', [ProfilePhotoController::class, 'destroy'])->name('current-user-photo.destroy');
 
     // My Custom Address Routes

@@ -23,17 +23,17 @@
             </div>
             <div class="mt-6 lg:mt-0 flex-1 flex items-center justify-center px-5 border-t lg:border-0 border-gray-200 dark:border-dark-5 pt-5 lg:pt-0">
                 <div class="text-center rounded-md w-20 py-3">
-                    <div class="font-medium text-theme-17 dark:text-theme-3 text-xl">201</div>
+                    <div class="font-medium text-theme-17 dark:text-theme-3 text-xl">{{ totalOrders }}</div>
                     <div class="text-gray-600">Orders</div>
                 </div>
                 <div class="text-center rounded-md w-20 py-3">
-                    <div class="font-medium text-theme-17 dark:text-theme-3 text-xl">1k</div>
+                    <div class="font-medium text-theme-17 dark:text-theme-3 text-xl">$ {{ totalSpend }}</div>
                     <div class="text-gray-600">Purchases</div>
                 </div>
-                <div class="text-center rounded-md w-20 py-3">
-                    <div class="font-medium text-theme-17 dark:text-theme-3 text-xl">492</div>
-                    <div class="text-gray-600">Reviews</div>
-                </div>
+<!--                <div class="text-center rounded-md w-20 py-3">-->
+<!--                    <div class="font-medium text-theme-17 dark:text-theme-3 text-xl">492</div>-->
+<!--                    <div class="text-gray-600">Reviews</div>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
 import { MailIcon, PhoneIcon } from 'vue-feather-icons';
 export default {
     name: "ProfileInfo",
-    props: ['user'],
+    props: ['user', 'totalOrders', 'totalSpend'],
     components: {MailIcon, PhoneIcon}
 }
 </script>
