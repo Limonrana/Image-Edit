@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\OrdersController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\BlogsController;
@@ -71,6 +72,11 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     Route::resource('/service', ServicesController::class);
     Route::get('/service/destroy', [ServicesController::class, 'allDestroy'])->name('admin.service.destroys');
     Route::resource('/complexities', ComplexityController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
+
+    // Orders related routes
+    Route::resource('/orders', OrdersController::class)->only(['index', 'edit', 'destroy']);
+    Route::get('/orders/cancelled', [OrdersController::class, 'cancelled_request'])->name('orders.cancelled.index');
+    Route::get('/orders/accept/{id}', [OrdersController::class, 'update'])->name('orders.accept');
 
 
     // Customer Related Routes

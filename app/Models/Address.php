@@ -14,7 +14,7 @@ class Address extends Model
      *
      * @function belongsTo
      */
-    public function getCountry()
+    public function get_country()
     {
         return $this->belongsTo(Country::class, 'country');
     }
@@ -24,7 +24,7 @@ class Address extends Model
      *
      * @function belongsTo
      */
-    public function state()
+    public function get_state()
     {
         return $this->belongsTo(State::class, 'state');
     }

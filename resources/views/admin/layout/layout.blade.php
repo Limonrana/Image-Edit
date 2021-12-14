@@ -337,6 +337,12 @@
             var fancybox = $.HSCore.components.HSFancyBox.init($(this));
         })
 
+        // INITIALIZATION OF JVECTORMAP
+        // =======================================================
+        $('.js-jvectormap').each(function () {
+            var jVectorMap = $.HSCore.components.HSJVectorMap.init($(this));
+        });
+
         @if(Request::is('admin/pages/common*'))
             // INITIALIZATION OF STICKY BLOCKS
             // =======================================================
@@ -425,6 +431,43 @@
                 swalWithBootstrapButtons.fire(
                     'Cancelled',
                     'Your targeted file is safe :)',
+                    'error'
+                )
+            }
+        })
+    });
+
+    $(document).on("click", "#comfimation", function(e){
+        e.preventDefault();
+        let link = $(this).attr('href');
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, want it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (link !== undefined) {
+                    window.location.href = link;
+                }
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Your data wasn\'t changed :)',
                     'error'
                 )
             }

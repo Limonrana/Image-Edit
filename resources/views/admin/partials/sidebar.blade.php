@@ -459,29 +459,23 @@
                         <!-- End Services -->
 
                         <!-- Orders -->
-                        <li class="navbar-vertical-aside-has-menu ">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="Apps">
+                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/orders*') ? 'show' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle {{ Request::is('admin/orders*') ? 'active' : '' }}" href="javascript:;" title="Apps">
                                 <i class="tio-shopping-basket-add nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Orders <span class="badge badge-info badge-pill ml-1">3</span></span>
                             </a>
 
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                 <li class="nav-item">
-                                    <a class="nav-link " href="apps-kanban.html" title="Orders Overview">
+                                    <a class="nav-link {{ Request::is('admin/orders') ? 'active' : '' }}" href="{{ route('orders.index', ['status' => 'all']) }}" title="Orders Overview">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Overview</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link " href="apps-calendar.html" title="Calendar">
+                                    <a class="nav-link {{ Request::is('admin/orders/cancelled') ? 'active' : '' }}" href="{{ route('orders.cancelled.index') }}" title="Orders Cancelled Request">
                                         <span class="tio-circle nav-indicator-icon"></span>
-                                        <span class="text-truncate">Draft Orders</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " href="apps-calendar.html" title="Calendar">
-                                        <span class="tio-circle nav-indicator-icon"></span>
-                                        <span class="text-truncate">Add Order</span>
+                                        <span class="text-truncate">Cancel Request</span>
                                     </a>
                                 </li>
                             </ul>

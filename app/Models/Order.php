@@ -38,4 +38,14 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\Complexity', 'complexity_id');
     }
+
+    /**
+     * This Model relationship with Order Model.
+     *
+     * @function belongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
 }
