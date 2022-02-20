@@ -27,11 +27,6 @@ class PageController extends Controller
     public function index()
     {
         $pages = Page::latest()->get();
-        $common_pages = [
-            ['title' => 'Home', 'slug' => '/', 'route' => 'home'],
-            ['title' => 'About', 'slug' => '/about', 'route' => 'about'],
-            ['title' => 'Contact', 'slug' => '/contact', 'route' => 'contact'],
-        ];
         return view('admin.pages.page.pages', compact('pages'));
     }
 
@@ -155,19 +150,5 @@ class PageController extends Controller
             }
         }
         return $new_meta_keywords;
-    }
-
-
-    // Common Pages Methods Start
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  string  $slug
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function commonEdit($slug)
-    {
-        return view('admin.pages.page.common.'.$slug);
     }
 }

@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\Pageoption;
 use App\Models\Post;
+use App\Models\Project;
+use App\Models\Review;
 use App\Models\Service;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -20,7 +23,32 @@ class PageController extends Controller
     public function home()
     {
         $brands = Client::where('status', true)->latest()->get();
-        return view('frontend.pages.home', compact('brands'));
+        $services = Service::where('status', true)->latest()->get();
+        $blogs = Post::where('status', true)->latest()->take(3)->get();
+        $projects = Project::where('status', true)->latest()->take(6)->get();
+        $page = Pageoption::where('page', 'home')->get();
+        $reviews = Review::where('status', true)->latest()->get();
+        $page_options = [];
+        $selected_services = [];
+        $seo_meta = [];
+        foreach ($page as $option) {
+            if ($option->option == 'home-seo-meta') {
+                $seo_meta = json_decode($option->option_value, true);
+            } else {
+                $page_options[$option->option] = json_decode($option->option_value, true);
+            }
+        }
+        if (isset($page_options['home-service']['home_service_list'])) {
+            foreach ($page_options['home-service']['home_service_list'] as $service) {
+                foreach ($services as $value) {
+                    if ($service == $value->id) {
+                        $selected_services[] = $value;
+                        break;
+                    }
+                }
+            }
+        }
+        return view('frontend.pages.home', compact('page_options', 'brands', 'selected_services', 'blogs', 'projects', 'reviews', 'seo_meta'));
     }
 
     /**
@@ -30,7 +58,18 @@ class PageController extends Controller
      */
     public function about()
     {
-        return view('frontend.pages.about');
+        $page = Pageoption::where('page', 'about')->get();
+        $brands = Client::where('status', true)->latest()->get();
+        $page_options = [];
+        $seo_meta = [];
+        foreach ($page as $option) {
+            if ($option->option == 'about-seo-meta') {
+                $seo_meta = json_decode($option->option_value, true);
+            } else {
+                $page_options[$option->option] = json_decode($option->option_value, true);
+            }
+        }
+        return view('frontend.pages.about', compact('page_options', 'brands', 'seo_meta'));
     }
 
     /**
@@ -40,7 +79,18 @@ class PageController extends Controller
      */
     public function contact()
     {
-        return view('frontend.pages.contact');
+        $page = Pageoption::where('page', 'contact')->get();
+        $brands = Client::where('status', true)->latest()->get();
+        $page_options = [];
+        $seo_meta = [];
+        foreach ($page as $option) {
+            if ($option->option == 'contact-seo-meta') {
+                $seo_meta = json_decode($option->option_value, true);
+            } else {
+                $page_options[$option->option] = json_decode($option->option_value, true);
+            }
+        }
+        return view('frontend.pages.contact', compact('page_options', 'brands', 'seo_meta'));
     }
 
     /**

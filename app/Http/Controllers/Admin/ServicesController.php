@@ -167,22 +167,13 @@ class ServicesController extends Controller
         $service = Service::find($id);
 
         if ($service->featured_image_id !== null) {
-            $featured_upload = Upload::find($service->featured_image_id);
-            // Delete Image from Folder
-            unlink($featured_upload->path);
-            $featured_upload->delete();
+            $this->single_upload_destroy($service->featured_image_id);
         }
         if ($service->banner_image_1 !== null) {
-            $banner1_upload = Upload::find($service->banner_image_1);
-            // Delete Image from Folder
-            unlink($banner1_upload->path);
-            $banner1_upload->delete();
+            $this->single_upload_destroy($service->banner_image_1);
         }
         if ($service->banner_image_2 !== null) {
-            $banner2_upload = Upload::find($service->banner_image_2);
-            // Delete Image from Folder
-            unlink($banner2_upload->path);
-            $banner2_upload->delete();
+            $this->single_upload_destroy($service->banner_image_2);
         }
         $service->delete();
         return Redirect::route('service.index')->with('success', 'Service was successfully deleted!');

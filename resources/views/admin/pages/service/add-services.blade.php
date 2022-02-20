@@ -440,6 +440,7 @@
                             <label for="meta_keywords" class="input-label">SEO Meta Tags</label>
 
                             <input type="text" class="js-tagify tagify-form-control form-control" name="meta_keywords" id="meta_keywords" placeholder="Enter tags here" aria-label="Enter tags here" value="{{ old('meta_keywords') }}">
+
                         </div>
                         <!-- End Body -->
                     </div>

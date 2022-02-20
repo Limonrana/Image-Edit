@@ -10,6 +10,15 @@ class Invoice extends Model
     use HasFactory;
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'due_date' => 'datetime',
+    ];
+
+    /**
      * This Model relationship with Order Model.
      *
      * @function belongsTo

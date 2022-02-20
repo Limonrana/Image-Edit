@@ -215,7 +215,7 @@
                          },
                          "search": "#datatableSearch",
                          "entries": "#datatableEntries",
-                         "pageLength": 15,
+                         "pageLength": 10,
                          "isResponsive": false,
                          "isShowPaging": false,
                          "pagination": "datatablePagination"
@@ -252,7 +252,7 @@
                             <a class="d-flex align-items-center" href="{{ route('customers.edit', $customer->id) }}">
                                 @if ($customer->profile_photo_path !== null)
                                     <div class="avatar avatar-circle">
-                                        <img class="avatar-img" src="{{ asset($customer->image->path) }}" alt="{{$customer->name}}">
+                                        <img class="avatar-img" src="{{asset($customer->profile_photo_path) }}" alt="{{$customer->name}}">
                                     </div>
                                 @else
                                     <div class="avatar avatar-soft-primary avatar-circle">
@@ -266,13 +266,22 @@
                         </td>
                         <td>{{$customer->email}}</td>
                         <td>{{$customer->phone}}</td>
-                        <td>{{$customer->address[0]->getCountry->name}} <span class="text-hide">Code: {{$customer->address[0]->getCountry->iso2}}</span></td>
+                        @if($customer->address)
+                            <td>{{$customer->address->get_country->name}} <span class="text-hide">Code: {{$customer->address->get_country->iso2}}</span></td>
+                        @else
+                            <td>Not Provided</td>
+                        @endif
                         <td>
                             <span class="legend-indicator bg-success"></span>Active
                         </td>
                         <td>{{ count($customer->orders) }}</td>
-                        <td>$3,511.01</td>
-                        <td>Aug 17, 2020, 5:48 (ET)</td>
+                        <td>
+                            @php
+                               $total_spent = \App\Models\Order::where('user_id', $customer->id)->sum('total');
+                            @endphp
+                            ${{ $total_spent }}
+                        </td>
+                        <td>{{ $customer->created_at->diffForHumans() }}</td>
                     </tr>
                     @endforeach
                     </tbody>

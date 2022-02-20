@@ -1,6 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutPageController;
+use App\Http\Controllers\Admin\AppearanceController;
+use App\Http\Controllers\Admin\ContactPageController;
+use App\Http\Controllers\Admin\HomePageController;
+use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ReviewsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\BlogsController;
@@ -82,8 +89,14 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     // Customer Related Routes
     Route::resource('/customers', CustomersController::class);
 
+    // Invoice Related Routes
+    Route::resource('/invoices', InvoiceController::class);
+
     // Clients Related Routes
     Route::resource('/clients', ClientsController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
+
+    // Reviews Related Routes
+    Route::resource('/reviews', ReviewsController::class);
 
     // Blog Comments Related Routes
     Route::resource('/comments', CommentsController::class)->only(['index', 'edit', 'destroy']);
@@ -93,13 +106,33 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     Route::resource('/blog/category', CategoryController::class);
     Route::resource('/blog/tags', TagsController::class);
 
-    // Page Related Routes
-    Route::resource('/pages', PageController::class);
+    // Project Related Routes
+    Route::resource('/projects', ProjectController::class);
 
-    // Common Page Routes
-    Route::get('/pages/common/{slug}/edit', [PageController::class, 'commonEdit'])->name('pages.common.edit');
+    // Page Related Routes
+    Route::resource('/pages', PageController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+
+    // Home Page Routes
+    Route::get('/pages/static/home', [HomePageController::class, 'index'])->name('page.home.index');
+    Route::put('/pages/static/home/about', [HomePageController::class, 'update_about'])->name('page.home.about');
+    Route::put('/pages/static/home/service', [HomePageController::class, 'update_service'])->name('page.home.service');
+    Route::put('/pages/static/home/choose-us', [HomePageController::class, 'update_choose_us'])->name('page.home.choose.us');
+    Route::put('/pages/static/home/achievement', [HomePageController::class, 'update_achievement'])->name('page.home.achievement');
+    Route::put('/pages/static/home/others', [HomePageController::class, 'update_others'])->name('page.home.others');
+    Route::put('/pages/static/home/seo', [HomePageController::class, 'update_seo'])->name('page.home.seo');
+
+    // About Page Routes
+    Route::get('/pages/static/about', [AboutPageController::class, 'index'])->name('page.about.index');
+    Route::put('/pages/static/about/about-us', [AboutPageController::class, 'update_about'])->name('page.about.about-us');
+    Route::put('/pages/static/about/seo', [AboutPageController::class, 'update_seo'])->name('page.about.seo');
+
+    // Contact Page Routes
+    Route::get('/pages/static/contact', [ContactPageController::class, 'index'])->name('page.contact.index');
+    Route::put('/pages/static/contact/info', [ContactPageController::class, 'update_contact'])->name('page.contact.info');
+    Route::put('/pages/static/contact/seo', [ContactPageController::class, 'update_seo'])->name('page.contact.seo');
 
     // Appearances All Routes List
-//    Route::get('/common/pages', []);
+    Route::get('/appearance', [AppearanceController::class, 'index'])->name('appearance.index');
+    Route::put('/appearance/{option}', [AppearanceController::class, 'update'])->name('appearance.update');
 });
 

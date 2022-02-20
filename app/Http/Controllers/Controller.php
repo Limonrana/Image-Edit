@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class Controller extends BaseController
@@ -31,7 +32,7 @@ class Controller extends BaseController
         }
         $file_original_name = $file->getClientOriginalName();
         $fileName = pathinfo($file_original_name,PATHINFO_FILENAME);
-        $image_name = $fileName. '-' .time(). '.' . $file->getClientOriginalExtension();
+        $image_name = $fileName. '-' .time() .'-' . Str::random(20). '.' . $file->getClientOriginalExtension();
         // resizing an uploaded file
         Image::make($file)->save(public_path('uploads/' . $folder .'/' . $image_name));
         // Insert Image Path To Database
@@ -92,6 +93,25 @@ class Controller extends BaseController
     /**
      * Remove the specified upload resource from storage.
      *
+     * @param  int  $id
+     * @return bool
+     */
+    public function single_upload_destroy($id)
+    {
+        $old_upload = Upload::find($id);
+        // Delete Image from Folder
+        if (isset($old_upload)) {
+            unlink($old_upload->path);
+            $old_upload->delete();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Remove the specified upload resource from storage.
+     *
      * @param  array  $files
      * @return bool
      */
@@ -129,6 +149,34 @@ class Controller extends BaseController
                         $generate_array[$key][$keys[$k]] = $value;
                     }
                 }
+            }
+        }
+        return json_encode($generate_array);
+    }
+
+    /**
+     * Manage generate_json list from array to another array.
+     *
+     * @param  array  $array
+     * @param  array  $replace_value
+     * @return array|false|string
+     */
+    protected function generate_page_option($array, $replace_value = [])
+    {
+        $generate_array = [];
+        $arr_new = array_replace($array, $replace_value);
+        // Unset Unused Array Key
+        if (array_key_exists('_method', $arr_new)) {
+            unset($arr_new['_method']);
+        }
+        if (array_key_exists('_token', $arr_new)) {
+            unset($arr_new['_token']);
+        }
+
+        // Filtering array
+        foreach ($arr_new as $key => $value) {
+            if ($value !== null) {
+                $generate_array[$key] = $value;
             }
         }
         return json_encode($generate_array);

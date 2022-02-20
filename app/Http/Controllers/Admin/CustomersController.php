@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Service;
+use App\Models\State;
 use App\Models\Upload;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        $customers = User::all();
+        $customers = User::with(['address.get_country', 'orders'])->latest()->get();
         return view('admin.pages.customer.customers', compact('customers'));
     }
 
@@ -36,7 +37,8 @@ class CustomersController extends Controller
     public function create()
     {
         $countries = Country::all();
-        return view('admin.pages.customer.add-customer', compact('countries'));
+        $states = State::all();
+        return view('admin.pages.customer.add-customer', compact('countries', 'states'));
     }
 
     /**
@@ -106,9 +108,10 @@ class CustomersController extends Controller
     public function edit($id)
     {
         $customer = User::find($id);
-        $address = Address::where('customer_id', $customer->id)->where('is_primary', true)->first();
+        $address = Address::with(['get_state', 'get_country'])->where('user_id', $customer->id)->first();
         $countries = Country::all();
-        return view('admin.pages.customer.edit-customer', compact('customer', 'address', 'countries'));
+        $states = State::all();
+        return view('admin.pages.customer.edit-customer', compact('customer', 'address', 'countries', 'states'));
     }
 
     /**

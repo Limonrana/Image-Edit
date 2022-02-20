@@ -278,7 +278,7 @@
                                                             }' name="country" aria-label="Country name" required data-msg="Please select your country name.">
                                                         <option label="empty"></option>
                                                         @foreach($countries as $country)
-                                                            <option value="{{ $country->id }}" @if(old('country') === $country->id) selected @endif data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{{ asset('assets/vendor/flag-icon-css/flags/1x1/'.strtolower($country->iso2).'.svg') }}" alt="{{ $country->name }} Flag" /><span class="text-truncate">{{ $country->name }}</span></span>'>
+                                                            <option value="{{ $country->id }}" @if(old('country') === $country->id) selected @endif>
                                                                 {{ $country->name }}
                                                             </option>
                                                         @endforeach
@@ -292,6 +292,27 @@
                                             </div>
                                             <!-- End Select -->
 
+                                            <div class="js-form-message">
+                                                <select class="js-select2-custom custom-select" name="state" required size="1" style="opacity: 0;" id="editLocationModalState"
+                                                        data-hs-select2-options='{
+                                                        "customClass": "custom-select",
+                                                        "placeholder": "Select state",
+                                                        "searchInputPlaceholder": "Search a state"
+                                                    }' data-msg="Please select your state name.">
+                                                    <option label="empty"></option>
+                                                    @foreach($states as $state)
+                                                        <option value="{{ $state->id }}" @if(old('state') == $state->id) selected @endif>
+                                                            {{ $state->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('state')
+                                                    <div class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                            </div>
+
                                             <div class="mb-3">
                                                 <div class="js-form-message">
                                                     <input type="text" class="form-control @error('city') is-invalid @enderror" name="city" id="cityLabel" placeholder="City" aria-label="City" data-msg="Please select your city name." value="{{ old('city') }}">
@@ -303,14 +324,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="js-form-message">
-                                                <input type="text" class="form-control @error('state') is-invalid @enderror" name="state" id="stateLabel" placeholder="State" aria-label="State" data-msg="Please select your state name." value="{{ old('state') }}">
-                                                @error('state')
-                                                    <div class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </div>
-                                                @enderror
-                                            </div>
                                         </div>
                                     </div>
                                     <!-- End Form Group -->

@@ -37,7 +37,7 @@ class ClientsController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $upload = $this->upload_image($request->file('image'));
+            $upload = $this->single_upload($request->file('image'), 'clients');
         }
 
         $client             = new Client();
@@ -79,7 +79,7 @@ class ClientsController extends Controller
         $client->name           = $request->name;
         $client->status         = $request->status;
         if ($request->hasFile('image')) {
-            $upload             = $this->upload_image($request->file('image'), $client->image_id);
+            $upload             = $this->single_upload($request->file('image'), 'clients', $client->image_id);
             $client->image_id   = $upload;
         }
         $client->save();
@@ -103,33 +103,5 @@ class ClientsController extends Controller
         }
         $client->delete();
         return Redirect::back()->with('success', 'Client was successfully deleted!');
-    }
-
-    /**
-     * Upload the specified image in storage.
-     *
-     * @param  array  $file
-     * @return \Illuminate\Http\Response
-     */
-    protected function upload_image($file, $image_id = null)
-    {
-        if ($image_id !== null) {
-            $old_upload = Upload::find($image_id);
-            // Delete Image from Folder
-            unlink($old_upload->path);
-            $old_upload->delete();
-        }
-        $image_name = time(). '.' . $file->getClientOriginalExtension();
-        // resizing an uploaded file
-        Image::make($file)->resize(131, 51)->save(public_path('uploads/clients/' . $image_name));
-        // Insert Image Path To Database
-        $upload = new Upload();
-        $upload->name = $image_name;
-        $upload->size = $file->getSize();
-        $upload->type = $file->getMimeType();
-        $upload->path = 'uploads/clients/' . $image_name;
-        $upload->save();
-
-        return $upload->id;
     }
 }

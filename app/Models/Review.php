@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
+
+    /**
+     * This Model relationship with Upload Model.
+     *
+     * @function belongsTo
+     */
+    public function image()
+    {
+        return $this->belongsTo('App\Models\Upload', 'image_id');
+    }
 }

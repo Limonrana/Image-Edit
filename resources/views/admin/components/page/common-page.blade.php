@@ -6,7 +6,7 @@
         </div>
     </td>
     <td class="table-column-pl-0">
-        <a class="d-flex align-items-center" href="{{ route('pages.common.edit', 'home') }}">
+        <a class="d-flex align-items-center" href="{{ route('page.home.index') }}">
             <div class="avatar avatar-soft-dark avatar-circle">
                 <span class="avatar-initials">H</span>
             </div>
@@ -31,7 +31,7 @@
     <td>Default</td>
     <td>
         <div class="btn-group" role="group">
-            <a class="btn btn-sm btn-white" href="{{ route('pages.common.edit', 'home') }}">
+            <a class="btn btn-sm btn-white" href="{{ route('page.home.index') }}">
                 <i class="tio-edit"></i> Edit
             </a>
             <!-- Unfold -->
@@ -44,7 +44,7 @@
                                            }'></a>
 
                 <div id="productsEditDropdownHome" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
-                    <a class="dropdown-item" href="{{ route('pages.show', 'home') }}">
+                    <a class="dropdown-item" href="#">
                         <i class="tio-agenda-view-outlined"></i> Preview
                     </a>
                 </div>
@@ -61,7 +61,7 @@
         </div>
     </td>
     <td class="table-column-pl-0">
-        <a class="d-flex align-items-center" href="{{ route('pages.common.edit', 'about') }}">
+        <a class="d-flex align-items-center" href="{{ route('page.about.index') }}">
             <div class="avatar avatar-soft-dark avatar-circle">
                 <span class="avatar-initials">A</span>
             </div>
@@ -86,7 +86,7 @@
     <td>Default</td>
     <td>
         <div class="btn-group" role="group">
-            <a class="btn btn-sm btn-white" href="{{ route('pages.common.edit', 'about') }}">
+            <a class="btn btn-sm btn-white" href="{{ route('page.about.index') }}">
                 <i class="tio-edit"></i> Edit
             </a>
             <!-- Unfold -->
@@ -99,7 +99,7 @@
                                            }'></a>
 
                 <div id="productsEditDropdownAbout" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
-                    <a class="dropdown-item" href="{{ route('pages.show', 'About') }}">
+                    <a class="dropdown-item" href="#">
                         <i class="tio-agenda-view-outlined"></i> Preview
                     </a>
                 </div>
@@ -116,7 +116,7 @@
         </div>
     </td>
     <td class="table-column-pl-0">
-        <a class="d-flex align-items-center" href="{{ route('pages.common.edit', 'contact') }}">
+        <a class="d-flex align-items-center" href="{{ route('page.contact.index') }}">
             <div class="avatar avatar-soft-dark avatar-circle">
                 <span class="avatar-initials">C</span>
             </div>
@@ -141,7 +141,7 @@
     <td>Default</td>
     <td>
         <div class="btn-group" role="group">
-            <a class="btn btn-sm btn-white" href="{{ route('pages.common.edit', 'contact') }}">
+            <a class="btn btn-sm btn-white" href="{{ route('page.contact.index') }}">
                 <i class="tio-edit"></i> Edit
             </a>
             <!-- Unfold -->
@@ -154,7 +154,7 @@
                                            }'></a>
 
                 <div id="productsEditDropdownContact" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
-                    <a class="dropdown-item" href="{{ route('pages.show', 'Contact') }}">
+                    <a class="dropdown-item" href="#">
                         <i class="tio-agenda-view-outlined"></i> Preview
                     </a>
                 </div>

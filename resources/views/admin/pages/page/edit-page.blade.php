@@ -151,7 +151,7 @@
 
                             <label for="meta_keywords" class="input-label">SEO Meta Tags</label>
 
-                            <input type="text" class="js-tagify tagify-form-control form-control" name="meta_keywords" id="meta_keywords" placeholder="Enter tags here" aria-label="Enter tags here" value="{{ implode(',', json_decode($page->meta_keywords, true)) }}">
+                            <input type="text" class="js-tagify tagify-form-control form-control" name="meta_keywords" id="meta_keywords" placeholder="Enter tags here" aria-label="Enter tags here" value="{{ $page->meta_keywords ? implode(',', json_decode($page->meta_keywords, true)) : null }}">
                         </div>
                         <!-- End Body -->
                     </div>

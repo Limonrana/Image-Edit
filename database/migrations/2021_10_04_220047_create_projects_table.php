@@ -21,11 +21,8 @@ class CreateProjectsTable extends Migration
             $table->longText('description')->nullable();
             $table->longText('working_process')->nullable();
             $table->longText('tools_used')->nullable();
-            $table->dateTime('creating_date')->nullable();
+            $table->string('creating_date')->nullable();
             $table->string('client_name')->nullable();
-            $table->integer('like')->nullable();
-            $table->integer('dislike')->nullable();
-            $table->integer('view')->nullable();
             $table->integer('featured_image_id');
             $table->integer('banner_image_1')->nullable();
             $table->integer('banner_image_2')->nullable();
@@ -33,6 +30,7 @@ class CreateProjectsTable extends Migration
             $table->string('meta_title')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
+            $table->integer('status')->default(true);
             $table->timestamps();
         });
     }

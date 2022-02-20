@@ -241,7 +241,7 @@
                                                 </form>
                                                 <i class="tio-delete-outlined dropdown-item-icon"></i> Delete
                                             </a>
-                                            <a class="dropdown-item" href="{{ route('pages.show', $page->id) }}">
+                                            <a class="dropdown-item" href="#">
                                                 @if($page->status)
                                                     <i class="tio-clear"></i> Unpublish
                                                 @else

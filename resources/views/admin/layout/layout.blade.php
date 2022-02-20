@@ -50,7 +50,7 @@
     </style>
 </head>
 
-<body class="@auth('admin') footer-offset has-navbar-vertical-aside navbar-vertical-aside-show-xl @elseauth() footer-offset @endauth" @if(Request::is('admin/pages/common*')) data-offset="80" data-hs-scrollspy-options='{"target": "#navbarSettings"}' @endif>
+<body class="@auth('admin') footer-offset has-navbar-vertical-aside navbar-vertical-aside-show-xl @elseauth() footer-offset @endauth" @if(Request::is('admin/pages*') || Request::is('admin/appearance*')) data-offset="80" data-hs-scrollspy-options='{"target": "#navbarSettings"}' @endif>
 
 <script src="{{ asset('assets/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js') }}"></script>
 
@@ -343,7 +343,7 @@
             var jVectorMap = $.HSCore.components.HSJVectorMap.init($(this));
         });
 
-        @if(Request::is('admin/pages/common*'))
+        @if(Request::is('admin/pages*') || Request::is('admin/appearance*'))
             // INITIALIZATION OF STICKY BLOCKS
             // =======================================================
             $('.js-sticky-block').each(function () {

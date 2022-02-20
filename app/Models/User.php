@@ -68,4 +68,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Address::class);
     }
+
+    /**
+     * This Model relationship with Address Model.
+     *
+     * @function belongsTo
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

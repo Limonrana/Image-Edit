@@ -1,3 +1,18 @@
+@php
+    $logo = null;
+    $header_option = null;
+    if (appearance('header')) {
+        $header_option = json_decode(appearance('header')->option_value, true);
+        if (array_key_exists('header_logo', json_decode(appearance('header')->option_value, true))) {
+            $logo_id = json_decode(appearance('header')->option_value, true)['header_logo'];
+            $upload = \App\Models\Upload::find($logo_id);
+            if (isset($upload)) {
+                $logo = $upload->path;
+            }
+        }
+    }
+@endphp
+
 <div class="header__main header-sticky header-main-1">
     <div class="container">
         <div class="row">
@@ -6,8 +21,12 @@
                     <div class="logo-bg-1">
                         <img src="{{ asset('img/shape/logo-bg-1.png') }}" alt="logo-bg">
                     </div>
-                    <a class="logo-text-white" href="{{ route('store.home') }}"><img src="{{ asset('img/logo/logo.png') }}" alt="logo"></a>
-                    <a class="logo-text-black" href="{{ route('store.home') }}"><img src="{{ asset('img/logo/logo-text-black.png') }}" alt="logo-text-black"></a>
+                    <a class="logo-text-white" href="{{ route('store.home') }}">
+                        <img src="{{ asset($logo ? $logo : 'img/logo/logo.png') }}" alt="logo" width="{{ $header_option ? $header_option['header_logo_width'] : '' }}" height="{{ $header_option ? $header_option['header_logo_height'] : '' }}">
+                    </a>
+                    <a class="logo-text-black" href="{{ route('store.home') }}">
+                        <img src="{{ asset($logo ? $logo : 'img/logo/logo-text-black.png') }}" alt="logo-text-black" width="{{ $header_option ? $header_option['header_logo_width'] : '' }}" height="{{ $header_option ? $header_option['header_logo_height'] : '' }}">
+                    </a>
                 </div>
             </div>
             <div class="col-xl-10 col-lg-9 col-4">
@@ -34,14 +53,11 @@
                         </nav>
                     </div>
                     <div class="header__search">
-                        <a class="search-btn nav-search search-trigger d-none d-sm-inline-block" href="#"><i
-                                class="fal fa-search"></i></a>
-                        <a class="side-toggle d-lg-none" href="javascript:void(0)"><i
-                                class="fal fa-bars"></i></a>
+                        <a class="search-btn nav-search search-trigger d-none d-sm-inline-block" href="#"><i class="fal fa-search"></i></a>
+                        <a class="side-toggle d-lg-none" href="javascript:void(0)"><i class="fal fa-bars"></i></a>
                     </div>
                     <div class="header__btn d-none d-xl-inline-block">
-                        <a href="{{ route('login') }}" class="grb-btn">LOGIN<i
-                                class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('login') }}" class="grb-btn">LOGIN<i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>

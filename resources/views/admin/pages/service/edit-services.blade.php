@@ -106,8 +106,8 @@
                             <!-- Gallery -->
                             <div id="fancyboxGallery" class="js-fancybox row justify-content-sm-center gx-2"
                                  data-hs-fancybox-options='{
-                       "selector": "#fancyboxGallery .js-fancybox-item"
-                     }'>
+                                   "selector": "#fancyboxGallery .js-fancybox-item"
+                                 }'>
                                 <div class="col-4 mb-3 mb-lg-5">
                                     <!-- Card -->
                                     <div class="card card-sm">

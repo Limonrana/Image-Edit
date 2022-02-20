@@ -42,7 +42,7 @@
                         <div class="d-flex align-items-center mb-5">
                             @if ($customer->profile_photo_path !== null)
                                 <div class="avatar avatar-lg avatar-circle">
-                                    <img class="avatar-img" src="{{ asset($customer->image->path) }}" alt="{{$customer->name}}">
+                                    <img class="avatar-img" src="{{ asset($customer->profile_photo_path) }}" alt="{{$customer->name}}">
                                 </div>
                             @else
                                 <div class="avatar avatar-lg avatar-soft-primary avatar-circle">
@@ -133,7 +133,7 @@
                                 </li>
                                 <li>
                                     <i class="tio-city nav-icon"></i>
-                                    {{ isset($customer->address->company_name) ? $customer->address->company_name : 'Not Provided' }}
+                                    {{ isset($address->company_name) ? $address->company_name : 'Not Provided' }}
                                 </li>
 
                                 <li class="pt-2 pb-0">
@@ -255,326 +255,61 @@
                                 <th class="table-column-pl-0">Order</th>
                                 <th>Date</th>
                                 <th>Payment status</th>
+                                <th>Order status</th>
                                 <th>Total</th>
                                 <th>Invoice</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck1">
-                                        <label class="custom-control-label" for="ordersCheck1"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a href="ecommerce-order-details.html">#35463</a>
-                                </td>
-                                <td>Aug 17, 2020</td>
-                                <td>
-                                    <span class="badge badge-soft-success">
-                                      <span class="legend-indicator bg-success"></span>Paid
-                                    </span>
-                                </td>
-                                <td>$256.39</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck2">
-                                        <label class="custom-control-label" for="ordersCheck2"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a href="ecommerce-order-details.html">#23513</a>
-                                </td>
-                                <td>Aug 17, 2020</td>
-                                <td>
-                                    <span class="badge badge-soft-success">
-                                      <span class="legend-indicator bg-success"></span>Paid
-                                    </span>
-                                </td>
-                                <td>$2,125.00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck3">
-                                        <label class="custom-control-label" for="ordersCheck3"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a href="ecommerce-order-details.html">#62311</a>
-                                </td>
-                                <td>Aug 03, 2020</td>
-                                <td>
-                                    <span class="badge badge-soft-success">
-                                      <span class="legend-indicator bg-success"></span>Paid
-                                    </span>
-                                </td>
-                                <td>$532.99</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck4">
-                                        <label class="custom-control-label" for="ordersCheck4"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a href="ecommerce-order-details.html">#12453</a>
-                                </td>
-                                <td>July 29, 2020</td>
-                                <td>
-                                    <span class="badge badge-soft-warning">
-                                      <span class="legend-indicator bg-warning"></span>Pending
-                                    </span>
-                                </td>
-                                <td>$1,035.02</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck5">
-                                        <label class="custom-control-label" for="ordersCheck5"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a href="ecommerce-order-details.html">#84223</a>
-                                </td>
-                                <td>July 11, 2020</td>
-                                <td>
-                                    <span class="badge badge-soft-success">
-                                      <span class="legend-indicator bg-success"></span>Paid
-                                    </span>
-                                </td>
-                                <td>$68.53</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck6">
-                                        <label class="custom-control-label" for="ordersCheck6"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a href="ecommerce-order-details.html">#46542</a>
-                                </td>
-                                <td>July 04, 2020</td>
-                                <td>
-                                    <span class="badge badge-soft-success">
-                                      <span class="legend-indicator bg-success"></span>Paid
-                                    </span>
-                                </td>
-                                <td>$100.00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck7">
-                                        <label class="custom-control-label" for="ordersCheck7"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a class="text-danger" href="ecommerce-order-details.html">#35378</a>
-                                    <i class="tio-warning text-warning"></i>
-                                </td>
-                                <td>June 27, 2020</td>
-                                <td>
-                                    <span class="badge badge-soft-warning">
-                                      <span class="legend-indicator bg-warning"></span>Pending
-                                    </span>
-                                </td>
-                                <td class="text-danger">$89.46</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck8">
-                                        <label class="custom-control-label" for="ordersCheck8"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a class="text-danger" href="ecommerce-order-details.html">#24562</a>
-                                    <i class="tio-warning text-warning"></i>
-                                </td>
-                                <td>June 15, 2020</td>
-                                <td>
-                                    <span class="badge badge-soft-warning">
-                                      <span class="legend-indicator bg-warning"></span>Pending
-                                    </span>
-                                </td>
-                                <td class="text-danger">$3,535.46</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck9">
-                                        <label class="custom-control-label" for="ordersCheck9"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a href="ecommerce-order-details.html">#78531</a>
-                                </td>
-                                <td>June 12, 2020</td>
-                                <td>
-                                    <span class="badge badge-soft-success">
-                                      <span class="legend-indicator bg-success"></span>Paid
-                                    </span>
-                                </td>
-                                <td>$23.89</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck10">
-                                        <label class="custom-control-label" for="ordersCheck10"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a href="ecommerce-order-details.html">#34634</a>
-                                </td>
-                                <td>June 02, 2020</td>
-                                <td>
-                        <span class="badge badge-soft-success">
-                          <span class="legend-indicator bg-success"></span>Paid
-                        </span>
-                                </td>
-                                <td>$77.00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck11">
-                                        <label class="custom-control-label" for="ordersCheck11"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a class="text-danger" href="ecommerce-order-details.html">#93817</a>
-                                    <i class="tio-warning text-warning"></i>
-                                </td>
-                                <td>May 30, 2020</td>
-                                <td>
-                        <span class="badge badge-soft-warning">
-                          <span class="legend-indicator bg-warning"></span>Pending
-                        </span>
-                                </td>
-                                <td class="text-danger">$77.00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck12">
-                                        <label class="custom-control-label" for="ordersCheck12"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a href="ecommerce-order-details.html">#43113</a>
-                                </td>
-                                <td>May 25, 2020</td>
-                                <td>
-                        <span class="badge badge-soft-success">
-                          <span class="legend-indicator bg-success"></span>Paid
-                        </span>
-                                </td>
-                                <td>$1,421.47</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="table-column-pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="ordersCheck13">
-                                        <label class="custom-control-label" for="ordersCheck13"></label>
-                                    </div>
-                                </td>
-                                <td class="table-column-pl-0">
-                                    <a href="ecommerce-order-details.html">#12412</a>
-                                </td>
-                                <td>May 16, 2020</td>
-                                <td>
-                        <span class="badge badge-soft-success">
-                          <span class="legend-indicator bg-success"></span>Paid
-                        </span>
-                                </td>
-                                <td>$45.00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
-                                        <i class="tio-receipt-outlined mr-1"></i> Invoice
-                                    </a>
-                                </td>
-                            </tr>
+                                @foreach($customer->orders as $order)
+                                    <tr>
+                                        <td class="table-column-pr-0">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="ordersCheck1">
+                                                <label class="custom-control-label" for="ordersCheck1"></label>
+                                            </div>
+                                        </td>
+                                        <td class="table-column-pl-0">
+                                            <a href="{{ route('orders.edit', $order->order_number) }}">#ORDER-{{ $order->order_number }}</a>
+                                        </td>
+                                        <td>{{ $order->created_at->diffForHumans() }}</td>
+                                        <td>
+                                            <span class="badge @if($order->payment_status === 'Paid') badge-soft-success @else badge-soft-danger @endif">
+                                              <span class="legend-indicator @if($order->payment_status === 'Paid') bg-success @else bg-danger @endif"></span>{{ $order->payment_status }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @if ($order->status === 0)
+                                                <span class="badge badge-soft-warning">
+                                                  <span class="legend-indicator bg-warning"></span>UnderReview
+                                                </span>
+                                                    @elseif($order->status === 1)
+                                                        <span class="badge badge-soft-info">
+                                                  <span class="legend-indicator bg-info"></span>Open
+                                                </span>
+                                                    @elseif($order->status === 2)
+                                                        <span class="badge badge-soft-dark">
+                                                  <span class="legend-indicator btn-ghost-dark"></span>Delivered
+                                                </span>
+                                                    @elseif($order->status === 3)
+                                                        <span class="badge badge-soft-success">
+                                                  <span class="legend-indicator bg-success"></span>Completed
+                                                </span>
+                                                    @else
+                                                        <span class="badge badge-soft-danger">
+                                                  <span class="legend-indicator bg-danger"></span>Cancelled
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td>${{  number_format(floatval($order->total), 2, '.', '') }}</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
+                                                <i class="tio-receipt-outlined mr-1"></i> Invoice
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -596,9 +331,13 @@
                                                 "dropdownAutoWidth": true,
                                                 "width": true
                                               }'>
-                                        <option value="12" selected>5</option>
-                                        <option value="14">10</option>
-                                        <option value="16">13</option>
+                                        @if (count($customer->orders) > 5)
+                                            @for($i = 5; $i <= count($customer->orders); $i += 5)
+                                                <option value="{{ $i }}" @if($i === 10) selected @endif>{{ $i }}</option>
+                                            @endfor
+                                        @else
+                                            <option value="{{ count($customer->orders) }}" selected>{{ count($customer->orders) }}</option>
+                                        @endif
                                     </select>
                                     <!-- End Select -->
 
@@ -642,31 +381,35 @@
                             </li>
                             <!-- End Step Item -->
 
-                            <!-- Step Item -->
-                            <li class="step-item">
-                                <div class="step-content-wrapper">
-                                    <span class="step-icon step-icon-soft-dark step-icon-pseudo"></span>
+                            @if(isset($customer->email_varified_at))
+                                <!-- Step Item -->
+                                <li class="step-item">
+                                    <div class="step-content-wrapper">
+                                        <span class="step-icon step-icon-soft-dark step-icon-pseudo"></span>
 
-                                    <div class="step-content">
-                                        <h5 class="mb-0">Customer verified the account.</h5>
-                                        <p class="font-size-sm mb-0">{{ $customer->email_varified_at ? $customer->email_varified_at->diffForHumans() : 'Not Verified' }}</p>
+                                        <div class="step-content">
+                                            <h5 class="mb-0">Customer verified the account.</h5>
+                                            <p class="font-size-sm mb-0">{{ $customer->email_varified_at->diffForHumans() }}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                            <!-- End Step Item -->
+                                </li>
+                                <!-- End Step Item -->
+                            @endif
 
-                            <!-- Step Item -->
-                            <li class="step-item">
-                                <div class="step-content-wrapper">
-                                    <span class="step-icon step-icon-soft-dark step-icon-pseudo"></span>
+                            @if(isset($address))
+                                <!-- Step Item -->
+                                <li class="step-item">
+                                    <div class="step-content-wrapper">
+                                        <span class="step-icon step-icon-soft-dark step-icon-pseudo"></span>
 
-                                    <div class="step-content">
-                                        <h5 class="mb-0">Customer added the billing details.</h5>
-                                        <p class="font-size-sm mb-0">{{ $customer->created_at }}</p>
+                                        <div class="step-content">
+                                            <h5 class="mb-0">Customer added the billing details.</h5>
+                                            <p class="font-size-sm mb-0">{{ $address->created_at->diffForHumans() }}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                            <!-- End Step Item -->
+                                </li>
+                                <!-- End Step Item -->
+                            @endif
 
                             <!-- Step Item -->
                             <li class="step-item">
@@ -674,8 +417,8 @@
                                     <span class="step-icon step-icon-soft-dark step-icon-pseudo"></span>
 
                                     <div class="step-content">
-                                        <h5 class="mb-0">CUstomer created this customer.</h5>
-                                        <p class="font-size-sm mb-0">{{ $customer->created_at }}</p>
+                                        <h5 class="mb-0">Customer created account.</h5>
+                                        <p class="font-size-sm mb-0">{{ $customer->created_at->diffForHumans() }}</p>
                                     </div>
                                 </div>
                             </li>
@@ -733,7 +476,7 @@
                                      "iconSize": [20, 15]
                                    },
                                    "popup": {
-                                     "text": "{{ $address->city.', ' .$address->state.', '.$address->getCountry->name  }}"
+                                     "text": "{{ $address->city.', ' .$address->state.', '.$address->get_country->name  }}"
                                    }
                                  }
                                ]
@@ -742,9 +485,11 @@
 
                         <span class="d-block">
                           {{ $address->address_line_1 }}<br>
-                          {{ $address->address_line_2 ?? $address->address_line_2 }}<br>
-                          {{ $address->city }}, {{ $address->state }} - {{ $address->zip_code }}<br>
-                          {{ $address->getCountry->name }}
+                            @if($address->address_line_2)
+                                {{ $address->address_line_2 }}<br>
+                            @endif
+                          {{ $address->city }}, {{ $address->get_state->name }} - {{ $address->zip_code }}<br>
+                          {{ $address->get_country->name }}
                         </span>
                     </div>
                     <!-- End Body -->
@@ -761,9 +506,9 @@
 
                     <!-- Body -->
                     <div class="card-body">
-                <span class="h3">
-                  <span class="badge badge-soft-dark badge-pill">Subscribed</span>
-                </span>
+                        <span class="h3">
+                          <span class="badge badge-soft-dark badge-pill">Subscribed</span>
+                        </span>
                     </div>
                     <!-- Body -->
                 </div>
@@ -828,7 +573,7 @@
 
                                 <!-- Avatar -->
                                 <label class="avatar avatar-xxl avatar-circle avatar-border-lg avatar-uploader profile-cover-avatar mb-5" for="editAvatarUploaderModal">
-                                    <img id="editAvatarImgModal" class="avatar-img" src="{{ asset($customer->profile_photo_path ? $customer->image->path :'assets/img/160x160/img1.jpg') }}" alt="{{ $customer->name }}">
+                                    <img id="editAvatarImgModal" class="avatar-img" src="{{ asset($customer->profile_photo_path ? $customer->profile_photo_path :'assets/img/160x160/img1.jpg') }}" alt="{{ $customer->name }}">
                                     <input type="file" name="avatar" class="js-file-attach avatar-uploader-input" id="editAvatarUploaderModal"
                                            data-hs-file-attach-options='{
                                                 "textTarget": "#editAvatarImgModal",
@@ -902,7 +647,7 @@
                                     <div class="col-sm-9">
                                         <!-- Select -->
                                         <div class="js-form-message mb-3">
-                                            <select class="js-select2-custom custom-select" name="country" required size="1" style="opacity: 0;" id="editLocationModalLabel"
+                                            <select class="js-select2-custom custom-select" name="country" required size="1" style="opacity: 0;" id="editLocationModalCountry"
                                                     data-hs-select2-options='{
                                                         "customClass": "custom-select",
                                                         "placeholder": "Select country",
@@ -910,8 +655,26 @@
                                                     }'>
                                                 <option label="empty"></option>
                                                 @foreach($countries as $country)
-                                                    <option value="{{ $country->id }}" @if($address->country == $country->id) selected @endif data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{{ asset('assets/vendor/flag-icon-css/flags/1x1/'.strtolower($country->iso2).'.svg') }}" alt="{{ $country->name }} Flag" /><span class="text-truncate">{{ $country->name }}</span></span>'>
+                                                    <option value="{{ $country->id }}" @if($address->country == $country->id) selected @endif>
                                                         {{ $country->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <!-- End Select -->
+
+                                        <!-- Select -->
+                                        <div class="js-form-message mb-3">
+                                            <select class="js-select2-custom custom-select" name="state" required size="1" style="opacity: 0;" id="editLocationModalState"
+                                                    data-hs-select2-options='{
+                                                        "customClass": "custom-select",
+                                                        "placeholder": "Select state",
+                                                        "searchInputPlaceholder": "Search a state"
+                                                    }'>
+                                                <option label="empty"></option>
+                                                @foreach($states as $state)
+                                                    <option value="{{ $state->id }}" @if($address->state == $state->id) selected @endif>
+                                                        {{ $state->name }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -921,7 +684,6 @@
                                         <div class="js-form-message mb-3">
                                             <input type="text" class="form-control" name="city" required id="editCityModalLabel" placeholder="City" aria-label="City" value="{{ $address->city }}">
                                         </div>
-                                        <input type="text" class="form-control" name="state" required id="editStateModalLabel" placeholder="State" aria-label="State" value="{{ $address->state }}">
                                     </div>
                                 </div>
                                 <!-- End Form Group -->
@@ -983,11 +745,6 @@
 
 @section('script')
     <script>
-        // INITIALIZATION OF QUILLJS EDITOR
-        // =======================================================
-        var quill = $.HSCore.components.HSQuill.init('.js-quill');
-        var quill = $.HSCore.components.HSQuill.init('.js-quill-step');
-
         // INITIALIZATION OF FORM VALIDATION
         // =======================================================
         $('.js-validate').each(function() {
@@ -1028,11 +785,6 @@
                 id: 'mapbox/light-v9'
             }).addTo(leaflet);
         });
-
-        // $('#title').keyup(function () {
-        //     $('#slug').val($(this).val().toLowerCase().split(',').join('').replace(/\s/g,"-"));
-        //     $('#meta_title').val($(this).val());
-        // });
 
     </script>
 @endsection
