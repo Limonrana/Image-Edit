@@ -56,9 +56,15 @@
                         <a class="search-btn nav-search search-trigger d-none d-sm-inline-block" href="#"><i class="fal fa-search"></i></a>
                         <a class="side-toggle d-lg-none" href="javascript:void(0)"><i class="fal fa-bars"></i></a>
                     </div>
-                    <div class="header__btn d-none d-xl-inline-block">
-                        <a href="{{ route('login') }}" class="grb-btn">LOGIN<i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    @auth('web')
+                        <div class="header__btn d-none d-xl-inline-block">
+                            <a href="{{ route('user.dashboard') }}" class="grb-btn">DASHBOARD<i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    @else
+                        <div class="header__btn d-none d-xl-inline-block">
+                            <a href="{{ route('login') }}" class="grb-btn">LOGIN<i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    @endauth
                 </div>
             </div>
         </div>

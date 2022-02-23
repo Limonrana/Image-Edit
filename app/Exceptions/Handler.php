@@ -34,7 +34,7 @@ class Handler extends ExceptionHandler
                     return response()->redirectTo('admin/dashboard');
                 }
                 else {
-                    return response()->view('404.404', [], 404);
+                    return response()->view('errors.404', [], 404);
                 }
             }
         }

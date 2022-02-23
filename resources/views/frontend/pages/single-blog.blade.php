@@ -1,6 +1,9 @@
 @extends('frontend.layout.layout')
 
 @section('site_title', $blog->title.' - Car Image Editing | Digital Agency')
+@section('meta_title', $blog->meta_title ?? $blog->meta_title ?? 'Single Blog - Car Image Editing | Digital Agency')
+@section('meta_keywords', $blog->meta_keywords ? implode(',', json_decode($blog->meta_keywords, true)) : null)
+@section('meta_description', $blog->meta_description ??  $blog->meta_description)
 
 @section('content')
     <main>
@@ -11,7 +14,7 @@
                     <div class="col-lg-12">
                         <div class="page-title-content text-center">
                             <div class="page-title-heading">
-                                <h1>Blog Single</h1>
+                                <h1>{{ $blog->title }}</h1>
                             </div>
                             <nav class="grb-breadcrumb">
                                 <ol class="breadcrumb">
@@ -83,16 +86,18 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="article-nav-content pr-100">
-                                                    <span>Previous Article</span>
-                                                    <h6><a href="blog-details.html">What Do I Need to Make It in the
-                                                            World of Business?</a></h6>
+                                                    @if($previous !== null)
+                                                        <span>Previous Article</span>
+                                                        <h6><a href="{{ route('store.blog.show', $previous->slug) }}">{{ $previous->title }}</a></h6>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="article-nav-content next-article pl-100">
-                                                    <span>Next Article</span>
-                                                    <h6><a href="blog-details.html">If You Only Knew How Much Your
-                                                            Outfit Choices Actually Matter</a></h6>
+                                                    @if($next !== null)
+                                                        <span>Next Article</span>
+                                                        <h6><a href="{{ route('store.blog.show', $next->slug) }}">{{ $next->title }}</a></h6>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -100,50 +105,59 @@
                                     <hr>
                                     <div id="comments" class="post-comments">
                                         <div class="post-comment-title mb-40">
-                                            <h3>3 Comments</h3>
+                                            <h3>{{ count($comments) > 1 ? count($comments).' Comments' : count($comments).' Comment' }}</h3>
                                         </div>
-                                        <div class="latest-comments">
-                                            <ul>
-                                                <li>
-                                                    <div class="comments-box">
-                                                        <div class="comments-avatar">
-                                                            <img src="{{ asset('img/blog/comment/avatar-1.jpg') }}" alt="">
-                                                        </div>
-                                                        <div class="comments-text">
-                                                            <div class="avatar-name">
-                                                                <h5>Ronjit Chandra Ukil</h5>
-                                                                <span class="post-date ">28 March, 2021</span>
-                                                                <span class="post-time ">10:21 am</span>
+                                        @if(count($comments) > 0)
+                                            <div class="latest-comments">
+                                                <ul>
+                                                    @foreach($comments as $comment)
+                                                        <li>
+                                                            <div class="comments-box">
+                                                                <div class="comments-avatar">
+                                                                    <img src="{{ asset($comment->customer_id ? $comment->user->profile_photo_url : 'https://ui-avatars.com/api/?name='.$comment->name.'&color=7F9CF5&background=EBF4FF') }}" alt="{{ $comment->name }}" style="min-width: 75px;">
+                                                                </div>
+                                                                <div class="comments-text">
+                                                                    <div class="avatar-name">
+                                                                        <h5>{{ $comment->name }}</h5>
+                                                                        <span class="post-date ">{{ $comment->created_at->format('d M, Y') }}</span>
+                                                                        <span class="post-time ">{{ $comment->created_at->format('h:i A') }}</span>
+                                                                    </div>
+                                                                    <p>{{ $comment->comment }}</p>
+                                                                </div>
                                                             </div>
-                                                            <p>I believe everyone should have the opportunity to create
-                                                                the progress through the technology and develop the
-                                                                skills.
-                                                                Luxury home prices in Sydney declined for the first time
-                                                                in years slipping between the second quarter.</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="post-comment-form mb-30">
                                         <h4>Leave a Comment </h4>
-                                        <form action="#">
+                                        <form action="{{ route('store.blog.comment', $blog->id) }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="customer_id" value="{{ auth()->id() }}">
                                             <div class="row">
-                                                <div class="col-xl-6">
-                                                    <div class="post-input">
-                                                        <input type="text" placeholder="Name">
+                                                @if(auth()->check())
+                                                    <input type="hidden" name="name" value="{{ auth()->user()->name }}" placeholder="Name">
+                                                @else
+                                                    <div class="col-xl-6">
+                                                        <div class="post-input">
+                                                                <input type="text" name="name" placeholder="Name">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <div class="post-input">
-                                                        <input type="text" placeholder="Email">
+                                                @endif
+                                                @if(auth()->check())
+                                                    <input type="hidden" name="email" value="{{ auth()->user()->email }}" placeholder="Email">
+                                                @else
+                                                    <div class="col-xl-6">
+                                                        <div class="post-input">
+                                                                <input type="text" name="email" placeholder="Email">
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                                 <div class="col-xl-12">
                                                     <div class="post-input">
-                                                        <textarea name="message" id="message"
-                                                                  placeholder="Comment...."></textarea>
+                                                        <textarea name="comment" id="message" placeholder="Comment...."></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -154,171 +168,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="blog-sidebar">
-                            <div class="bs-widget mb-30 sidebar-search">
-                                <form class="search-form">
-                                    <div class="search-input-field bss">
-                                        <input type="text" placeholder="Search Keywords">
-                                        <button type="submit"><i class="far fa-search"></i>Search</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="bs-widget mb-30">
-                                <div class="bs-widget-title mb-40">
-                                    <h5>Categories</h5>
-                                </div>
-                                <ul class="bs-category-list">
-                                    @if (count($categories) > 0)
-                                        @foreach($categories as $category)
-                                            <li>
-                                                <a href="#">
-                                                    <p>{{ $category->name }}</p><span>({{ count($category->posts) }})</span>
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    @else
-                                        <li>
-                                            <p>OOPS! Category is empty!</p>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </div>
-                            <div class="bs-widget mb-30">
-                                <div class="bs-widget-title mb-40">
-                                    <h5>Recent Posts</h5>
-                                </div>
-                                <ul class="bs-post">
-                                    @if (count($recent_blogs) > 0)
-                                        @foreach($recent_blogs as $recent_blog)
-                                            <li class="bs-post-single">
-                                                <div class="bs-post-img">
-                                                    <a href="{{ route('store.blog.show', $recent_blog->slug) }}">
-                                                        <img src="{{ asset($recent_blog->image->path) }}" style="height: 70px; width: 100%;" alt="{{ $recent_blog->title }}">
-                                                    </a>
-                                                </div>
-                                                <div class="bs-post-content">
-                                                    <h6><a href="{{ route('store.blog.show', $recent_blog->slug) }}">{{ \Illuminate\Support\Str::limit($recent_blog->title, 40) }}</a></h6>
-                                                    <span>{{ $recent_blog->created_at->format('d M Y') }} </span>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    @else
-                                        <li class="bs-post-single">
-                                            <div class="bs-post-content">
-                                                <h6>OOPS! Recent post is empty!</h6>
-                                            </div>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </div>
-                            <div class="bs-widget mb-30 widget-tag">
-                                <div class="bs-widget-title mb-40">
-                                    <h5>Popular Tages</h5>
-                                </div>
-                                <ul class="bs-tags">
-                                    <li><a class="grb-tag" href="#">Business</a></li>
-                                    <li><a class="grb-tag" href="#">Corporate</a></li>
-                                    <li><a class="grb-tag" href="#">Financial</a></li>
-                                    <li><a class="grb-tag" href="#">Web Development</a></li>
-                                    <li><a class="grb-tag" href="#">UI/UX Research</a></li>
-                                    <li><a class="grb-tag" href="#">Branding</a></li>
-                                    <li><a class="grb-tag" href="#">Website</a></li>
-                                    <li><a class="grb-tag" href="#">Web Plans</a></li>
-                                </ul>
-                            </div>
-                            <div class="bs-widget mb-30 bs-ad-container">
-                                <div class="bs-ad-inner p-relative">
-                                    <div class="bs-ad-inner-content">
-                                        <div class="bs-ad-inner-text">
-                                            <p>Business<br><span>Advertisement</span></p>
-                                            <span>370 x 550</span>
-                                        </div>
-                                    </div>
-                                    <a href="#">
-                                        <img src="{{ asset('img/blog/bs-ad.jpg') }}" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @include('frontend.components.blog.sidebar')
                 </div>
             </div>
         </div>
         <!-- blog area end  -->
         <!-- brand area start  -->
-        <div class="brand-area pt-70 pb-100">
-            <div class="container">
-                <div class="row wow fadeInUp">
-                    <div class="col-12">
-                        <div class="swiper-container brand-active">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand1.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand1-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand2.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand2-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand3.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand3-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand4.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand4-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand5.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand5-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand1.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand1-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand2.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand2-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand3.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand3-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand4.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand4-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="single-brand">
-                                        <a href="#"><img src="{{ asset('img/brand/brand5.png') }}" alt=""></a>
-                                        <a href="#"><img src="{{ asset('img/brand/brand5-wc.png') }}" alt=""></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('frontend.components.blog.brand-area')
         <!-- brand area end -->
     </main>
 @endsection

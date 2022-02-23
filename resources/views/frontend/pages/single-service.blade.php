@@ -1,6 +1,9 @@
 @extends('frontend.layout.layout')
 
 @section('site_title', $service->title.' - Car Image Editing | Digital Agency')
+@section('meta_title', $service->meta_title ?? $service->meta_title ?? 'Single Service - Car Image Editing | Digital Agency')
+@section('meta_keywords', $service->meta_keywords ? implode(',', json_decode($service->meta_keywords, true)) : null)
+@section('meta_description', $service->meta_description ??  $service->meta_description)
 
 @section('content')
     <main>

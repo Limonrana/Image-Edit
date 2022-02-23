@@ -22,6 +22,7 @@ Route::get('/contact', [PageController::class, 'contact'])->name('store.contact'
 
 Route::get('/blogs', [PageController::class, 'blogs'])->name('store.blogs');
 Route::get('/blogs/{slug}', [PageController::class, 'blogShow'])->name('store.blog.show');
+Route::post('/blogs/{id}/comment', [PageController::class, 'storeBlogComment'])->name('store.blog.comment');
 
 Route::get('/projects', [PageController::class, 'projects'])->name('store.projects');
 Route::get('/projects/{slug}', [PageController::class, 'projectShow'])->name('store.project.show');

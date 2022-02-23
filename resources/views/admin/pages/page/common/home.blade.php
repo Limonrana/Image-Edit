@@ -55,7 +55,12 @@
                                    "stickyOffsetTop": 20
                                  }'>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="#aboutSection">
+                                    <a class="nav-link active" href="#sliderSection">
+                                        <i class="tio-carousel-vertical-outlined nav-icon"></i> Hero Slider
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#aboutSection">
                                         <i class="tio-user-outlined nav-icon"></i> About Company
                                     </a>
                                 </li>
@@ -92,6 +97,12 @@
                 </div>
 
                 <div class="col-lg-9">
+                    <!-- Hero Slider section -->
+                    <div id="sliderSection">
+                        @include('admin.components.page.home.sliders-section')
+                    </div>
+                    <!-- End Hero Slider section -->
+
                     <!-- About section -->
                     <div id="aboutSection">
                         @include('admin.components.page.home.about-section')

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\Comment;
 use App\Models\Pageoption;
 use App\Models\Post;
 use App\Models\Project;
@@ -12,6 +13,8 @@ use App\Models\Review;
 use App\Models\Service;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Redirect;
 
 class PageController extends Controller
 {
@@ -98,14 +101,41 @@ class PageController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function blogs()
+    public function blogs(Request $request)
     {
-        $blogs = Post::where('status', true)->latest()->paginate(10);
+        // Search Query String
+        $search = $request->search;
+        // Find Specific Category Related Blogs Query String
+        $category = $request->category;
+        $category_id = $request->cid;
+        // Find Specific Tags Related Blogs Query String
+        $tag = $request->tag;
+        $tag_id = $request->tid;
+        if (isset($search)) {
+            $blogs = Post::where('status', true)->where('title', 'LIKE', '%' . $search . '%')->latest()->paginate(10);
+        } else if (isset($category_id) && isset($category)) {
+            $blogs = Post::where('status', true)->where('category_id', $category_id)->latest()->paginate(10);
+        } else if (isset($tag) && isset($tag_id)) {
+            $tag_blogs = Tag::whereHas('blogs', function ($query) {
+                            return $query->where('status', '=', true);
+                        })->with('blogs')->find($tag_id);
+            if (isset($tag_blogs)) {
+                $blogs = $tag_blogs->blogs()->latest()->paginate(1000);
+            } else {
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $items = [];
+                $currentItems = array_slice($items, 10 * ($currentPage - 1), 10);
+                $paginator = new LengthAwarePaginator($currentItems, count($items), 10, $currentPage);
+                $blogs = $paginator->appends('filter', request('filter'));
+            }
+        } else {
+            $blogs = Post::where('status', true)->latest()->paginate(10);
+        }
         $recent_blogs = Post::where('status', true)->latest()->take(5)->get();
-        $clients = Client::where('status', true)->latest()->get();
+        $brands = Client::where('status', true)->latest()->get();
         $categories = Category::latest()->take(10)->get();
         $tags = Tag::latest()->take(10)->get();
-        return view('frontend.pages.blogs', compact('blogs', 'clients', 'categories', 'tags', 'recent_blogs'));
+        return view('frontend.pages.blogs', compact('blogs', 'brands', 'categories', 'tags', 'recent_blogs', 'search'));
     }
 
     /**
@@ -117,23 +147,42 @@ class PageController extends Controller
     public function blogShow($slug)
     {
         $blog = Post::where('slug', $slug)->first();
+        $next = Post::where('id', '>', $blog->id)->orderBy('id')->first();
+        $previous = Post::where('id', '<', $blog->id)->orderBy('id','desc')->first();
+        $comments = Comment::where('post_id', $blog->id)->where('status', true)->latest()->get();
         $recent_blogs = Post::where('status', true)->whereNotIn('id', [$blog->id])->latest()->take(5)->get();
-        $clients = Client::where('status', true)->latest()->get();
+        $brands = Client::where('status', true)->latest()->get();
         $categories = Category::latest()->take(10)->get();
         $tags = Tag::latest()->take(10)->get();
-        return view('frontend.pages.single-blog', compact('blog', 'recent_blogs', 'clients', 'categories', 'tags'));
+        return view('frontend.pages.single-blog', compact('blog', 'next', 'previous', 'comments', 'recent_blogs', 'brands', 'categories', 'tags'));
     }
 
 
     /**
      * Store a newly created resource in storage.
      *
+     * @param  int  $id
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function storeBlogComment(Request $request)
+    public function storeBlogComment(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|max:255',
+            'comment' => 'required',
+        ]);
 
+        $comment                        = new Comment();
+        $comment->post_id               = $id;
+        $comment->customer_id           = $request->customer_id;
+        $comment->name                  = $request->name;
+        $comment->email                 = $request->email;
+        $comment->comment               = $request->comment;
+        $comment->status                = true;
+        $comment->save();
+
+        return Redirect::back()->with('success', 'Comment was successfully added!');
     }
 
     /**
@@ -143,18 +192,34 @@ class PageController extends Controller
      */
     public function projects()
     {
-        return view('frontend.pages.projects');
+        $page = Pageoption::where('page', 'project')->get();
+        $brands = Client::where('status', true)->latest()->get();
+        $services = Service::where('status', true)->latest()->get();
+        $projects = Project::where('status', true)->latest()->get();
+        $page_options = [];
+        $seo_meta = [];
+        foreach ($page as $option) {
+            if ($option->option == 'project-seo-meta') {
+                $seo_meta = json_decode($option->option_value, true);
+            } else {
+                $page_options[$option->option] = json_decode($option->option_value, true);
+            }
+        }
+        return view('frontend.pages.projects', compact('page_options', 'brands', 'services', 'projects', 'seo_meta'));
     }
 
     /**
      * Display the specified single project resource.
      *
-     * @param  int  $id
+     * @param  string $slug
      * @return \Illuminate\Contracts\View\View
      */
-    public function projectShow($id)
+    public function projectShow($slug)
     {
-        return view('frontend.pages.single-project');
+        $brands = Client::where('status', true)->latest()->get();
+        $project = Project::with('service')->where('slug', $slug)->first();
+        $related_projects = Project::where('status', true)->whereNotIn('id', [$project->id])->latest()->take(3)->get();
+        return view('frontend.pages.single-project', compact('project', 'related_projects', 'brands'));
     }
 
     /**

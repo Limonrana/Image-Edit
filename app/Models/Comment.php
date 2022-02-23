@@ -18,4 +18,14 @@ class Comment extends Model
     {
         return $this->belongsTo('App\Models\Post', 'post_id');
     }
+
+    /**
+     * This Model relationship with User Model.
+     *
+     * @function belongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'customer_id');
+    }
 }
