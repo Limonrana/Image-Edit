@@ -20,6 +20,8 @@ Route::get('/', [PageController::class, 'home'])->name('store.home');
 Route::get('/about', [PageController::class, 'about'])->name('store.about');
 Route::get('/contact', [PageController::class, 'contact'])->name('store.contact');
 
+Route::get('/{page_slug}', [PageController::class, 'page'])->name('store.page');
+
 Route::get('/blogs', [PageController::class, 'blogs'])->name('store.blogs');
 Route::get('/blogs/{slug}', [PageController::class, 'blogShow'])->name('store.blog.show');
 Route::post('/blogs/{id}/comment', [PageController::class, 'storeBlogComment'])->name('store.blog.comment');
@@ -29,3 +31,5 @@ Route::get('/projects/{slug}', [PageController::class, 'projectShow'])->name('st
 
 Route::get('/services', [PageController::class, 'services'])->name('store.services');
 Route::get('/services/{slug}', [PageController::class, 'serviceShow'])->name('store.service.show');
+
+Route::post('/subscribe', [PageController::class, 'subscribe'])->name('store.subscribe');

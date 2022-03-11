@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Comment;
+use App\Models\Page;
 use App\Models\Pageoption;
 use App\Models\Post;
 use App\Models\Project;
 use App\Models\Review;
 use App\Models\Service;
+use App\Models\Subscriber;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -94,6 +96,18 @@ class PageController extends Controller
             }
         }
         return view('frontend.pages.contact', compact('page_options', 'brands', 'seo_meta'));
+    }
+
+    /**
+     * Display a listing of about page all the resources.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function page($page_slug)
+    {
+        $page = Page::where('slug', $page_slug)->first();
+        $brands = Client::where('status', true)->latest()->get();
+        return view('frontend.pages.page', compact('page', 'brands'));
     }
 
     /**
@@ -247,6 +261,25 @@ class PageController extends Controller
                                 ->whereNotIn('slug', [$slug])
                                 ->latest()->take(3)->get();
         return view('frontend.pages.single-service', compact('service', 'related_services'));
+    }
+
+    /**
+     * Store subscriber a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function subscribe(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|max:32|unique:subscribers',
+        ]);
+
+        $subscriber = new Subscriber();
+        $subscriber->email = $request->email;
+        $subscriber->save();
+
+        return Redirect::back()->with('success', 'Configuration! you have successfully subscribed!');
     }
 
     /**

@@ -21,6 +21,117 @@ class HomePageController extends Controller
     }
 
     /**
+     *  Store the slider section resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store_slider(Request $request)
+    {
+        $shape_image     = null;
+        $banner_image    = null;
+
+        if ($request->hasFile('shape_image')) {
+            $shape_image = $this->upload_image($request->file('shape_image'));
+        }
+
+        if ($request->hasFile('banner_image')) {
+            $banner_image = $this->upload_image($request->file('banner_image'));
+        }
+
+        $page_option = Pageoption::where('page', 'home')->where('option', 'home-slider')->first();
+
+        $new_slider_array = [
+            'title'                     => $request->title,
+            'subtitle'                  => $request->subtitle,
+            'btn_text'                  => $request->btn_text,
+            'btn_url'                   => $request->btn_url,
+            'btn_text_color'            => $request->btn_text_color,
+            'btn_bg_color'              => $request->btn_bg_color,
+            'btn_bg_hover_color'        => $request->btn_bg_hover_color,
+            'video_btn_text'            => $request->video_btn_text,
+            'video_btn_url'             => $request->video_btn_url,
+            'video_btn_icon_color'      => $request->video_btn_icon_color,
+            'video_btn_bg_color'        => $request->video_btn_bg_color,
+            'shape_image'               => $shape_image,
+            'banner_image'              => $banner_image,
+        ];
+
+        $old_value = isset($page_option) ? json_decode($page_option->option_value) : [];
+
+        if ($old_value !== null) {
+            array_push($old_value, $new_slider_array);
+        } else {
+            $old_value = [$new_slider_array];
+        }
+
+        $all_page_option = $this->generate_page_option($old_value);
+
+        if (isset($page_option)) {
+            $page_option->option_value = $all_page_option;
+            $page_option->save();
+        } else {
+            Pageoption::create([
+                'page' => 'home',
+                'option' => 'home-slider',
+                'option_value' => $all_page_option,
+            ]);
+        }
+        return Redirect::back()->with('success', 'Page slider was successfully added!');
+    }
+
+    /**
+     * Update & Store the slider section resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update_slider(Request $request)
+    {
+        $shape_images     = isset($request->_shape_image) ? $request->_shape_image : [];
+        $banner_images    = isset($request->_banner_image) ? $request->_banner_image : [];
+
+        if ($request->hasFile('shape_image')) {
+            foreach ($shape_images as $key => $shape_image) {
+                $shape_images[$key] = $this->upload_image($request->file('shape_image'), $shape_image);
+            }
+        }
+
+        if ($request->hasFile('banner_image')) {
+            foreach ($shape_images as $key => $banner_image) {
+                $banner_images[$key] = $this->upload_image($request->file('banner_image'), $banner_image);
+            }
+        }
+
+        $new_slider_array = [
+            $request->title,
+            $request->subtitle,
+            $request->btn_text,
+            $request->btn_url,
+            $request->btn_text_color,
+            $request->btn_bg_color,
+            $request->btn_bg_hover_color,
+            $request->video_btn_text,
+            $request->video_btn_url,
+            $request->video_btn_icon_color,
+            $request->video_btn_bg_color,
+            $shape_images,
+            $banner_images,
+        ];
+
+        $array_keys = ['title', 'subtitle', 'btn_text', 'btn_url', 'btn_text_color', 'btn_bg_color', 'btn_bg_hover_color', 'video_btn_text', 'video_btn_url', 'video_btn_icon_color', 'video_btn_bg_color', 'shape_image', 'banner_image'];
+
+        $all_page_option = $this->generate_json($new_slider_array, $array_keys);
+
+        $page_option = Pageoption::where('page', 'home')->where('option', 'home-slider')->first();
+        if (isset($page_option)) {
+            $page_option->option_value = $all_page_option;
+            $page_option->save();
+        }
+        return Redirect::back()->with('success', 'Page slider was successfully updated!');
+    }
+
+    /**
      * Update the about section resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

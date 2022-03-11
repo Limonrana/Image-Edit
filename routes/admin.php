@@ -5,9 +5,11 @@ use App\Http\Controllers\Admin\AppearanceController;
 use App\Http\Controllers\Admin\ContactPageController;
 use App\Http\Controllers\Admin\HomePageController;
 use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ReviewsController;
+use App\Http\Controllers\Admin\SubscriberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\BlogsController;
@@ -37,7 +39,7 @@ use App\Http\Controllers\Admin\Auth\ConfirmPasswordController;
 */
 
 //Login Route
-Route::get('/', [LoginController::class, 'showLoginForm'])->name('admin.login.form');
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('admin.login.form');
 Route::post('/login', [LoginController::class, 'login'])->name('admin.login');
 
 //Logout Route
@@ -99,7 +101,7 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     Route::resource('/reviews', ReviewsController::class);
 
     // Blog Comments Related Routes
-    Route::resource('/comments', CommentsController::class)->only(['index', 'edit', 'destroy']);
+    Route::resource('/comments', CommentsController::class)->only(['index', 'edit', 'update', 'destroy']);
 
     // Blog Post Related Routes
     Route::resource('/blogs', BlogsController::class);
@@ -114,6 +116,8 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
 
     // Home Page Routes
     Route::get('/pages/static/home', [HomePageController::class, 'index'])->name('page.home.index');
+    Route::post('/pages/static/home/slider', [HomePageController::class, 'store_slider'])->name('page.home.slider.store');
+    Route::put('/pages/static/home/slider', [HomePageController::class, 'update_slider'])->name('page.home.slider.update');
     Route::put('/pages/static/home/about', [HomePageController::class, 'update_about'])->name('page.home.about');
     Route::put('/pages/static/home/service', [HomePageController::class, 'update_service'])->name('page.home.service');
     Route::put('/pages/static/home/choose-us', [HomePageController::class, 'update_choose_us'])->name('page.home.choose.us');
@@ -131,8 +135,15 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     Route::put('/pages/static/contact/info', [ContactPageController::class, 'update_contact'])->name('page.contact.info');
     Route::put('/pages/static/contact/seo', [ContactPageController::class, 'update_seo'])->name('page.contact.seo');
 
+    // Menu Related Routes
+    Route::resource('/menus', MenuController::class)->only(['index', 'edit', 'update']);
+
     // Appearances All Routes List
     Route::get('/appearance', [AppearanceController::class, 'index'])->name('appearance.index');
     Route::put('/appearance/{option}', [AppearanceController::class, 'update'])->name('appearance.update');
+
+    // Subscribers Related Routes
+    Route::delete('/subscriber/all', [SubscriberController::class, 'allDestroy'])->name('subscribers.all.destroy');
+    Route::resource('/subscribers', SubscriberController::class)->only(['index', 'edit', 'destroy']);
 });
 

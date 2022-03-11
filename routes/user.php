@@ -101,6 +101,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 if (Jetstream::hasTermsAndPrivacyPolicyFeature()) {
-    Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms.show');
-    Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('policy.show');
+    Route::get('/terms-of-service-2', [TermsOfServiceController::class, 'show'])->name('terms.show');
+    Route::get('/privacy-policy-2', [PrivacyPolicyController::class, 'show'])->name('policy.show');
 }

@@ -129,16 +129,16 @@
                                 <a class="d-flex align-items-center">
                                     @if(isset($comment->post->image))
                                         <div class="avatar avatar-circle">
-                                            <img class="avatar-img" src="{{ asset($comment->post->image->path) }}" alt="{{$comment->post->name}}">
+                                            <img class="avatar-img" src="{{ asset($comment->post->image->path) }}" alt="{{$comment->post->title}}">
                                         </div>
                                     @else
                                         <div class="avatar avatar-soft-dark avatar-circle">
-                                            <span class="avatar-initials">A</span>
+                                            <span class="avatar-initials">B</span>
                                         </div>
                                     @endif
 
                                     <div class="ml-3">
-                                        <span class="d-block h5 text-hover-primary mb-0">{{ $comment->post->name }} <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>
+                                        <span class="d-block h5 text-hover-primary mb-0">{{ \Illuminate\Support\Str::limit($comment->post->title, 45) }} <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>
                                     </div>
                                 </a>
                             </td>
@@ -155,16 +155,9 @@
                             <td>{{ $comment->updated_at->diffForHumans() }}</td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    @if($comment->status)
-                                        <a class="btn btn-sm btn-white" href="{{ route('comments.edit', $comment->id) }}">
-                                            <i class="tio-edit"></i> Unapproved
-                                        </a>
-                                    @else
-                                        <a class="btn btn-sm btn-white" href="{{ route('comments.edit', $comment->id) }}">
-                                            <i class="tio-edit"></i> Approved
-                                        </a>
-                                    @endif
-
+                                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#viewCommentModal" onclick="handleComment({{$comment->id}})">
+                                        <i class="tio-agenda-view"></i> View
+                                    </a>
                                     <!-- Unfold -->
                                     <div class="hs-unfold btn-group">
                                         <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-white dropdown-toggle dropdown-toggle-empty" href="javascript:;"
@@ -242,4 +235,122 @@
     </div>
     <!-- End Content -->
 
+    <!-- View Comment Modal -->
+    <div class="modal fade" id="viewCommentModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header">
+                    <h4 id="editUserModalTitle" class="modal-title">View Comment Details</h4>
+
+                    <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+                        <i class="tio-clear tio-lg"></i>
+                    </button>
+                </div>
+                <!-- End Header -->
+
+                <!-- Body -->
+                <div class="modal-body">
+                    <div class="modal-form">
+                        <form action="{{ route('comments.update', 'status') }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" id="commentId" name="comment_id">
+                            <!-- Profile Cover -->
+                            <div class="profile-cover">
+                                <div class="profile-cover-img-wrapper">
+                                    <img id="postImage" class="profile-cover-img" src="{{ asset('assets/img/1920x400/img1.jpg') }}" alt="post-featured-image">
+                                </div>
+                            </div>
+                            <!-- End Profile Cover -->
+
+                            <!-- Avatar -->
+                            <div class="avatar avatar-xxl avatar-circle avatar-border-lg avatar-uploader profile-cover-avatar mb-5" style="width: 6.5rem;">
+                                <img id="commenterImage" class="avatar-img" src="{{ asset('assets/img/160x160/img9.jpg') }}" alt="user-image">
+                            </div>
+                            <!-- End Avatar -->
+
+                            <!-- Form Group -->
+                            <div class="row form-group">
+                                <label for="postTitle" class="col-sm-3 col-form-label input-label">Post Title</label>
+
+                                <div class="col-sm-9">
+                                    <div class="js-form-message">
+                                        <input type="text" class="form-control" name="title" id="postTitle" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Form Group -->
+
+                            <!-- Form Group -->
+                            <div class="row form-group">
+                                <label for="commenterName" class="col-sm-3 col-form-label input-label">User Details</label>
+
+                                <div class="col-sm-9">
+                                    <div class="js-form-message input-group input-group-sm-down-break">
+                                        <input type="text" class="form-control" name="commenterName" id="commenterName" disabled>
+                                        <input type="text" class="form-control" name="commenterEmail" id="commenterEmail" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Form Group -->
+
+                            <!-- Form Group -->
+                            <div class="row form-group">
+                                <label for="postTitle" class="col-sm-3 col-form-label input-label">Comment Body</label>
+
+                                <div class="col-sm-9">
+                                    <div class="js-form-message">
+                                        <textarea name="commentBody" id="commentBody" rows="6" class="form-control" disabled></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Form Group -->
+
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-white mr-2" data-dismiss="modal" aria-label="Close">Cancel</button>
+                                <button id="submitBtn" type="submit" class="btn btn-primary">Approved</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- End Body -->
+            </div>
+        </div>
+    </div>
+    <!-- End View Comment Modal -->
+@endsection
+
+@section('script')
+    <script>
+        async function handleComment(id) {
+            try {
+                const response = await fetch(`/admin/comments/${id}/edit`);
+                const collection = await response.json();
+                if (collection && response.status === 200) {
+                    document.getElementById('commentId').value = collection.id;
+                    document.getElementById('postTitle').value = collection.post.title;
+                    document.getElementById('commenterName').value = collection.name;
+                    document.getElementById('commenterEmail').value = collection.email;
+                    document.getElementById('commentBody').value = collection.comment;
+
+                    if (collection.status === 1) {
+                        document.getElementById('submitBtn').innerText = 'Unapproved';
+                    } else {
+                        document.getElementById('submitBtn').innerText = 'Approved';
+                    }
+
+                    if (collection.post_id !== null) {
+                        document.getElementById('postImage').src = `{{ env('APP_URL') }}/${collection.post.image.path}`;
+                    }
+
+                    if (collection.customer_id !== null) {
+                        document.getElementById('commenterImage').src = `{{ env('APP_URL') }}/${collection.user.profile_photo_path}`;
+                    }
+                }
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    </script>
 @endsection

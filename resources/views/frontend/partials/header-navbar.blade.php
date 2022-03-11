@@ -1,15 +1,23 @@
 @php
     $logo = null;
     $header_option = null;
-    if (appearance('header')) {
-        $header_option = json_decode(appearance('header')->option_value, true);
-        if (array_key_exists('header_logo', json_decode(appearance('header')->option_value, true))) {
-            $logo_id = json_decode(appearance('header')->option_value, true)['header_logo'];
+    $top_navigation = null;
+
+    $find_header = appearance('header');
+    if ($find_header) {
+        $header_option = json_decode($find_header->option_value, true);
+        if (array_key_exists('header_logo', json_decode($find_header->option_value, true))) {
+            $logo_id = json_decode($find_header->option_value, true)['header_logo'];
             $upload = \App\Models\Upload::find($logo_id);
             if (isset($upload)) {
                 $logo = $upload->path;
             }
         }
+    }
+
+    $find_top_navigation = appearance('primary-menu');
+    if ($find_top_navigation) {
+        $top_navigation = json_decode($find_top_navigation->option_value, true);
     }
 @endphp
 
@@ -37,18 +45,33 @@
                     <div class="main-menu main-menu-1">
                         <nav id="mobile-menu">
                             <ul>
-                                <li><a href="{{ route('store.home') }}" class="{{ Request::is('/') ? 'active' : '' }}">Home</a></li>
-                                <li><a href="{{ route('store.about') }}" class="{{ Request::is('about') ? 'active' : '' }}">About</a></li>
+                                @foreach($top_navigation as $navigation)
+                                    @php
+                                        $path = '/';
+                                        $explode = explode('/', $navigation['page']);
+                                        if (count($explode) > 1) {
+                                            $path = $explode[1];
+                                        } else {
+                                            $path = $explode[0];
+                                        }
+                                    @endphp
+                                    <li>
+                                        <a href="{{ $navigation['page'] }}" class="{{ Request::is($path) ? 'active' : '' }}">
+                                            {{ $navigation['title'] }}
+                                        </a>
+                                    </li>
+                                @endforeach
+{{--                                <li><a href="{{ route('store.about') }}" class="{{ Request::is('about') ? 'active' : '' }}">About</a></li>--}}
 {{--                                <li class="menu-item-has-children"><a href="services.html">Service</a>--}}
 {{--                                    <ul class="sub-menu">--}}
 {{--                                        <li><a href="services.html">Service</a>--}}
 {{--                                        <li><a href="service-details.html">Service Details</a></li>--}}
 {{--                                    </ul>--}}
 {{--                                </li>--}}
-                                <li><a href="{{ route('store.services') }}" class="{{ Request::is('services*') ? 'active' : '' }}">Service</a></li>
-                                <li><a href="{{ route('store.projects') }}" class="{{ Request::is('projects*') ? 'active' : '' }}">Project</a></li>
-                                <li><a href="{{ route('store.blogs') }}" class="{{ Request::is('blogs*') ? 'active' : '' }}">Blog</a></li>
-                                <li><a href="{{ route('store.contact') }}" class="{{ Request::is('contact') ? 'active' : '' }}">Contact</a></li>
+{{--                                <li><a href="{{ route('store.services') }}" class="{{ Request::is('services*') ? 'active' : '' }}">Service</a></li>--}}
+{{--                                <li><a href="{{ route('store.projects') }}" class="{{ Request::is('projects*') ? 'active' : '' }}">Project</a></li>--}}
+{{--                                <li><a href="{{ route('store.blogs') }}" class="{{ Request::is('blogs*') ? 'active' : '' }}">Blog</a></li>--}}
+{{--                                <li><a href="{{ route('store.contact') }}" class="{{ Request::is('contact') ? 'active' : '' }}">Contact</a></li>--}}
                             </ul>
                         </nav>
                     </div>

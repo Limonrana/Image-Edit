@@ -110,6 +110,10 @@
     <link rel="stylesheet" href="{{ asset('css/meanmenu.css') }}">
     <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+
+    <!-- Extra CSS here -->
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <!-- End Extra CSS -->
     @yield('styles')
 </head>
 
@@ -154,6 +158,28 @@
 {{--        mainContent.style.display = "block";--}}
 {{--    });--}}
 {{--</script>--}}
+
+{{--Extra JS Plugin--}}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script>
+    @if(Session::has('success'))
+        toastr.options = {"closeButton" : true, "progressBar" : true};
+        toastr.success("{{ session('success') }}");
+    @elseif(Session::has('warning'))
+        toastr.options = {"closeButton" : true, "progressBar" : true};
+        toastr.warning("{{ session('warning') }}");
+    @elseif(Session::has('error'))
+        toastr.options = {"closeButton" : true, "progressBar" : true};
+        toastr.error("{{ session('error') }}");
+    @endif
+
+    // Another Error Throw
+    @error('email')
+        toastr.options = {"closeButton" : true, "progressBar" : true};
+        toastr.error("{{ $message }}");
+    @enderror
+</script>
+</script>
 @yield('scripts')
 </body>
 

@@ -312,7 +312,7 @@
                         <!-- End Projects -->
 
                         <!-- Pages -->
-                        <li class="navbar-vertical-aside-has-menu  {{ Request::is('admin/pages*') ? 'show' : '' }}">
+                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/pages*') ? 'show' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle {{ Request::is('admin/pages*') ? 'active' : '' }}" href="javascript:;" title="Pages">
                                 <i class="tio-pages-outlined nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Pages</span>
@@ -335,6 +335,15 @@
                         </li>
                         <!-- End Pages -->
 
+                        <!-- Menus -->
+                        <li class="nav-item ">
+                            <a class="js-nav-tooltip-link nav-link  {{ Request::is('admin/menus*') ? 'active' : '' }}" href="{{ route('menus.index') }}" title="Menus" data-placement="left">
+                                <i class="tio-menu-vs nav-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Menu Builder</span>
+                            </a>
+                        </li>
+                        <!-- End Menus -->
+
                         <!-- Appearance -->
                         <li class="nav-item ">
                             <a class="js-nav-tooltip-link nav-link  {{ Request::is('admin/appearance*') ? 'active' : '' }}" href="{{ route('appearance.index') }}" title="Appearance" data-placement="left">
@@ -350,13 +359,7 @@
                         </li>
 
                         <li class="nav-item ">
-                            <a class="js-nav-tooltip-link nav-link " href="layouts/layouts.html" title="Email" data-placement="left">
-                                <i class="tio-email-outlined nav-icon"></i>
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Email</span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="js-nav-tooltip-link nav-link " href="layouts/layouts.html" title="Subscribers List" data-placement="left">
+                            <a class="js-nav-tooltip-link nav-link {{ Request::is('admin/subscribers*') ? 'active' : '' }}" href="{{ route('subscribers.index') }}" title="Subscribers List" data-placement="left">
                                 <i class="tio-telegram nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Subscribers</span>
                             </a>

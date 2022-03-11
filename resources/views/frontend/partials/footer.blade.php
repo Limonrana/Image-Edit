@@ -19,6 +19,26 @@
     if (appearance('social-account')) {
         $social_account = json_decode(appearance('social-account')->option_value, true);
     }
+
+    // All Navigation
+
+    $footer_left_navigation = null;
+    $find_footer_left_navigation = appearance('left-footer');
+    if ($find_footer_left_navigation) {
+        $footer_left_navigation = json_decode($find_footer_left_navigation->option_value, true);
+    }
+
+    $footer_right_navigation = null;
+    $find_footer_right_navigation = appearance('right-footer');
+    if ($find_footer_right_navigation) {
+        $footer_right_navigation = json_decode($find_footer_right_navigation->option_value, true);
+    }
+
+    $footer_bottom_navigation = null;
+    $find_footer_bottom_navigation = appearance('bottom-footer');
+    if ($find_footer_bottom_navigation) {
+        $footer_bottom_navigation = json_decode($find_footer_bottom_navigation->option_value, true);
+    }
 @endphp
 
 <!-- newsletter area start  -->
@@ -34,11 +54,17 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <form class="subscribe-form mb-30">
-                    <input type="text" placeholder="Enter your email...">
+                <form class="subscribe-form mb-30" action="{{ route('store.subscribe') }}" method="POST">
+                    @csrf
+                    <input type="text" placeholder="Enter your email..." name="email" class="@error('email') is-invalid @enderror">
                     <button type="submit" style="background: {{ $footer_option ? $footer_option['newsletter_btn_bg'] : '#6639ff' }}">
                         <i class="fas fa-paper-plane"></i>{{ $footer_option ? $footer_option['newsletter_btn_text'] : 'Subscribe Us' }}
                     </button>
+                    @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </form>
             </div>
         </div>
@@ -106,11 +132,13 @@
                             <h4>Categories</h4>
                         </div>
                         <ul class="footer-list">
-                            <li><a href="#">Laptops & Computers</a></li>
-                            <li><a href="#">Home & Life Style</a></li>
-                            <li><a href="#">Men's Fashion</a></li>
-                            <li><a href="#">Women's Fashion</a></li>
-                            <li><a href="#">Sport & Gyms</a></li>
+                            @foreach($footer_left_navigation as $footer_left_navigation_item)
+                                <li>
+                                    <a href="{{ $footer_left_navigation_item['page'] }}">
+                                        {{ $footer_left_navigation_item['title'] }}
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -120,11 +148,13 @@
                             <h4>About Company</h4>
                         </div>
                         <ul class="footer-list">
-                            <li><a href="about.html">About Company</a></li>
-                            <li><a href="contact.html">Contact Us</a></li>
-                            <li><a href="#">Privacy policy</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
-                            <li><a href="#">Mission & Vision</a></li>
+                            @foreach($footer_right_navigation as $footer_right_navigation_item)
+                                <li>
+                                    <a href="{{ $footer_right_navigation_item['page'] }}">
+                                        {{ $footer_right_navigation_item['title'] }}
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -156,9 +186,13 @@
                 </div>
                 <div class="col-lg-5 col-md-6">
                     <ul class="copyright-list f-right">
-                        <li><a href="#">Terms & Conditions</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="about.html">About Us</a></li>
+                        @foreach($footer_bottom_navigation as $footer_bottom_navigation_item)
+                            <li>
+                                <a href="{{ $footer_bottom_navigation_item['page'] }}">
+                                    {{ $footer_bottom_navigation_item['title'] }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
