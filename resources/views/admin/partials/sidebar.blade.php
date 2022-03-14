@@ -33,7 +33,7 @@
                                  "type": "css-animation"
                                }'>
                                 <div class="avatar avatar-sm avatar-circle">
-                                    <img class="avatar-img" src="{{ asset('assets/img/160x160/img6.jpg') }}" alt="Image Description">
+                                    <img class="avatar-img" src="{{ Auth::user()->profile_photo_path ? asset(Auth::user()->image->path) : 'https://ui-avatars.com/api/?name='.Auth::user()->name.'&color=7F9CF5&background=EBF4FF' }}" alt="{{ Auth::user()->name }}">
                                     <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                                 </div>
                             </a>
@@ -42,7 +42,7 @@
                                 <div class="dropdown-item-text">
                                     <div class="media align-items-center">
                                         <div class="avatar avatar-sm avatar-circle mr-2">
-                                            <img class="avatar-img" src="{{ asset('assets/img/160x160/img6.jpg') }}" alt="Image Description">
+                                            <img class="avatar-img" src="{{ Auth::user()->profile_photo_path ? asset(Auth::user()->image->path) : 'https://ui-avatars.com/api/?name='.Auth::user()->name.'&color=7F9CF5&background=EBF4FF' }}" alt="{{ Auth::user()->name }}">
                                         </div>
                                         <div class="media-body">
                                             <span class="card-title h5">{{ Auth::user()->name }}</span>
@@ -53,12 +53,8 @@
 
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('users.account') }}">
                                     <span class="text-truncate pr-2" title="Profile &amp; account">Profile &amp; account</span>
-                                </a>
-
-                                <a class="dropdown-item" href="#">
-                                    <span class="text-truncate pr-2" title="Settings">Settings</span>
                                 </a>
 
                                 <div class="dropdown-divider"></div>
@@ -366,7 +362,7 @@
                         </li>
 
                         <li class="nav-item ">
-                            <a class="js-nav-tooltip-link nav-link " href="layouts/layouts.html" title="Reports" data-placement="left">
+                            <a class="js-nav-tooltip-link nav-link " href="{{ route('admin.dashboard') }}" title="Reports" data-placement="left">
                                 <i class="tio-chart-bar-4 nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Reports</span>
                             </a>
@@ -432,13 +428,13 @@
 
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                 <li class="nav-item">
-                                    <a class="nav-link " href="apps-kanban.html" title="Roles Overview">
+                                    <a class="nav-link " href="javascript:;" title="Roles Overview">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Overview</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link " href="apps-calendar.html" title="Calendar">
+                                    <a class="nav-link " href="javascript:;" title="Add Role">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Add Role</span>
                                     </a>
@@ -448,21 +444,21 @@
                         <!-- End Role -->
 
                         <!-- Users -->
-                        <li class="navbar-vertical-aside-has-menu ">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="Apps">
+                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/users*') ? 'show' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle {{ Request::is('admin/users*') ? 'active' : '' }}" href="javascript:;" title="Users">
                                 <i class="tio-user-add nav-icon"></i>
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Users <span class="badge badge-info badge-pill ml-1">Admin Role</span></span>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Users <span class="badge badge-primary badge-pill ml-1">Admin User</span></span>
                             </a>
 
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                 <li class="nav-item">
-                                    <a class="nav-link " href="apps-kanban.html" title="Users Overview">
+                                    <a class="nav-link {{ Request::is('admin/users') ? 'active' : '' }}" href="{{ route('users.index') }}" title="Users Overview">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Overview</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link " href="apps-calendar.html" title="Calendar">
+                                    <a class="nav-link {{ Request::is('admin/users/create') ? 'active' : '' }}" href="{{ route('users.create') }}" title="Add User">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Add User</span>
                                     </a>
@@ -473,7 +469,7 @@
 
                         <!-- My Account -->
                         <li class="nav-item ">
-                            <a class="js-nav-tooltip-link nav-link " href="layouts/layouts.html" title="Layouts" data-placement="left">
+                            <a class="js-nav-tooltip-link nav-link {{ Request::is('admin/account') ? 'active' : '' }}" href="{{ route('users.account') }}" title="Layouts" data-placement="left">
                                 <i class="tio-account-circle nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">My Account</span>
                             </a>
@@ -487,23 +483,15 @@
                 <div class="navbar-vertical-footer">
                     <ul class="navbar-vertical-footer-list">
                         <li class="navbar-vertical-footer-list-item">
-                            <!-- Unfold -->
-                            <div class="hs-unfold">
-                                <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;">
-                                    <i class="tio-account-circle"></i>
-                                </a>
-                            </div>
-                            <!-- End Unfold -->
+                            <a class="btn btn-icon btn-ghost-secondary rounded-circle" href="{{ route('users.account') }}">
+                                <i class="tio-account-circle"></i>
+                            </a>
                         </li>
 
                         <li class="navbar-vertical-footer-list-item">
-                            <!-- Unfold -->
-                            <div class="hs-unfold">
-                                <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="{{ route('admin.logout')}}">
-                                    <i class="tio-sign-out"></i>
-                                </a>
-                            </div>
-                            <!-- End Unfold -->
+                            <a class="btn btn-icon btn-ghost-secondary rounded-circle" href="{{ route('admin.logout')}}">
+                                <i class="tio-sign-out"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>

@@ -10,7 +10,7 @@
         <div class="page-header">
             <div class="row align-items-center mb-3">
                 <div class="col-sm mb-2 mb-sm-0">
-                    <h1 class="page-header-title">Customers <span class="badge badge-soft-dark ml-2">97,524</span></h1>
+                    <h1 class="page-header-title">Customers <span class="badge badge-soft-dark ml-2">{{ count($customers) }}</span></h1>
                 </div>
 
                 <div class="col-sm-auto">

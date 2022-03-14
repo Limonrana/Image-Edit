@@ -23,6 +23,7 @@ class CreateAdminsTable extends Migration
             $table->foreignId('role_id')->nullable();
             $table->boolean('is_super')->default(0);
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

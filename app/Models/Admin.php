@@ -26,6 +26,16 @@ class Admin extends Authenticatable
     }
 
     /**
+     * This Model relationship with Upload Model.
+     *
+     * @function belongsTo
+     */
+    public function image()
+    {
+        return $this->belongsTo('App\Models\Upload', 'profile_photo_path');
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var string[]

@@ -10,25 +10,9 @@
                 <!-- List Dot -->
                 <ul class="list-inline list-separator">
                     <li class="list-inline-item">
-                        <a class="list-separator-link" href="#">FAQ</a>
-                    </li>
-
-                    <li class="list-inline-item">
-                        <a class="list-separator-link" href="#">License</a>
-                    </li>
-
-                    <li class="list-inline-item">
                         <!-- Keyboard Shortcuts Toggle -->
                         <div class="hs-unfold">
-                            <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
-                               data-hs-unfold-options='{
-                              "target": "#keyboardShortcutsSidebar",
-                              "type": "css-animation",
-                              "animationIn": "fadeInRight",
-                              "animationOut": "fadeOutRight",
-                              "hasOverlay": true,
-                              "smartPositionOff": true
-                             }'>
+                            <a class="btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;">
                                 <i class="tio-command-key"></i>
                             </a>
                         </div>

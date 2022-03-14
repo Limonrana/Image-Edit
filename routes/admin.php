@@ -3,6 +3,7 @@
 use App\Controller\Admin;
 use App\Http\Controllers\Admin\AboutPageController;
 use App\Http\Controllers\Admin\AppearanceController;
+use App\Http\Controllers\Admin\Auth\UserController;
 use App\Http\Controllers\Admin\ContactPageController;
 use App\Http\Controllers\Admin\HomePageController;
 use App\Http\Controllers\Admin\InvoiceController;
@@ -147,6 +148,10 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     // Subscribers Related Routes
     Route::delete('/subscriber/all', [SubscriberController::class, 'allDestroy'])->name('subscribers.all.destroy');
     Route::resource('/subscribers', SubscriberController::class)->only(['index', 'edit', 'destroy']);
+
+    // User Related Routes
+    Route::resource('/users', UserController::class);
+    Route::get('/account', [UserController::class, 'account'])->name('users.account');
 
     /**
      * Settings Related Routes Listing
