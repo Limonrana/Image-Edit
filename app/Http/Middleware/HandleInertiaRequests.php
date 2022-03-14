@@ -59,6 +59,9 @@ class HandleInertiaRequests extends Middleware
             'stripe_pk' => function () use ($request) {
                 return env('STRIPE_KEY', 'pk_test_yLs7aj48caHjjruntvFqPMMF00yAa5Xge7');
             },
+            'paypal_client_id' => function () use ($request) {
+                return env('PAYPAL_CLIENT_ID', 'AVuWkjFJRgr7puGU27wjxcH2hZGK_f2CLoN0NSm20AVxWvGl9danF_1DJWAe5ljgoAbd9XDdjkCYZdG4');
+            },
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),

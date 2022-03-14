@@ -1,5 +1,6 @@
 <?php
 
+use App\Controller\Admin;
 use App\Http\Controllers\Admin\AboutPageController;
 use App\Http\Controllers\Admin\AppearanceController;
 use App\Http\Controllers\Admin\ContactPageController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ReviewsController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SubscriberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PageController;
@@ -145,5 +147,26 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     // Subscribers Related Routes
     Route::delete('/subscriber/all', [SubscriberController::class, 'allDestroy'])->name('subscribers.all.destroy');
     Route::resource('/subscribers', SubscriberController::class)->only(['index', 'edit', 'destroy']);
+
+    /**
+     * Settings Related Routes Listing
+     */
+
+    // General Settings Routes
+    Route::get('/settings/general', [SettingsController::class, 'general'])->name('settings.general');
+    Route::put('/settings/general', [SettingsController::class, 'general'])->name('settings.general.update');
+    // Email Settings Routes
+    Route::get('/settings/email', [SettingsController::class, 'email'])->name('settings.email');
+    Route::put('/settings/email', [SettingsController::class, 'email'])->name('settings.email.update');
+    // SEO Meta Settings Routes
+    Route::get('/settings/seo', [SettingsController::class, 'seo'])->name('settings.seo');
+    Route::put('/settings/seo', [SettingsController::class, 'seo'])->name('settings.seo.update');
+    // Payment Gateway Settings Routes
+    Route::get('/settings/payment', [SettingsController::class, 'payment'])->name('settings.payment');
+    Route::put('/settings/payment', [SettingsController::class, 'payment'])->name('settings.payment.update');
+    // Analytics Settings Routes
+    Route::get('/settings/analytics', [SettingsController::class, 'analytics'])->name('settings.analytics');
+    Route::put('/settings/analytics', [SettingsController::class, 'analytics'])->name('settings.analytics.update');
+
 });
 

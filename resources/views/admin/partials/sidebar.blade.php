@@ -373,29 +373,41 @@
                         </li>
 
                         <!-- Settings -->
-                        <li class="navbar-vertical-aside-has-menu ">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="Settings">
+                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/settings*') ? 'show' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle {{ Request::is('admin/settings*') ? 'active' : '' }}" href="javascript:;" title="Settings">
                                 <i class="tio-settings-outlined nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Settings</span>
                             </a>
 
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                 <li class="nav-item">
-                                    <a class="nav-link " href="apps-kanban.html" title="Settings Overview">
+                                    <a class="nav-link {{ Request::is('admin/settings/general') ? 'active' : '' }}" href="{{ route('settings.general') }}" title="General Settings">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">General</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link " href="apps-kanban.html" title="Settings Appearance">
+                                    <a class="nav-link {{ Request::is('admin/settings/email') ? 'active' : '' }}" href="{{ route('settings.email') }}" title="Email Settings">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Email Settings</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link " href="apps-calendar.html" title="SEO Meta Details">
+                                    <a class="nav-link {{ Request::is('admin/settings/seo') ? 'active' : '' }}" href="{{ route('settings.seo') }}" title="SEO Settings">
                                         <span class="tio-circle nav-indicator-icon"></span>
-                                        <span class="text-truncate">SEO Meta</span>
+                                        <span class="text-truncate">SEO Tools</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::is('admin/settings/payment') ? 'active' : '' }}" href="{{ route('settings.payment') }}" title="Payment Gateway">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">Payment Gateway</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::is('admin/settings/analytics') ? 'active' : '' }}" href="{{ route('settings.analytics') }}" title="Analytics Tools">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">Analytics Tools</span>
                                     </a>
                                 </li>
                             </ul>

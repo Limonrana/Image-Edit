@@ -249,7 +249,7 @@ import ConfirmationModal from "../../Components/Modals/ConfirmationModal";
 
 export default {
     name: "CreateOrder",
-    props:  ['complexities', 'service_addons', 'app_url', 'csrf', 'stripe_pk', 'user'],
+    props:  ['complexities', 'service_addons', 'app_url', 'csrf', 'stripe_pk', 'paypal_client_id', 'user'],
     components: {
         StripeElementCard,
         ConfirmationModal,
@@ -469,7 +469,7 @@ export default {
         paypalScriptSetup() {
             const script = document.createElement("script");
             script.src =
-                "https://www.paypal.com/sdk/js?client-id=AVuWkjFJRgr7puGU27wjxcH2hZGK_f2CLoN0NSm20AVxWvGl9danF_1DJWAe5ljgoAbd9XDdjkCYZdG4";
+                `https://www.paypal.com/sdk/js?client-id=${paypal_client_id}`;
             script.addEventListener("load", this.setLoaded);
             this.paypalScript = document.body.appendChild(script);
         },
