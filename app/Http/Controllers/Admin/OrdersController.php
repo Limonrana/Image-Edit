@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Admin\OrderDeliveryFilesUpload;
 use App\Http\Controllers\Controller;
+use App\Jobs\OrderDeliverJob;
 use App\Models\Address;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Redirect;
 
 class OrdersController extends Controller
@@ -95,18 +98,19 @@ class OrdersController extends Controller
     {
         $order = Order::with(['user', 'complexity', 'order_details.service', 'upload_files'])
                             ->where('order_number', $order_number)->first();
+        $orders = Order::with(['user', 'delivery_files'])->whereNotIn('status', [0, 4])->count();
         $address = Address::with(['get_state', 'get_country'])->where('user_id', $order->user->id)->first();
-        return view('admin.pages.order.orders-view', compact('order', 'address'));
+        return view('admin.pages.order.orders-view', compact('order', 'address', 'orders'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Display the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $order_number
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $order_number)
+    public function accept(Request $request, $order_number)
     {
         $query_string = $request->status;
         $order = Order::where('order_number', $order_number)->first();
@@ -119,6 +123,50 @@ class OrdersController extends Controller
         }
         $order->save();
         return Redirect::back()->with('success', 'Order was accepted successfully!');
+    }
+
+    /**
+     * Deliver the order resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $order_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deliver(Request $request, $order_id)
+    {
+        $files = $request->file('files');
+
+        $request->validate([
+            'files' => 'required|array|min:1',
+            'files.*' => 'required|mimes:jpeg,png,jpg|max:10240',
+        ], [
+            'files.*.mimes' => 'Only jpeg, png, jpg files are allowed!',
+            'files.*.max' => 'Delivery image size is max 10MB/Per!',
+        ]);
+
+        $order = Order::find($order_id);
+        $order->delivered = Carbon::now();
+        $order->status = 2;
+        $order->save();
+
+        // Upload Files
+        foreach ($files as $file) {
+            OrderDeliveryFilesUpload::upload($file, $order->user_id, $order->id);
+        }
+
+        return Redirect::back()->with('success', 'Order was delivered successfully!');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $order_number
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, $order_number)
+    {
+
     }
 
     /**

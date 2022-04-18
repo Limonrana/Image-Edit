@@ -10,6 +10,16 @@ class Order extends Model
     use HasFactory;
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'delivered' => 'datetime',
+        'delivery_accepted' => 'datetime',
+    ];
+
+    /**
      * This Model relationship with order_details Model.
      *
      * @function belongsTo
@@ -27,6 +37,16 @@ class Order extends Model
     public function upload_files()
     {
         return $this->hasMany(File::class);
+    }
+
+    /**
+     * This Model relationship with Delivery Files Model.
+     *
+     * @function belongsTo
+     */
+    public function delivery_files()
+    {
+        return $this->hasMany(Deliverfile::class);
     }
 
     /**

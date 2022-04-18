@@ -29,6 +29,13 @@ use Laravel\Jetstream\Http\Controllers\TeamInvitationController;
 |
 */
 
+Route::get('/mailable', function () {
+    $invoice = App\Models\Order::find(1);
+//    dd($invoice->created_at->addHours(intval($invoice->deadline))->format('d F Y - h:iA'));
+
+    return new App\Mail\OrderCreateInvoiceMail($invoice);
+});
+
 // User Routes List Start
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [UserPageController::class, 'dashboard'])->name('user.dashboard');
@@ -44,8 +51,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/orders/store', [UserOrderController::class, 'store'])->name('user.orders.store');
     Route::get('/orders/{number}', [UserOrderController::class, 'show'])->name('user.orders.show');
     Route::post('/orders/uploads', [UserOrderController::class, 'uploads'])->name('user.orders.uploads');
+    Route::get('/orders/{id}/cancel', [UserOrderController::class, 'cancel'])->name('user.orders.cancel');
+    Route::get('/orders/{id}/approve', [UserOrderController::class, 'approve'])->name('user.orders.approve');
     Route::delete('/orders/uploads/{id}', [UserOrderController::class, 'uploadDestroy'])->name('user.orders.uploads.destroy');
     Route::get('/orders/uploads/destroy', [UserOrderController::class, 'uploadDestroyAll'])->name('user.orders.uploads.destroy.all');
+    Route::get('/orders/{id}/delivery/download', [UserOrderController::class, 'download'])->name('user.orders.delivery.download');
 
     // User Account & Profile...
     Route::get('/account', [UserAccountController::class, 'show'])->name('user.account.show');

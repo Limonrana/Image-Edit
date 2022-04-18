@@ -432,7 +432,7 @@ export default {
 
         isEnabledInstruction(id) {
             let find = this.variantsList.find(x => x.id === id);
-            return find ? false : true;
+            return !find;
         },
 
         notification(message) {
@@ -469,7 +469,7 @@ export default {
         paypalScriptSetup() {
             const script = document.createElement("script");
             script.src =
-                `https://www.paypal.com/sdk/js?client-id=${paypal_client_id}`;
+                `https://www.paypal.com/sdk/js?client-id=${this.paypal_client_id}`;
             script.addEventListener("load", this.setLoaded);
             this.paypalScript = document.body.appendChild(script);
         },

@@ -74,6 +74,9 @@ export default {
     name: "InvoiceView",
     props: ['user', 'invoice', 'address', 'orderDetails'],
     components: {UserDetails, AppLayout},
+    mounted() {
+        console.log(this.address);
+    },
     methods: {
         doPrint () {
             document.body.innerHTML = document.getElementsByClassName('printOrder-data')[0].innerHTML;

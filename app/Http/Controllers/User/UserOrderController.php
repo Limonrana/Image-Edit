@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderCreateInvoiceMail;
 use App\Models\Complexity;
 use App\Models\File;
 use App\Models\Invoice;
@@ -10,12 +11,15 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Service;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Stripe;
+use ZipArchive;
 
 class UserOrderController extends Controller
 {
@@ -34,37 +38,37 @@ class UserOrderController extends Controller
             $orders = Order::where('user_id', $team->user_id)
                             ->when($request->search, function ($query, $search) {
                                 $query->where('order_number', 'LIKE', '%' . $search . '%');
-                            })->paginate(10);
+                            })->latest()->paginate(10);
         } elseif ($getQueryString === 'open') {
             // Open Order Fetch
             $orders = Order::where('user_id', $team->user_id)->where('status', 1)
                             ->when($request->search, function ($query, $search) {
                                 $query->where('order_number', 'LIKE', '%' . $search . '%');
-                            })->paginate(10);
+                            })->latest()->paginate(10);
         } elseif ($getQueryString === 'unpaid') {
             // Unpaid Order Fetch
             $orders = Order::where('user_id', $team->user_id)->where('status', 2)->orWhere('payment_status', 'Unpaid')
                             ->when($request->search, function ($query, $search) {
                                 $query->where('order_number', 'LIKE', '%' . $search . '%');
-                            })->paginate(10);
+                            })->latest()->paginate(10);
         } elseif ($getQueryString === 'delivered') {
             // Delivered Order Fetch
             $orders = Order::where('user_id', $team->user_id)->where('status', 2)
                             ->when($request->search, function ($query, $search) {
                                 $query->where('order_number', 'LIKE', '%' . $search . '%');
-                            })->paginate(10);
+                            })->latest()->paginate(10);
         } elseif ($getQueryString === 'completed') {
             // Completed Order Fetch
             $orders = Order::where('user_id', $team->user_id)->where('status', 3)
                             ->when($request->search, function ($query, $search) {
                                 $query->where('order_number', 'LIKE', '%' . $search . '%');
-                            })->paginate(10);
+                            })->latest()->paginate(10);
         } elseif ($getQueryString === 'cancelled') {
             // Cancelled Order Fetch
             $orders = Order::where('user_id', $team->user_id)->where('status', 4)
                             ->when($request->search, function ($query, $search) {
                                 $query->where('order_number', 'LIKE', '%' . $search . '%');
-                            })->paginate(10);
+                            })->latest()->paginate(10);
         }
         return Inertia::render('Orders/Orders', [
             'orders' => $orders,
@@ -168,6 +172,10 @@ class UserOrderController extends Controller
             $invoice_nr                 = str_pad( $setInvoice + 1, 6, "100000", STR_PAD_LEFT);
             $invoice->invoice_number    = $invoice_nr;
             $invoice->save();
+
+            // Send Order Create Email Via Queue Worker
+            $user = User::find($request->user_id);
+            Mail::to($user->email)->queue(new OrderCreateInvoiceMail($order));
         }
         return Redirect::route('user.invoice.show', $invoice->invoice_number);
     }
@@ -199,7 +207,7 @@ class UserOrderController extends Controller
      */
     public function show($order_number)
     {
-        $order = Order::with('order_details', 'upload_files', 'complexity')
+        $order = Order::with('order_details', 'upload_files', 'complexity', 'delivery_files')
                             ->where('order_number', $order_number)->first();
         $invoice = Invoice::where('order_id', $order->id)->first();
         return Inertia::render('Orders/OrderView', [
@@ -209,26 +217,55 @@ class UserOrderController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Approve the order from specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function edit($id)
+    public function approve($id)
     {
-        //
+        $order = Order::find($id);
+        $order->status = 3;
+        $order->delivery_accepted = Carbon::now();
+        $order->save();
+        return Redirect::back();
+    }
+    /**
+     * Approve the order from specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function cancel($id)
+    {
+        $order = Order::find($id);
+        $order->status = 4;
+        $order->save();
+        return Redirect::back();
     }
 
     /**
-     * Update the specified resource in storage.
+     * Download the delivery files from specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $order_id
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function update(Request $request, $id)
+    public function download($order_id)
     {
-        //
+        $order = Order::find($order_id);
+        $delivery_files = $order->delivery_files;
+        $zip = new ZipArchive();
+        $zip_name = "delivery_files_".$order->order_number.".zip";
+        $zip_path = storage_path('app/public/delivery-files/'.$zip_name);
+        if ($zip->open($zip_path, ZipArchive::CREATE) === TRUE) {
+            foreach ($delivery_files as $file) {
+                $getFile = \Illuminate\Support\Facades\File::get(public_path($file->path));
+                $zip->addFromString($file->name, $getFile);
+//                $zip->addFile($getFile[0], $file->name);
+            }
+            $zip->close();
+        }
+        return response()->download($zip_path);
     }
 
     /**

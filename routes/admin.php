@@ -88,7 +88,8 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     // Orders related routes
     Route::resource('/orders', OrdersController::class)->only(['index', 'edit', 'destroy']);
     Route::get('/orders/cancelled', [OrdersController::class, 'cancelled_request'])->name('orders.cancelled.index');
-    Route::get('/orders/accept/{id}', [OrdersController::class, 'update'])->name('orders.accept');
+    Route::get('/orders/accept/{id}', [OrdersController::class, 'accept'])->name('orders.accept');
+    Route::post('/orders/deliver/{id}', [OrdersController::class, 'deliver'])->name('orders.deliver');
 
 
     // Customer Related Routes

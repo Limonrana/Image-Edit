@@ -184,7 +184,7 @@
                                 <td>
                                     @if($order->payment_method === 'Paypal')
                                     <div class="d-flex align-items-center">
-                                        <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{ asset('assets/svg/brands/paypal-icon.svg') }}" alt="PaypalPay">
+                                        <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{ asset('assets/svg/brands/paypal.svg') }}" alt="PaypalPay">
                                         <span class="text-dark">&bull;&bull;&bull;&bull;{{ $order->transaction_id ? substr($order->transaction_id, -10) : 'UNPAID' }}</span>
                                     </div>
                                     @elseif($order->payment_method === 'Card')
@@ -194,7 +194,7 @@
                                     </div>
                                     @else
                                         <div class="d-flex align-items-center">
-                                            <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{ asset('assets/svg/brands/paypal-icon.svg') }}" alt="PaypalPay">
+                                            <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{ asset('assets/svg/brands/paypal.svg') }}" alt="PaypalPay">
                                             <span class="text-danger">Manually</span>
                                         </div>
                                     @endif

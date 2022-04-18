@@ -151,23 +151,98 @@
                         <!-- End Row -->
                     </div>
                     <!-- End Body -->
-                    <div class="card-footer text-right">
-                        @if ($order->status === 0 || $order->status === 1 || $order->status === 2)
-                            <a id="comfimation" href="{{ route('orders.accept', ['id' => $order->order_number, 'status' => 'cancel-order']) }}" class="btn btn-danger">Cancel Order</a>
-                        @endif
-                        @if ($order->status === 0)
-                            <a id="comfimation" href="{{ route('orders.accept', ['id' => $order->order_number, 'status' => 'under-review']) }}" class="btn btn-success">Accept Order</a>
-                        @elseif ($order->status === 1)
-                            <a id="comfimation" href="{{ route('orders.accept', ['id' => $order->order_number, 'status' => 'deliver-order']) }}" class="btn btn-success">Deliver Order</a>
-                        @elseif ($order->status === 2)
-                            <span class="badge badge-soft-info h5 p-3">ORDER DELIVERED</span>
-                        @elseif ($order->status === 3)
-                            <span class="badge badge-soft-success h5 p-3">ORDER COMPLETED</span>
-                        @elseif ($order->status === 4)
-                            <span class="badge badge-soft-danger h5 p-3">ORDER CANCELLED</span>
-                        @endif
-                    </div>
+
+                    @if ($order->status === 0)
+                        <div class="card-footer text-right">
+                            @if ($order->status === 0 || $order->status === 1 || $order->status === 2)
+                                <a href="{{ route('orders.accept', ['id' => $order->order_number, 'status' => 'cancel-order']) }}" class="btn btn-danger">Cancel Order</a>
+                            @endif
+                            @if ($order->status === 0)
+                                <a href="{{ route('orders.accept', ['id' => $order->order_number, 'status' => 'under-review']) }}" class="btn btn-success">Accept Order</a>
+                            @endif
+                        </div>
+                    @endif
                 </div>
+                <!-- End Card -->
+
+                <!-- Card -->
+                @if ($order->status === 1)
+                    <div class="card mb-3 mb-lg-5">
+                        <!-- Header -->
+                        <div class="card-header">
+                            <h4 class="card-header-title">Upload Work & Deliver</h4>
+                        </div>
+                        <!-- End Header -->
+                        <form action="{{ route('orders.deliver', $order->id) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <!-- Body -->
+                            <div class="card-body">
+                                <!-- Dropzone -->
+                                <div id="attachFilesDelivery" class="dropzone-custom custom-file-boxed">
+                                    <div id="preview-template" class="row"></div>
+                                    <div id="uploadBox" class="dz-message custom-file-boxed-label" onclick="document.getElementById('deliveryFiles').click();">
+                                        <img class="avatar avatar-xl avatar-4by3 mb-3" src="{{ asset('assets/svg/illustrations/browse.svg') }}" alt="Image Description">
+                                        <h5 class="mb-1">Choose files to upload</h5>
+                                        <p class="mb-2">or</p>
+                                        <span class="btn btn-sm btn-primary">Browse files</span>
+                                    </div>
+                                    <div id="secondUploadBox" class="mt-3" style="display: none;" onclick="document.getElementById('deliveryFiles').click();">
+                                        <span class="btn btn-sm btn-primary">Browse another files</span>
+                                    </div>
+                                </div>
+                                <input type="file" name="files[]" id="deliveryFiles" multiple="multiple" class="d-none" onchange="handleAttchFile(this)" />
+                                <!-- End Dropzone -->
+                            </div>
+                            <!-- Body -->
+                            <!-- Footer -->
+                            <div class="card-footer text-right">
+                                @if ($order->status === 0 || $order->status === 1 || $order->status === 2)
+                                    <a href="{{ route('orders.accept', ['id' => $order->order_number, 'status' => 'cancel-order']) }}" class="btn btn-danger">Cancel Order</a>
+                                @endif
+                                @if ($order->status === 1)
+                                    <button class="btn btn-success" type="submit">Deliver Order</button>
+                                @endif
+                            </div>
+                            <!-- End Footer -->
+                        </form>
+                    </div>
+                @elseif($order->status !== 0)
+                    <div class="card mb-3 mb-lg-5">
+                        <!-- Header -->
+                        <div class="card-header">
+                            <h4 class="card-header-title">Upload Work & Deliver</h4>
+                        </div>
+                        <!-- End Header -->
+                        <div class="card-body">
+                            <div class="alert alert-success" role="alert">
+                                <h3 class="alert-heading">Order Delivered!</h3>
+                                <p class="text-inherit">Your order has been delivered. Please wait for the client to review your work.</p>
+                            </div>
+
+                            <!-- Gallery -->
+                            <div class="row gx-2">
+                                @foreach($order->delivery_files as $file)
+                                    <div class="col-sm-4 mb-3 mb-sm-0">
+                                        <!-- Card -->
+                                        <div class="card card-sm">
+                                            <img class="card-img-top" src="{{ asset($file->path) }}" alt="{{ $file->name }}">
+
+                                            <div class="card-body text-center">
+                                                <a class="js-fancybox text-body" href="javascript:;" data-toggle="tooltip" data-placement="top" title="View"
+                                                   data-src="{{ asset($file->path) }}"
+                                                   data-caption="{{ $file->name }}">
+                                                    <i class="tio-visible-outlined mr-1"></i> View
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- End Card -->
+                                    </div>
+                                @endforeach
+                            </div>
+                            <!-- End Gallery -->
+                        </div>
+                    </div>
+                @endif
                 <!-- End Card -->
 
                 <!-- Card -->
@@ -249,6 +324,32 @@
                                         </div>
                                     </li>
                                 <!-- End Step Item -->
+                            @endif
+
+                            @if($order->status > 0 && $order->status !== 4)
+                            <!-- Step Item -->
+                                <li class="step-item">
+                                    <div class="step-content-wrapper">
+                                        <small class="step-divider">{{ $order->updated_at->format('l, d F') }}</small>
+                                    </div>
+                                </li>
+                                <!-- End Step Item -->
+
+                                <!-- Step Item -->
+                                <li class="step-item">
+                                    <div class="step-content-wrapper">
+                                        <span class="step-icon step-icon-soft-dark step-icon-pseudo"></span>
+
+                                        <div class="step-content">
+                                            <h5 class="mb-1">
+                                                <a class="text-dark" href="#">Order was accepted</a>
+                                            </h5>
+                                            <p class="font-size-sm mb-0">#ORDER-{{ $order->order_number }}</p>
+                                            <p class="font-size-sm mb-0">{{ $order->updated_at->format('H:i A') }}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            <!-- End Step Item -->
                             @endif
 
                             <!-- Step Item -->
@@ -376,10 +477,16 @@
 
                     <!-- Body -->
                     <div class="card-body">
-                        <a class="media align-items-center" href="ecommerce-customer-details.html">
-                            <div class="avatar avatar-circle mr-3">
-                                <img class="avatar-img" src="{{ asset('assets/img/160x160/img10.jpg') }}" alt="Image Description">
-                            </div>
+                        <a class="media align-items-center" href="{{ route('customers.edit', $order->user->id) }}">
+                            @if ($order->user->profile_photo_path !== null)
+                                <div class="avatar avatar-circle mr-3">
+                                    <img class="avatar-img" src="{{asset($order->user->profile_photo_path) }}" alt="{{$order->user->name}}">
+                                </div>
+                            @else
+                                <div class="avatar avatar-soft-primary avatar-circle mr-3">
+                                    <span class="avatar-initials">{{ substr($order->user->name, 0, 1) }}</span>
+                                </div>
+                            @endif
                             <div class="media-body">
                                 <span class="text-body text-hover-primary">{{ $order->user->name }}</span>
                             </div>
@@ -390,12 +497,12 @@
 
                         <hr>
 
-                        <a class="media align-items-center" href="ecommerce-customer-details.html">
+                        <a class="media align-items-center" href="{{ route('customers.edit', $order->user->id) }}">
                             <div class="icon icon-soft-info icon-circle mr-3">
                                 <i class="tio-shopping-basket-outlined"></i>
                             </div>
                             <div class="media-body">
-                                <span class="text-body text-hover-primary">7 orders</span>
+                                <span class="text-body text-hover-primary">{{ $orders }} @if($orders > 1) orders @else order @endif</span>
                             </div>
                             <div class="media-body text-right">
                                 <i class="tio-chevron-right text-body"></i>
@@ -474,38 +581,40 @@
 
                         <hr>
 
-                        <div class="mt-3">
-                            <h5 class="mb-3">Time Left To Deliver</h5>
-                            <div class="content-count-down">
-                                <div class="wrapper-count-down">
-                                    <div class="digit">
-                                        <div class="label"><div class="inner"><span id="delivery_days">00</span></div></div>
-                                        <span>DAYS</span>
-                                    </div>
+                        @if($order->delivered == null)
+                            <div class="mt-3">
+                                <h5 class="mb-3">Time Left To Deliver</h5>
+                                <div class="content-count-down">
+                                    <div class="wrapper-count-down">
+                                        <div class="digit">
+                                            <div class="label"><div class="inner"><span id="delivery_days">00</span></div></div>
+                                            <span>DAYS</span>
+                                        </div>
 
-                                    <span>:</span>
+                                        <span>:</span>
 
-                                    <div class="digit">
-                                        <div class="label"><div class="inner"><span id="delivery_hours">00</span></div></div>
-                                        <span>HOURS</span>
-                                    </div>
+                                        <div class="digit">
+                                            <div class="label"><div class="inner"><span id="delivery_hours">00</span></div></div>
+                                            <span>HOURS</span>
+                                        </div>
 
-                                    <span>:</span>
+                                        <span>:</span>
 
-                                    <div class="digit">
-                                        <div class="label"><div class="inner"><span id="delivery_minutes">00</span></div></div>
-                                        <span>MINUTES</span>
-                                    </div>
+                                        <div class="digit">
+                                            <div class="label"><div class="inner"><span id="delivery_minutes">00</span></div></div>
+                                            <span>MINUTES</span>
+                                        </div>
 
-                                    <span>:</span>
+                                        <span>:</span>
 
-                                    <div class="digit">
-                                        <div class="label"><div class="inner"><span id="delivery_seconds">00</span></div></div>
-                                        <span>SECONDS</span>
+                                        <div class="digit">
+                                            <div class="label"><div class="inner"><span id="delivery_seconds">00</span></div></div>
+                                            <span>SECONDS</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                     <!-- End Body -->
                 </div>
@@ -515,7 +624,7 @@
                 <div class="card mt-5">
                     <!-- Header -->
                     <div class="card-header">
-                        <h4 class="card-header-title">Work Uploads</h4>
+                        <h4 class="card-header-title">Order Uploads</h4>
 
                         <!-- Download Button -->
                         <a class="js-hs-unfold-invoker btn btn-sm btn-ghost-secondary" href="javascript:;">
@@ -894,6 +1003,18 @@
             z-index: -1;
             width: 20px
         }
+        .upload-card {
+            transition: transform .3s;
+            box-shadow: 0px 0px 10px #ccc;
+        }
+        .upload-card:hover {
+            transform: scale(1.1);
+        }
+        .upload-remove {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
     </style>
 @endsection
 
@@ -931,7 +1052,9 @@
             }, 1000);
         }
         // Call Function For CountDown
-        showRemaining();
+        @if($order->delivered == null)
+            showRemaining();
+        @endif
 
         // Chat Auto Scroll
         function scrollToBottom() {
@@ -941,5 +1064,67 @@
 
         scrollToBottom();
         // setInterval(getMessages, 100);
+
+        // INITIALIZATION OF DROPZONE FILE ATTACH MODULE
+        // =======================================================
+        function handleAttchFile(event) {
+            const files = event.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                readerFile(file).then(e => handlePreview(e, i));
+            }
+        }
+
+        const readerFile = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (e) => reject(e);
+                reader.readAsDataURL(file);
+            });
+        };
+
+        const handlePreview = (file, index) => {
+            const template = document.getElementById('preview-template');
+            let itemHtml = `<div class="col py-2" data-index="${index}">
+                                <div class="card upload-card" style="min-width: 10rem; max-width: 12.5rem;">
+                                    <img class="card-img-top" src="${file}">
+                                </div>
+                            </div>`;
+            template.insertAdjacentHTML('beforeend', itemHtml);
+            uploadUIShowHide();
+        };
+
+        const uploadUIShowHide = () => {
+            // Upload UI Show Hide
+            const template = document.getElementById('preview-template');
+            const upload = document.getElementById('uploadBox');
+            const secondUpload = document.getElementById('secondUploadBox');
+            if (template.children.length > 0) {
+                upload.style.display = 'none';
+                secondUpload.style.display = 'block';
+            } else {
+                upload.style.display = 'block';
+                secondUpload.style.display = 'none';
+            }
+        }
+
+        const uploadRemove = (e) => {
+            const target = e.target;
+            if (target.classList.contains('upload-remove') || target.parentElement.classList.contains('upload-remove')) {
+                if (target.classList.contains('upload-remove')) {
+                    let index = target.parentElement.dataset.index;
+                    target.parentElement.parentElement.remove();
+                } else {
+                    let index = target.parentElement.parentElement.parentElement.dataset.index;
+                    target.parentElement.parentElement.parentElement.remove();
+                }
+                // Upload UI Show Hide
+                uploadUIShowHide();
+            }
+                console.log(document.getElementById('deliveryFiles').files);
+        }
+        // Call Event Listener
+        // document.getElementById('preview-template').addEventListener('click', (e) => uploadRemove(e));
     </script>
 @endsection
