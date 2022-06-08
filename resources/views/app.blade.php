@@ -21,9 +21,9 @@
     </head>
     <body class="">
         @inertia
-        @env ('local')
-            <script src="http://localhost:3000/browser-sync/browser-sync-client.js"></script>
-        @endenv
+{{--        @env ('local')--}}
+{{--            <script src="http://localhost:3000/browser-sync/browser-sync-client.js"></script>--}}
+{{--        @endenv--}}
         <aside id="modalWidget"></aside>
     </body>
 </html>

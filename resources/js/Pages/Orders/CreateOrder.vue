@@ -326,7 +326,7 @@ export default {
     },
     beforeDestroy() {
         this.$refs.paypal.remove();
-        document.body.removeChild(this.paypalScript);
+        document.head.removeChild(this.paypalScript);
     },
     methods: {
         uploadSuccess(file, response) {
@@ -467,39 +467,49 @@ export default {
         },
 
         paypalScriptSetup() {
-            const script = document.createElement("script");
-            script.src =
-                `https://www.paypal.com/sdk/js?client-id=${this.paypal_client_id}`;
-            script.addEventListener("load", this.setLoaded);
-            this.paypalScript = document.body.appendChild(script);
+            const newScript = document.createElement('script');
+            newScript.onerror = (err => console.error('An error occured while loading the PayPal JS SDK', err));
+            newScript.onload = this.setLoaded;
+            document.head.appendChild(newScript);
+            newScript.src = `https://www.paypal.com/sdk/js?client-id=${this.paypal_client_id}`;
+            this.paypalScript = newScript;
+
+            // // Prevent loading the script more than once
+            // const script = document.createElement("script");
+            // script.src =
+            //     `https://www.paypal.com/sdk/js?client-id=${this.paypal_client_id}`;
+            // this.paypalScript = document.body.appendChild(script);
+            // script.addEventListener("load", this.setLoaded);
         },
 
         setLoaded(resp) {
-            window.paypal
-                .Buttons({
-                    createOrder: (data, actions) => {
-                        return actions.order.create({
-                            purchase_units: [
-                                {
-                                    description: "Purchase service from Omega Studio",
-                                    amount: {
-                                        currency_code: "USD",
-                                        value: this.totalCharge,
+            if (window.paypal) {
+                window.paypal
+                    .Buttons({
+                        createOrder: (data, actions) => {
+                            return actions.order.create({
+                                purchase_units: [
+                                    {
+                                        description: "Purchase service from Omega Studio",
+                                        amount: {
+                                            currency_code: "USD",
+                                            value: this.totalCharge,
+                                        }
                                     }
-                                }
-                            ]
-                        });
-                    },
-                    onApprove: async (data, actions, resp) => {
-                        const order = await actions.order.capture();
-                        this.form.transactionId = data.orderID;
-                        this.createOrder();
-                    },
-                    onError: err => {
-                        console.log(err);
-                    }
-                })
-                .render(this.$refs.paypal);
+                                ]
+                            });
+                        },
+                        onApprove: async (data, actions, resp) => {
+                            const order = await actions.order.capture();
+                            this.form.transactionId = data.orderID;
+                            this.createOrder();
+                        },
+                        onError: err => {
+                            console.log(err);
+                        }
+                    })
+                    .render(this.$refs.paypal);
+            }
         },
 
         handleScroll() {
