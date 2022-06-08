@@ -27,7 +27,7 @@ class UserPageController extends Controller
      */
     public function dashboard()
     {
-        $team           = Team::find(Auth::user()->current_team_id);
+        $team           = Auth::user()->currentTeam;
         // Total Orders Count
         $total_orders   = Order::where('user_id', $team->user_id)->count();
         $month_orders   = Order::where('user_id', $team->user_id)

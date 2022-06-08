@@ -55,5 +55,7 @@ class CreateNewUser implements CreatesNewUsers
             'name' => explode(' ', $user->name, 2)[0]."'s Team",
             'personal_team' => true,
         ]));
+        // Update the user's personal team id.
+        $user->update(['current_team_id' => $user->ownedTeams->first()->id]);
     }
 }
