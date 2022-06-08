@@ -326,7 +326,7 @@ export default {
     },
     beforeDestroy() {
         // this.$refs.paypal.remove();
-        document.head.removeChild(this.paypalScript);
+        // document.head.removeChild(this.paypalScript);
     },
     methods: {
         uploadSuccess(file, response) {
