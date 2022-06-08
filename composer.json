@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.5",
         "stripe/stripe-php": "^7.107",
         "tightenco/ziggy": "^1.0",
-        "ext-zip": "*"
+        "ext-zip": "*",
+        "ext-gd": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
