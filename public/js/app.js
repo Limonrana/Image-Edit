@@ -1091,17 +1091,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "LocationMap",
-  props: {
-    defaultLocation: {
-      type: Object,
-      "default": function _default() {
-        return {
-          lat: 8.9806,
-          lng: 38.7578
-        };
-      }
-    }
-  },
   components: {
     LMap: vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["default"],
     LTileLayer: vue2_leaflet__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -1109,6 +1098,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      defaultLocation: {
+        lat: 8.9806,
+        lng: 38.7578
+      },
       location: {},
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution: "CarImageEdit",
@@ -8328,11 +8321,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   },
   mounted: function mounted() {
-    this.paypalScriptSetup();
+    // this.paypalScriptSetup();
     window.addEventListener('scroll', this.handleScroll);
   },
   beforeDestroy: function beforeDestroy() {
-    this.$refs.paypal.remove();
+    // this.$refs.paypal.remove();
     document.head.removeChild(this.paypalScript);
   },
   methods: {

@@ -15,15 +15,6 @@ import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 export default {
     name: "LocationMap",
-    props: {
-        defaultLocation: {
-            type: Object,
-            default: () => ({
-                lat: 8.9806,
-                lng: 38.7578
-            })
-        }
-    },
     components: {
         LMap,
         LTileLayer,
@@ -31,6 +22,10 @@ export default {
     },
     data() {
         return {
+            defaultLocation: {
+                lat: 8.9806,
+                lng: 38.7578
+            },
             location: {},
             url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             attribution: "CarImageEdit",
