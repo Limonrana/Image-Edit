@@ -15,8 +15,8 @@
         <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}">
         <!-- Scripts -->
         @routes
-        <script src="{{ mix('js/manifest.js') }}" defer></script>
-        <script src="{{ mix('js/vendor.js') }}" defer></script>
+{{--        <script src="{{ mix('js/manifest.js') }}" defer></script>--}}
+{{--        <script src="{{ mix('js/vendor.js') }}" defer></script>--}}
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
     <body class="">
