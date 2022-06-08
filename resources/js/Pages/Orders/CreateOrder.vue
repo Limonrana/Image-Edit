@@ -321,12 +321,12 @@ export default {
         }
     },
     mounted() {
-        // this.paypalScriptSetup();
+        this.paypalScriptSetup();
         window.addEventListener('scroll', this.handleScroll);
     },
     beforeDestroy() {
-        // this.$refs.paypal.remove();
-        // document.head.removeChild(this.paypalScript);
+        this.$refs.paypal.remove();
+        document.head.removeChild(this.paypalScript);
     },
     methods: {
         uploadSuccess(file, response) {
