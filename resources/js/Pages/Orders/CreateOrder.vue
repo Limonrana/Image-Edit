@@ -306,6 +306,7 @@ export default {
             },
             isSticky: false,
             paypalScript: null,
+            paypalScriptLoaded: false,
         }
     },
     computed: {
@@ -321,12 +322,23 @@ export default {
         }
     },
     mounted() {
-        this.paypalScriptSetup();
+        if (this.paypalScriptLoaded) {
+            this.paypalScriptLoaded = true;
+        } else {
+            this.paypalScriptSetup();
+        }
         window.addEventListener('scroll', this.handleScroll);
     },
     beforeDestroy() {
         this.$refs.paypal.remove();
         document.body.removeChild(this.paypalScript);
+    },
+    watch: {
+        paypalScriptLoaded(value) {
+            if (value) {
+                this.setLoaded();
+            }
+        }
     },
     methods: {
         uploadSuccess(file, response) {
@@ -467,18 +479,12 @@ export default {
         },
 
         paypalScriptSetup() {
-            // const newScript = document.createElement('script');
-            // newScript.onerror = (err => console.error('An error occured while loading the PayPal JS SDK', err));
-            // newScript.onload = this.setLoaded;
-            // document.head.appendChild(newScript);
-            // newScript.src = `https://www.paypal.com/sdk/js?client-id=${this.paypal_client_id}`;
-            // this.paypalScript = newScript;
-
-            // Prevent loading the script more than once
             const script = document.createElement("script");
             script.src =
                 `https://www.paypal.com/sdk/js?client-id=${this.paypal_client_id}`;
-            script.addEventListener("load", this.setLoaded);
+            script.addEventListener("load", () => {
+                this.paypalScriptLoaded = true;
+            });
             document.body.appendChild(script);
             this.paypalScript = script;
         },
