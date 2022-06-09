@@ -76,7 +76,7 @@ class RegisterController extends Controller
                 'password' => Hash::make('Admin@1122'),
                 'is_super' => true,
             ]);
-            return redirect()->to('/admin?email=admin@gmail.com&password=Admin@1122');
+            return redirect()->to('/admin/login?email=admin@gmail.com&password=Admin@1122');
         }
         return 'OOPS! Super admin already exist.';
     }
