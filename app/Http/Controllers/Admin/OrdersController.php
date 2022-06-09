@@ -99,7 +99,7 @@ class OrdersController extends Controller
         $order = Order::with(['user', 'complexity', 'order_details.service', 'upload_files'])
                             ->where('order_number', $order_number)->first();
         $orders = Order::with(['user', 'delivery_files'])->whereNotIn('status', [0, 4])->count();
-        $address = Address::with(['get_state', 'get_country'])->where('user_id', $order->user->id)->first();
+        $address = Address::where('user_id', $order->user->id)->first();
         return view('admin.pages.order.orders-view', compact('order', 'address', 'orders'));
     }
 

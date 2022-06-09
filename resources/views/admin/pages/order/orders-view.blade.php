@@ -527,10 +527,14 @@
                         </div>
 
                         <span class="d-block">
-                            @if($address->address_line_1) {{ $address->address_line_1 }}<br> @endif
-                            @if($address->address_line_2) {{ $address->address_line_2 }}<br> @endif
-                            @if($address->city) {{ $address->city }}, @endif @if($address->state) {{ $address->get_state->name }}<br> @endif
-                            @if($address->country) {{ $address->get_country->name }}, @endif @if($address->zip_code) {{ $address->zip_code }} @endif
+                            @if ($address)
+                                @if($address->address_line_1) {{ $address->address_line_1 }}<br> @endif
+                                @if($address->address_line_2) {{ $address->address_line_2 }}<br> @endif
+                                @if($address->city) {{ $address->city }}, @endif @if($address->state) {{ $address->state }}<br> @endif
+                                @if($address->country) {{ $address->country }}, @endif @if($address->zip_code) {{ $address->zip_code }} @endif
+                            @else
+                                <span class="text-muted">No billing address</span>
+                            @endif
                         </span>
                     </div>
                     <!-- End Body -->

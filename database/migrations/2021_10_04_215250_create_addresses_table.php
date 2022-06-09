@@ -20,9 +20,9 @@ class CreateAddressesTable extends Migration
             $table->string('address_line_2')->nullable();
             $table->string('company_name')->nullable();
             $table->string('city');
-            $table->integer('state');
+            $table->string('state');
             $table->string('zip_code');
-            $table->integer('country');
+            $table->string('country');
             $table->timestamps();
         });
     }

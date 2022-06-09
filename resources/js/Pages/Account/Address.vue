@@ -13,7 +13,7 @@
                 <!-- END: Profile Menu -->
                 <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
                     <!-- BEGIN: Address Information -->
-                    <address-information :user-id="user.id" :address="address" :all-state="state" :all-country="country"></address-information>
+                    <address-information :user-id="user.id" :address="address"></address-information>
                     <!-- END: Address Information -->
                 </div>
             </div>

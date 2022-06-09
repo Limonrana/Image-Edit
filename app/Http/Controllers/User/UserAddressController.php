@@ -23,8 +23,6 @@ class UserAddressController extends Controller
     {
         return Inertia::render('Account/Address', [
             'address' => $request->user()->address,
-            'state' => State::all(),
-            'country' => Country::all(),
         ]);
     }
 
@@ -41,12 +39,12 @@ class UserAddressController extends Controller
             'address_line_1' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'zip_code' => ['required', 'string', 'max:12'],
-            'state' => ['required', 'integer'],
-            'country' => ['required', 'integer'],
+            'state' => ['required', 'string'],
+            'country' => ['required', 'string'],
         ], [
             'user_id.required' => 'The user must be need to login.',
-            'state.integer' => 'The state field is required.',
-            'country.integer' => 'The country field is required.',
+            'state.string' => 'The state field is required.',
+            'country.string' => 'The country field is required.',
         ])->validate();
 
         $address                    = new Address();
@@ -76,12 +74,12 @@ class UserAddressController extends Controller
             'address_line_1' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'zip_code' => ['required', 'string', 'max:12'],
-            'state' => ['required', 'integer'],
-            'country' => ['required', 'integer'],
+            'state' => ['required', 'string'],
+            'country' => ['required', 'string'],
         ], [
             'user_id.required' => 'The user must be need to login.',
-            'state.integer' => 'The state field is required.',
-            'country.integer' => 'The country field is required.',
+            'state.string' => 'The state field is required.',
+            'country.string' => 'The country field is required.',
         ])->validate();
 
         $address                    = Address::find($request->id);

@@ -35,14 +35,11 @@
                             <simple-input name="city" type="text" :value="form.city" @handle-input="inputHandler" placeholder="City" />
                             <input-error :message="form.errors.city" />
                         </div>
-                        <div class="mt-3">
-                            <custom-label>Country</custom-label>
-                            <select :class="form.errors.state ? 'has-error form-select' : 'form-select'" v-model="form.country">
-                                <option>Choose country</option>
-                                <option v-for="country in allCountry" :key="country.id" :value="country.id">{{ country.name }}</option>
-                            </select>
-                            <input-error :message="form.errors.country" />
-                        </div>
+                      <div :class="form.errors.country ? 'has-error mt-3' : 'mt-3'">
+                        <custom-label>Country</custom-label>
+                        <simple-input name="country" type="text" :value="form.country" @handle-input="inputHandler" placeholder="Country" />
+                        <input-error :message="form.errors.country" />
+                      </div>
                     </div>
                     <div class="col-span-12 xl:col-span-6">
                         <div :class="form.errors.zip_code ? 'has-error mt-3' : 'mt-3'">
@@ -50,12 +47,9 @@
                             <simple-input name="zip_code" type="text" :value="form.zip_code" @handle-input="inputHandler" placeholder="Zip Code" />
                             <input-error :message="form.errors.zip_code" />
                         </div>
-                        <div class="mt-3">
+                        <div :class="form.errors.state ? 'has-error mt-3' : 'mt-3'">
                             <custom-label>State</custom-label>
-                            <select :class="form.errors.state ? 'has-error form-select' : 'form-select'" v-model="form.state" :disabled="form.country === 'Choose country'">
-                                <option>Choose state</option>
-                                <option v-for="state in findStates" :key="state.id" :value="state.id">{{ state.name }}</option>
-                            </select>
+                            <simple-input name="state" type="text" :value="form.state" @handle-input="inputHandler" placeholder="State" />
                             <input-error :message="form.errors.state" />
                         </div>
                     </div>
@@ -75,7 +69,7 @@ import InputError from "../Inputs/InputError";
 
 export default {
     name: "AddressInformation",
-    props: ['userId', 'address', 'allState', 'allCountry'],
+    props: ['userId', 'address'],
     components: {InputError, SimpleInput, CustomLabel},
     data() {
         return {
@@ -88,15 +82,13 @@ export default {
                 company_name: this.address?.company_name ? this.address.company_name : '',
                 city: this.address?.city ? this.address.city : '',
                 zip_code: this.address?.zip_code ? this.address.zip_code : '',
-                state: this.address?.state ? this.address.state : 'Choose state',
-                country: this.address?.country ? this.address.country : 'Choose country',
+                state: this.address?.state ? this.address.state : '',
+                country: this.address?.country ? this.address.country : '',
             })
         }
     },
     computed: {
-        findStates() {
-            return this.allState.filter((x) => parseInt(x.country_id) === parseInt(this.form.country));
-        }
+       //
     },
     methods: {
         submit() {
