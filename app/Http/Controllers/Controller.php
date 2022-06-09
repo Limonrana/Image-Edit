@@ -54,11 +54,28 @@ class Controller extends BaseController
      */
     protected function user_single_upload($file)
     {
+//        if ($file) {
+//            $image_name = Str::uuid() . '_' . time(). '_' . $file->getClientOriginalExtension();
+//            $file->move(public_path('uploads/logos'), $image_name);
+//            $logo_path = 'uploads/logos/'.$image_name;
+//            if (!is_null($old_logo)) {
+//                $old_logo_path = public_path($old_logo);
+//                if (file_exists($old_logo_path)) {
+//                    unlink($old_logo_path);
+//                }
+//            }
+//            return $logo_path;
+//        } else {
+//            return $old_logo;
+//        }
+
+        // Prev
         $file_original_name = $file->getClientOriginalName();
         $fileName = pathinfo($file_original_name,PATHINFO_FILENAME);
         $image_name = $fileName. '-' .time(). '.' . $file->getClientOriginalExtension();
         // resizing an uploaded file
-        Image::make($file)->save(public_path('uploads/users/' . $image_name));
+        $file->move(public_path('uploads/users'), $image_name);
+//        Image::make($file)->save(public_path('uploads/users/' . $image_name));
         // Insert Image Path To Database
         $upload             = new File();
         $upload->user_id    = Auth::id();
