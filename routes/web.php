@@ -39,3 +39,7 @@ Route::fallback(function () {
 Route::get('/', function () {
     return redirect()->route('login');
 })->name('store.home');
+
+Route::get('/phpinfo', function () {
+    return phpinfo();
+});
