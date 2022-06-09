@@ -16,8 +16,8 @@
                 <div class="text-base">Invoiced To</div>
                 <div class="text-lg font-medium text-theme-17 dark:text-gray-300 mt-2">{{ user.name }}</div>
                 <div class="mt-1">{{ address.address_line_1 }}</div>
-                <div class="mt-1">{{ `${address.city}, ${address.get_state.name}, ${address.zip_code}` }}</div>
-                <div class="mt-1">{{ address.get_country.name }}</div>
+                <div class="mt-1">{{ `${address.city}, ${address.state}, ${address.zip_code}` }}</div>
+                <div class="mt-1">{{ address.country }}</div>
                 <div class="mt-1">{{ user.email }}</div>
                 <div class="mt-1">{{ user.phone }}</div>
             </div>

@@ -119,7 +119,7 @@ class UserPageController extends Controller
      */
     public function invoices()
     {
-        $team = Team::find(Auth::user()->current_team_id);
+        $team = Auth::user()->currentTeam;
         $invoices = Invoice::with('order.complexity')->where('user_id', $team->user_id)->paginate(10);
         return Inertia::render('Invoices/Invoices', [
             'invoices'  => $invoices,
@@ -261,7 +261,7 @@ class UserPageController extends Controller
     public function show($invoice_number)
     {
         $invoice = Invoice::with('order.complexity')->where('invoice_number', $invoice_number)->first();
-        $address = Address::with(['get_state', 'get_country'])->where('user_id', $invoice->order->user_id)->first();
+        $address = Address::where('user_id', $invoice->order->user_id)->first();
         $orderDetails = OrderDetail::with('service')->where('order_id', $invoice->order_id)->get();
 
         return Inertia::render('Invoices/InvoiceView', [

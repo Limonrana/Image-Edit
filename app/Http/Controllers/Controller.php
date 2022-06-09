@@ -52,29 +52,19 @@ class Controller extends BaseController
      * @param  array  $file
      * @return \Illuminate\Http\Response
      */
-    protected function user_single_upload($file)
+    protected function user_single_upload($file, )
     {
-//        if ($file) {
-//            $image_name = Str::uuid() . '_' . time(). '_' . $file->getClientOriginalExtension();
-//            $file->move(public_path('uploads/logos'), $image_name);
-//            $logo_path = 'uploads/logos/'.$image_name;
-//            if (!is_null($old_logo)) {
-//                $old_logo_path = public_path($old_logo);
-//                if (file_exists($old_logo_path)) {
-//                    unlink($old_logo_path);
-//                }
-//            }
-//            return $logo_path;
-//        } else {
-//            return $old_logo;
-//        }
-
-        // Prev
+        $id = Auth::id();
         $file_original_name = $file->getClientOriginalName();
         $fileName = pathinfo($file_original_name,PATHINFO_FILENAME);
         $image_name = $fileName. '-' .time(). '.' . $file->getClientOriginalExtension();
+        $directory = public_path('uploads/orders/works/' . $id);
+        // Check if directory exists else create one
+        if (!file_exists($directory)) {
+            mkdir($directory, 0777, true);
+        }
         // resizing an uploaded file
-        $file->move(public_path('uploads/users'), $image_name);
+        $file->move($directory, $image_name);
 //        Image::make($file)->save(public_path('uploads/users/' . $image_name));
         // Insert Image Path To Database
         $upload             = new File();
@@ -82,7 +72,7 @@ class Controller extends BaseController
         $upload->name       = $image_name;
         $upload->size       = '2012';  //$file->getSize();
         $upload->type       = 'image/jpeg'; // $file->getMimeType();
-        $upload->path       = 'uploads/users/' . $image_name;
+        $upload->path       = "uploads/orders/works/{$id}" . $image_name;
         $upload->save();
 
         return $upload->id;
