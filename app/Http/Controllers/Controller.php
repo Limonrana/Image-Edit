@@ -80,8 +80,8 @@ class Controller extends BaseController
         $upload             = new File();
         $upload->user_id    = Auth::id();
         $upload->name       = $image_name;
-        $upload->size       = $file->getSize();
-        $upload->type       = $file->getMimeType();
+        $upload->size       = '2012';  //$file->getSize();
+        $upload->type       = 'image/jpeg'; // $file->getMimeType();
         $upload->path       = 'uploads/users/' . $image_name;
         $upload->save();
 
