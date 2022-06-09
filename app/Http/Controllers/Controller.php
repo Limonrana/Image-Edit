@@ -72,7 +72,7 @@ class Controller extends BaseController
         $upload->name       = $image_name;
         $upload->size       = '2012';  //$file->getSize();
         $upload->type       = 'image/jpeg'; // $file->getMimeType();
-        $upload->path       = "uploads/orders/works/{$id}" . $image_name;
+        $upload->path       = "uploads/orders/works/{$id}/" . $image_name;
         $upload->save();
 
         return $upload->id;
